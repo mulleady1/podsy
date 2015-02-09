@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.forms import ModelForm
 
 class PodsyUser(models.Model):
     user = models.OneToOneField(User)
@@ -15,8 +16,10 @@ class PodsyUser(models.Model):
 
 class Pod(models.Model):
     name = models.CharField(max_length=1000)
-    url = models.CharField(max_length=1000)
-    image_url = models.CharField(max_length=1000, blank=True)
+    url = models.URLField()
+    image_url = models.URLField(blank=True)
+    upvotes = models.IntegerField()
+    downvotes = models.IntegerField()
     user = models.ForeignKey('PodsyUser')
     category = models.ForeignKey('Category')
 
@@ -29,3 +32,10 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class PodForm(ModelForm):
+    class Meta:
+        model = Pod
+        fields = ['name', 'url', 'image_url', 'user', 'category']
+

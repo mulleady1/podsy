@@ -3,3 +3,21 @@ body {
     padding: 0;
     font-family: 'Open Sans', sans-serif;
 }
+
+.votebuttons {
+    margin: 5px;
+}
+
+.votebuttons, .podtitle {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.votebuttons > div {
+    text-align: center;
+    font-size: 80%;
+}
+
+.pod-container {
+    margin: 10px 0;
+}

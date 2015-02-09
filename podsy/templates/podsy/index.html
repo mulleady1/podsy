@@ -25,18 +25,47 @@
           <a class="navbar-brand" href="#">podsy</a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
-          <ul class="nav navbar-nav">
-            <li class="active"><a href="#">Home</a></li>
-            <li><a href="#signin">Sign in</a></li>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a class="signin">Sign in</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
     </nav>
-    <div class="container">
-
+    <div class="container pod-container">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Pods</h3>
+          </div>
+          <div class="panel-body">
+            {% for pod in pods %}
+            <div class="pod">
+              <div class="votebuttons">
+                <a class="upvote"><span class="glyphicon glyphicon-arrow-up"></span></a><br>
+                <a class="downvote"><span class="glyphicon glyphicon-arrow-down"></span></a>
+              </div>
+              <div class="podtitle">
+                <a href="{{ pod.url }}">{{ pod.name }}</a>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
     </div>
+    <script type="text/template" id="signin-content">
+      <form class="signin">
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" class="form-control" id="email" placeholder="Enter email">
+        </div>
+        <div class="form-group">
+          <label for="password">Email</label>
+          <input type="email" class="form-control" id="password" placeholder="Enter password">
+        </div>
+      </form>
+    </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+    <script src="{% static 'podsy/js/podsy.js' %}"></script>
 </body>
 </html>
