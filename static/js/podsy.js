@@ -20,41 +20,34 @@ var PodView = Backbone.View.extend({
         'click .downvote': 'toggleDownvote'
     },
     render: function() {
-        this.$el.html(this.template(this.model.attributes));
+        this.$el.html(this.template(this.model.toJSON()));
         return this;
     },
-    initialize: function() {
-        this.render();
-    },
     toggleUpvote: function() { 
-        console.log('toggleUpvote');    
+        this.model.toggleUpvote();    
     },
     toggleDownvote: function() {
-        console.log('toggleDowvote');    
+        this.model.toggleDownvote();    
     }
 });
 
-var PodListView = Backbone.View.extend({
-    podViews: [],
-    add: function(podView) {
-        this.podViews.push(podView);
-        this.$el.append(podView.$el);
+var AppView = Backbone.View.extend({
+    el: 'body',
+    initialize: function() {
+        this.pods = new Pods();
+        this.listenTo(this.pods, 'reset', this.addAll);
+        this.pods.fetch();
     },
-    remove: function(podView) {
+    addAll: function() {
+        this.pods.each(function(pod) {
+            var podView = new PodView({ model: pod });
+            this.$('#pod-list').append(podView.render().el);
+        });
     }
 });
 
-$(document).ready(function() {
-    var pods        = new Pods(),
-        podListView = new PodListView({ el: $('#pods-list')[0] });
-    pods.fetch({
-        success: function(collection, response, options) {
-            console.log('pods.fetch.success.response: ' + response);
-            for (var i = 0; i < collection.models.length; i++) {
-                var model = collection.models[i];
-                var podView = new PodView({ model: model });
-                podListView.add(podView);
-            }
-        }
-    });
-});
+function main() {
+    var app = new AppView();
+}
+
+main();
