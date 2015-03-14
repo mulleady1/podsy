@@ -9,7 +9,7 @@ var Pod = Backbone.Model.extend({
 
 var Pods = Backbone.Collection.extend({
     model: Pod,
-    url: '/pods/'
+    url: '/pods'
 });
 
 var PodView = Backbone.View.extend({
@@ -36,13 +36,15 @@ var AppView = Backbone.View.extend({
     initialize: function() {
         this.pods = new Pods();
         this.listenTo(this.pods, 'reset', this.addAll);
-        this.pods.fetch();
+        this.pods.fetch({ reset: true });
+    },
+    addOne: function(pod) {
+        var podView = new PodView({ model: pod });
+        this.$('#pods-list').append(podView.render().el);
     },
     addAll: function() {
-        this.pods.each(function(pod) {
-            var podView = new PodView({ model: pod });
-            this.$('#pod-list').append(podView.render().el);
-        });
+        this.$('#pods-list').html('');
+        this.pods.each(this.addOne, this);
     }
 });
 
