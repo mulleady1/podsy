@@ -5,40 +5,45 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,600' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
 </head>
 <body>
-    <nav class="navbar navbar-inverse ">
+    <nav class="navbar navbar-default">
       <div class="container">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
             <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
           </button>
           <a class="navbar-brand" href="#">podsy</a>
         </div>
-        <div id="navbar" class="collapse navbar-collapse">
-          <ul class="nav navbar-nav navbar-right">
-            <li><a class="signin">Sign in</a></li>
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Categories <span class="caret"></span></a>
+              <ul class="dropdown-menu" role="menu">
+                {% for cat in categories %}
+                <li class="dropdown-submenu">
+                  <a>{{ cat.name }}</a>
+                  <ul class="dropdown-menu">
+                    {% for subcat in subcategories %}
+                      {% if subcat.category.id == cat.id %}
+                      <li><a tabindex="-1" href="/subcategories/{{ subcat.id }}">{{ subcat.name }}</a></li>
+                      {% endif %}
+                    {% endfor %}
+                  </ul>
+                </li>
+                {% endfor %}
+              </ul>
+            </li>
           </ul>
-        </div><!--/.nav-collapse -->
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="#signin">Sign in</a></li>
+          </ul>
+        </div>
       </div>
     </nav>
-    <div class="container category-container">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h3 class="panel-title">Categories</h3>
-          </div>
-          <div class="panel-body">
-            <ul id="categories-list">
-            </ul>
-          </div>
-        </div>
-    </div>
     <div class="container pod-container">
         <div class="panel panel-default">
           <div class="panel-heading">
@@ -50,6 +55,23 @@
           </div>
         </div>
     </div>
+    <div class="modal fade">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Modal title</h4>
+          </div>
+          <div class="modal-body">
+            <p>One fine body&hellip;</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
     <script type="text/template" id="pod-template">
       <div class="pod">
         <div class="votebuttons">
@@ -57,8 +79,14 @@
           <a class="downvote"><span class="glyphicon glyphicon-arrow-down"></span></a>
         </div>
         <div class="podtitle">
-          <a href="<%= url %>"><%= name %></a>
+          <a data-toggle="modal" data-target="#myModal"><%= name %></a>
         </div>
+      </div>
+    </script>
+    <script type="text/template" id="category-template">
+      <div class="category">
+        <div class="category-name"><%= name %></div>
+        <div class="category-description"><%= description %></div>
       </div>
     </script>
     <script type="text/template" id="signin-content">

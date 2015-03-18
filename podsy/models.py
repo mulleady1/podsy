@@ -5,7 +5,7 @@ from django.forms import ModelForm
 class PodsyUser(models.Model):
     user = models.OneToOneField(User)
     favoritePods = models.ManyToManyField('Pod', blank=True)
-    favoriteCategories = models.ManyToManyField('Category', blank=True)
+    favoriteCategories = models.ManyToManyField('Subcategory', blank=True)
 
     @property
     def username(self):
@@ -18,10 +18,10 @@ class Pod(models.Model):
     name = models.CharField(max_length=1000)
     url = models.URLField()
     image_url = models.URLField(blank=True)
-    upvotes = models.IntegerField()
-    downvotes = models.IntegerField()
+    upvotes = models.IntegerField(default=0)
+    downvotes = models.IntegerField(default=0)
     user = models.ForeignKey('PodsyUser')
-    category = models.ForeignKey('Category')
+    subcategory = models.ForeignKey('Subcategory')
 
     def __str__(self):
         return self.name
@@ -33,9 +33,17 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
+class Subcategory(models.Model):
+    name = models.CharField(max_length=100)
+    description = models.CharField(max_length=1000, blank=True)
+    category = models.ForeignKey('Category')
+
+    def __str__(self):
+        return self.name
+
 
 class PodForm(ModelForm):
     class Meta:
         model = Pod
-        fields = ['name', 'url', 'image_url', 'user', 'category']
+        fields = ['name', 'url', 'image_url', 'user', 'subcategory']
 
