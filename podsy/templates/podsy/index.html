@@ -8,6 +8,7 @@
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,600' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+    <script>var app = {};</script>
 </head>
 <body>
     <nav class="navbar navbar-default">
@@ -29,7 +30,7 @@
                   <ul id="subcategories" class="dropdown-menu">
                     {% for subcat in subcategories %}
                       {% if subcat.category.id == cat.id %}
-                      <li><a class="name" tabindex="-1" href="/subcategories/{{ subcat.id }}">{{ subcat.name }}</a></li>
+                      <li><a class="name" data-id="{{ subcat.id }}" tabindex="-1" href="/subcategories/{{ subcat.id }}">{{ subcat.name }}</a></li>
                       {% endif %}
                     {% endfor %}
                   </ul>

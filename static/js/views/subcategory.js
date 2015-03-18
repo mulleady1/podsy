@@ -9,6 +9,7 @@ define([
         },
         subcategoryClicked: function(event) {
             event.preventDefault();
+            app.router.navigate(event.target.pathname, true);
         }
     });
 

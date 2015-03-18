@@ -20,7 +20,7 @@ define([
 
     },
     subcategories: function(id) {
-      var subcategory = Subcategories.get(id);
+      var subcategory = app.subcategories.get(id);
     }
 
   });

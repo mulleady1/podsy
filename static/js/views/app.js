@@ -13,7 +13,7 @@ define([
     var AppView = Backbone.View.extend({
         el: 'body',
         initialize: function() {
-            this.router = new Router({ pushState: true });
+            app.router = this.router = new Router({ pushState: true });
             Backbone.history.start();
             this.pods = new Pods();
             this.listenTo(this.pods, 'reset', this.addPods);
