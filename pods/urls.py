@@ -5,6 +5,7 @@ urlpatterns = patterns('',
     # Examples:
     url(r'^$', 'podsy.views.home', name='home'),
     url(r'^pods/$', 'podsy.views.pods', name='pods'),
+    url(r'^pods/\d+/$', 'podsy.views.pods', name='pods'),
     url(r'^categories/$', 'podsy.views.categories', name='categories'),
     # url(r'^blog/', include('blog.urls')),
 

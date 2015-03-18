@@ -21,6 +21,9 @@ define([
     },
     subcategories: function(id) {
       var subcategory = app.subcategories.get(id);
+      app.pods.fetch({
+        data: $.param({ id: id })
+      });
     }
 
   });
