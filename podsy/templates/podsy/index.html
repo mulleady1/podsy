@@ -26,10 +26,10 @@
                 {% for cat in categories %}
                 <li class="dropdown-submenu">
                   <a>{{ cat.name }}</a>
-                  <ul class="dropdown-menu">
+                  <ul id="subcategories" class="dropdown-menu">
                     {% for subcat in subcategories %}
                       {% if subcat.category.id == cat.id %}
-                      <li><a tabindex="-1" href="/subcategories/{{ subcat.id }}">{{ subcat.name }}</a></li>
+                      <li><a class="name" tabindex="-1" href="/subcategories/{{ subcat.id }}">{{ subcat.name }}</a></li>
                       {% endif %}
                     {% endfor %}
                   </ul>

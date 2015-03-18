@@ -5,8 +5,9 @@ define([
     'bootstrap',
     'router',
     'views/pod',
-    'collections/pods'
-], function($, _, Backbone, Bootstrap, Router, PodView, Pods) {
+    'collections/pods',
+    'views/subcategories'
+], function($, _, Backbone, Bootstrap, Router, PodView, Pods, SubcategoriesView) {
     'use strict';
 
     var AppView = Backbone.View.extend({
@@ -17,9 +18,8 @@ define([
             this.pods = new Pods();
             this.listenTo(this.pods, 'reset', this.addPods);
             this.pods.fetch({ reset: true });
-        },
-        events: {
-            'click .dropdown-menu a': 'subcategoryClicked'
+
+            this.subcategoriesView = new SubcategoriesView();
         },
         addPod: function(pod) {
             var podView = new PodView({ model: pod });
@@ -28,11 +28,6 @@ define([
         addPods: function() {
             this.$('#pods-list').html('');
             this.pods.each(this.addPod, this);
-        },
-        subcategoryClicked: function() {
-          alert();
-          var args = arguments;
-          this.router.navigate('/subcategories');
         }
     });
 

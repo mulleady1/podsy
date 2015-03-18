@@ -3,7 +3,7 @@ define([
 ], function(Backbone) {
     'use strict';
 
-    var Category = Backbone.Model.extend({});
+    var Subcategory = Backbone.Model.extend({});
 
-    return Category;
+    return Subcategory;
 });
