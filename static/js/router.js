@@ -5,10 +5,11 @@ define([
 ], function(Backbone, Subcategories, SubcategoryView) {
   var Router = Backbone.Router.extend({
     routes: {
-      '/':                 'index',
-      "pods/:id":          "pods",
-      "categories/:id":    "categories",
-      "subcategories/:id": "subcategories"
+      '/':                      'index',
+      'pods/:id':               'pods',
+      'categories/:id':         'categories',
+      'subcategories/:id':      'subcategories',
+      'pods/subcategories/:id': 'podsBySubcategory'
     },
     index: function() {
       alert('index');
@@ -20,9 +21,11 @@ define([
 
     },
     subcategories: function(id) {
-      var subcategory = app.subcategories.get(id);
-      app.pods.fetch({
-        data: $.param({ id: id })
+      
+    },
+    podsBySubcategory: function(id) {
+      $.get('/pods/subcategories/' + id).then(function(data) {
+        app.pods.reset(data);
       });
     }
 

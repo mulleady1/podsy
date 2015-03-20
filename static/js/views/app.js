@@ -15,9 +15,9 @@ define([
         initialize: function() {
             app.router = this.router = new Router({ pushState: true });
             Backbone.history.start();
-            this.pods = new Pods();
-            this.listenTo(this.pods, 'reset', this.addPods);
-            this.pods.fetch({ reset: true });
+            app.pods = new Pods();
+            this.listenTo(app.pods, 'reset', this.addPods);
+            app.pods.fetch({ reset: true });
 
             this.subcategoriesView = new SubcategoriesView();
         },
@@ -27,7 +27,7 @@ define([
         },
         addPods: function() {
             this.$('#pods-list').html('');
-            this.pods.each(this.addPod, this);
+            app.pods.each(this.addPod, this);
         }
     });
 
