@@ -21,10 +21,10 @@ define([
 
     },
     subcategories: function(id) {
-      
+
     },
     podsBySubcategory: function(id) {
-      $.get('/pods/subcategories/' + id).then(function(data) {
+      $.get('/pods/subcategories/{id}/'.replace('{id}', id)).then(function(data) {
         app.pods.reset(data);
       });
     }

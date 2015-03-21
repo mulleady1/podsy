@@ -23,14 +23,14 @@
           <ul class="nav navbar-nav">
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Categories <span class="caret"></span></a>
-              <ul class="dropdown-menu" role="menu">
+              <ul id="categories" class="dropdown-menu" role="menu">
                 {% for cat in categories %}
                 <li class="dropdown-submenu">
                   <a>{{ cat.name }}</a>
                   <ul id="subcategories" class="dropdown-menu">
                     {% for subcat in subcategories %}
                       {% if subcat.category.id == cat.id %}
-                      <li><a class="name" data-id="{{ subcat.id }}" tabindex="-1" href="/subcategories/{{ subcat.id }}">{{ subcat.name }}</a></li>
+                      <li><a tabindex="-1" href="#/pods/subcategories/{{ subcat.id }}">{{ subcat.name }}</a></li>
                       {% endif %}
                     {% endfor %}
                   </ul>

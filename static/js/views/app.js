@@ -13,13 +13,13 @@ define([
     var AppView = Backbone.View.extend({
         el: 'body',
         initialize: function() {
-            app.router = this.router = new Router({ pushState: true });
+            app.router = new Router();
             Backbone.history.start();
             app.pods = new Pods();
             this.listenTo(app.pods, 'reset', this.addPods);
             app.pods.fetch({ reset: true });
 
-            this.subcategoriesView = new SubcategoriesView();
+            //this.subcategoriesView = new SubcategoriesView();
         },
         addPod: function(pod) {
             var podView = new PodView({ model: pod });
