@@ -13,7 +13,7 @@ def home(request):
     return render(request, 'podsy/index.html', context)
 
 def pods(request):
-    pods = [{ 'url': pod.url, 'name': pod.name } for pod in Pod.objects.all()]
+    pods = [{ 'id': pod.id, 'url': pod.url, 'name': pod.name } for pod in Pod.objects.all()]
     return HttpResponse(json.dumps(pods), content_type='application/json')
 
 def categories(request):
@@ -22,5 +22,5 @@ def categories(request):
 
 def podsBySubcategory(request, subcategory_id):
     print 'podsBySubcategory subcategory_id = %s' % subcategory_id
-    pods = [{ 'url': pod.url, 'name': pod.name } for pod in Pod.objects.filter(subcategory_id=subcategory_id)]
+    pods = [{ 'id': pod.id, 'url': pod.url, 'name': pod.name } for pod in Pod.objects.filter(subcategory_id=subcategory_id)]
     return HttpResponse(json.dumps(pods), content_type='application/json')

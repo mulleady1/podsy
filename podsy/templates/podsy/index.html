@@ -23,14 +23,14 @@
           <ul class="nav navbar-nav">
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Categories <span class="caret"></span></a>
-              <ul id="categories" class="dropdown-menu" role="menu">
+              <ul class="dropdown-menu" role="menu">
                 {% for cat in categories %}
                 <li class="dropdown-submenu">
                   <a>{{ cat.name }}</a>
-                  <ul id="subcategories" class="dropdown-menu">
+                  <ul class="dropdown-menu">
                     {% for subcat in subcategories %}
                       {% if subcat.category.id == cat.id %}
-                      <li><a tabindex="-1" href="#/pods/subcategories/{{ subcat.id }}">{{ subcat.name }}</a></li>
+                      <li><a tabindex="-1" href="#/pods/subcategories/{{ subcat.id }}/">{{ subcat.name }}</a></li>
                       {% endif %}
                     {% endfor %}
                   </ul>
@@ -70,9 +70,9 @@
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             <button type="button" class="btn btn-primary">Save changes</button>
           </div>
-        </div><!-- /.modal-content -->
-      </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
+        </div>
+      </div>
+    </div>
     <script type="text/template" id="pod-template">
       <div class="pod">
         <div class="votebuttons">
@@ -80,7 +80,25 @@
           <a class="downvote"><span class="glyphicon glyphicon-arrow-down"></span></a>
         </div>
         <div class="podtitle">
-          <a data-toggle="modal" data-target="#myModal"><%= name %></a>
+          <a href="#/pods/<%= id %>/"><%= name %></a>
+        </div>
+      </div>
+    </script>
+    <script type="text/template" id="pod-listen-template">
+      <div class="modal fade">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title"><%= name %></h4>
+            </div>
+            <div class="modal-body">
+              <p><audio src="<%= url %>"></p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+          </div>
         </div>
       </div>
     </script>

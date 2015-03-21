@@ -6,16 +6,24 @@ define([
   var Router = Backbone.Router.extend({
     routes: {
       '':                      'index',
-      'pods/:id':               'pods',
+      'pods/:id/':               'pods',
       'categories/:id':         'categories',
       'subcategories/:id':      'subcategories',
-      'pods/subcategories/:id': 'podsBySubcategory'
+      'pods/subcategories/:id/': 'podsBySubcategory'
     },
     index: function() {
       app.pods.fetch({ reset: true });
     },
     pods: function(id) {
-
+      if (!app.pods.length) {
+        app.pods.fetch({
+          reset: true,
+          success: function() {
+            var pod = app.pods.get(id);
+            pod.listen();
+          }
+        });
+      }
     },
     categories: function(id) {
 
