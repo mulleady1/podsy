@@ -6,7 +6,6 @@ define([
     var PodView = Backbone.View.extend({
         tagName: 'li',
         template: _.template($('#pod-template').html()),
-        listenTemplate: _.template($('#pod-listen-template').html()),
         events: {
             'click .upvote': 'toggleUpvote',
             'click .downvote': 'toggleDownvote',
@@ -20,12 +19,7 @@ define([
             return this;
         },
         listen: function() {
-            if (!this.listenEl) {
-                this.listenEl = this.listenTemplate(this.model.toJSON());
-                $('body').append(this.listenEl);
-            }
-            $(this.listenEl).modal();
-            return this;
+            app.listenView.render(this.model.toJSON());
         },
         toggleUpvote: function() {
             this.model.toggleUpvote();

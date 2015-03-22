@@ -79,3 +79,10 @@ ul {
     -moz-border-radius: 6px 0 6px 6px;
     border-radius: 6px 0 6px 6px;
 }
+
+.podtitle > a {
+  font-weight: bold;
+}
+.podtitle .category {
+  font-size: 80%;
+}

@@ -81,23 +81,22 @@
         </div>
         <div class="podtitle">
           <a href="#/pods/<%= id %>/"><%= name %></a>
+          <div class="category"><%= category %> > <%= subcategory %></div>
         </div>
       </div>
     </script>
     <script type="text/template" id="pod-listen-template">
-      <div class="modal fade">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-              <h4 class="modal-title"><%= name %></h4>
-            </div>
-            <div class="modal-body">
-              <p><audio src="<%= url %>"></p>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title"><%= name %></h4>
+          </div>
+          <div class="modal-body">
+            <p><iframe src="<%= url %>"></iframe></p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
           </div>
         </div>
       </div>

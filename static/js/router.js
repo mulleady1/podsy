@@ -5,10 +5,10 @@ define([
 ], function(Backbone, Subcategories, SubcategoryView) {
   var Router = Backbone.Router.extend({
     routes: {
-      '':                      'index',
+      '':                        'index',
       'pods/:id/':               'pods',
-      'categories/:id':         'categories',
-      'subcategories/:id':      'subcategories',
+      'categories/:id':          'categories',
+      'subcategories/:id':       'subcategories',
       'pods/subcategories/:id/': 'podsBySubcategory'
     },
     index: function() {

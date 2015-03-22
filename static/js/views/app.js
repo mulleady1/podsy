@@ -6,13 +6,15 @@ define([
     'router',
     'views/pod',
     'collections/pods',
-    'views/subcategories'
-], function($, _, Backbone, Bootstrap, Router, PodView, Pods, SubcategoriesView) {
+    'views/subcategories',
+    'views/listen'
+], function($, _, Backbone, Bootstrap, Router, PodView, Pods, SubcategoriesView, ListenView) {
     'use strict';
 
     var AppView = Backbone.View.extend({
         el: 'body',
         initialize: function() {
+            app.listenView = new ListenView();
             app.pods = new Pods();
             this.listenTo(app.pods, 'reset', this.addPods);
             app.router = new Router();
