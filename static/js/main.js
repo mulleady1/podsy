@@ -11,5 +11,5 @@ require([
     'views/app'
 ], function(Backbone, AppView) {
     'use strict';
-    new AppView();
+    app.appView = new AppView();
 });

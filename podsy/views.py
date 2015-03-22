@@ -12,27 +12,22 @@ def home(request):
     }
     return render(request, 'podsy/index.html', context)
 
-def pods(request):
-    pods = [{
+def pods(request, subcategory_id=None):
+    if subcategory_id:
+        pods = Pod.objects.filter(subcategory_id=subcategory_id)
+    else:
+        pods = Pod.objects.all()
+
+    data = [{
         'id': pod.id,
         'url': pod.url,
         'name': pod.name,
         'category': pod.subcategory.category.name,
         'subcategory': pod.subcategory.name
-    } for pod in Pod.objects.all()]
-    return HttpResponse(json.dumps(pods), content_type='application/json')
+    } for pod in pods]
+
+    return HttpResponse(json.dumps(data), content_type='application/json')
 
 def categories(request):
     categories = [{ 'name': cat.name, 'description': cat.description } for cat in Category.objects.all()]
     return HttpResponse(json.dumps(categories), content_type='application/json')
-
-def podsBySubcategory(request, subcategory_id):
-    print 'podsBySubcategory subcategory_id = %s' % subcategory_id
-    pods = [{
-        'id': pod.id,
-        'url': pod.url,
-        'name': pod.name,
-        'category': pod.subcategory.category.name,
-        'subcategory': pod.subcategory.name
-    } for pod in Pod.objects.filter(subcategory_id=subcategory_id)]
-    return HttpResponse(json.dumps(pods), content_type='application/json')

@@ -3,39 +3,40 @@ body {
     padding: 0;
     font-family: 'Open Sans', sans-serif;
 }
-
 .votebuttons {
     margin: 5px;
 }
-
 .votebuttons, .podtitle {
     display: inline-block;
     vertical-align: middle;
 }
-
 .votebuttons > div {
     text-align: center;
     font-size: 80%;
 }
-
 ul {
     list-style: none;
     margin: 0;
     padding: 0;
 }
-
 .category > div {
     display: inline-block;
 }
 .category-name {
     font-weight: bold;
 }
+.podtitle > a {
+    font-weight: bold;
+}
+.podtitle .category {
+    font-size: 80%;
+}
 
 
+/* Bootsnipp widgets - begin */
 .dropdown-submenu {
     position: relative;
 }
-
 .dropdown-submenu>.dropdown-menu {
     top: 0;
     left: 100%;
@@ -45,11 +46,9 @@ ul {
     -moz-border-radius: 0 6px 6px;
     border-radius: 0 6px 6px 6px;
 }
-
 .dropdown-submenu:hover>.dropdown-menu {
     display: block;
 }
-
 .dropdown-submenu > a:after {
     display: block;
     content: " ";
@@ -63,15 +62,12 @@ ul {
     margin-top: 5px;
     margin-right: -10px;
 }
-
 .dropdown-submenu:hover > a:after {
     border-left-color: #fff;
 }
-
 .dropdown-submenu.pull-left {
     float: none;
 }
-
 .dropdown-submenu.pull-left > .dropdown-menu {
     left: -100%;
     margin-left: 10px;
@@ -79,10 +75,4 @@ ul {
     -moz-border-radius: 6px 0 6px 6px;
     border-radius: 6px 0 6px 6px;
 }
-
-.podtitle > a {
-  font-weight: bold;
-}
-.podtitle .category {
-  font-size: 80%;
-}
+/* Bootsnipp widgets - end */

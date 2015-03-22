@@ -46,4 +46,3 @@ class PodForm(ModelForm):
     class Meta:
         model = Pod
         fields = ['name', 'url', 'image_url', 'user', 'subcategory']
-

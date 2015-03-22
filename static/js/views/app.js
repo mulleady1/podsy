@@ -14,10 +14,10 @@ define([
     var AppView = Backbone.View.extend({
         el: 'body',
         initialize: function() {
+            app.router = new Router();
             app.listenView = new ListenView();
             app.pods = new Pods();
             this.listenTo(app.pods, 'reset', this.addPods);
-            app.router = new Router();
             Backbone.history.start();
         },
         addPod: function(pod) {
