@@ -9,7 +9,8 @@ define([
             'pods/:id/':               'pods',
             'categories/:id':          'categories',
             'subcategories/:id':       'subcategories',
-            'pods/subcategories/:id/': 'podsBySubcategory'
+            'pods/subcategories/:id/': 'podsBySubcategory',
+            'signin':                  'signin'
         },
         index: function() {
             app.pods.fetch({ reset: true });
@@ -35,6 +36,9 @@ define([
             $.get('/pods/subcategories/{id}/'.replace('{id}', id)).then(function(data) {
                 app.pods.reset(data);
             });
+        },
+        signin: function() {
+            $('#signin').modal();
         }
 
     });
