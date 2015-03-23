@@ -16,8 +16,8 @@ class PodsyUser(models.Model):
 
 class Pod(models.Model):
     name = models.CharField(max_length=1000)
-    url = models.URLField()
-    image_url = models.URLField(blank=True)
+    podcast_url = models.URLField(blank=True)
+    audio_file_url = models.URLField(blank=True)
     upvotes = models.IntegerField(default=0)
     downvotes = models.IntegerField(default=0)
     user = models.ForeignKey('PodsyUser')
@@ -45,4 +45,4 @@ class Subcategory(models.Model):
 class PodForm(ModelForm):
     class Meta:
         model = Pod
-        fields = ['name', 'url', 'image_url', 'user', 'subcategory']
+        fields = ['name', 'podcast_url', 'audio_file_url', 'user', 'subcategory']

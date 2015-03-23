@@ -98,7 +98,8 @@
           <h4 class="modal-title"><%= name %></h4>
         </div>
         <div class="modal-body">
-          <p><iframe src="<%= url %>"></iframe></p>
+          <p><audio src="<%= audioUrl %>" controls autoplay></audio></p>
+          <p><a href="<%= podcastUrl %>" target="_blank"><%= podcastUrl %></a></p>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

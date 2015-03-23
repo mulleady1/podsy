@@ -20,7 +20,8 @@ def pods(request, subcategory_id=None):
 
     data = [{
         'id': pod.id,
-        'url': pod.url,
+        'audioUrl': pod.audio_file_url,
+        'podcastUrl': pod.podcast_url,
         'name': pod.name,
         'category': pod.subcategory.category.name,
         'subcategory': pod.subcategory.name

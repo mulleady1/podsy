@@ -39,6 +39,12 @@ define([
         },
         signin: function() {
             $('#signin').modal();
+            if (!this.hasModalCloseHandler) {
+                $('#signin').on('hide.bs.modal', function(e) {
+                    history.back();
+                });
+                this.hasModalCloseHandler = true;
+            }
         }
 
     });
