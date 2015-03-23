@@ -1,4 +1,5 @@
-from django.http import HttpResponse
+from django.contrib.auth import authenticate
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.views.generic import TemplateView, ListView
 from podsy.models import *
@@ -8,9 +9,21 @@ def home(request):
     context = {
         'pods' : Pod.objects.all(),
         'categories' : Category.objects.all(),
-        'subcategories' : Subcategory.objects.all()
+        'subcategories' : Subcategory.objects.all(),
+        'username' : request.session.get('username', '')
     }
     return render(request, 'podsy/index.html', context)
+
+def signin(request):
+    u = request.POST['email']
+    p = request.POST['password']
+    user = authenticate(username=u, password=p)
+    if user:
+        request.session['username'] = user.username
+        return HttpResponseRedirect('/')
+
+    data = { 'success': False }
+    return HttpResponse(json.dumps(data), content_type='application/json')
 
 def pods(request, subcategory_id=None):
     if subcategory_id:

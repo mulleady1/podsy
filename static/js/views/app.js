@@ -7,8 +7,9 @@ define([
     'views/pod',
     'collections/pods',
     'views/subcategories',
-    'views/listen'
-], function($, _, Backbone, Bootstrap, Router, PodView, Pods, SubcategoriesView, ListenView) {
+    'views/listen',
+    'views/signin'
+], function($, _, Backbone, Bootstrap, Router, PodView, Pods, SubcategoriesView, ListenView, SigninView) {
     'use strict';
 
     var AppView = Backbone.View.extend({
@@ -16,6 +17,7 @@ define([
         initialize: function() {
             app.router = new Router();
             app.listenView = new ListenView();
+            app.signinView = new SigninView();
             app.pods = new Pods();
             this.listenTo(app.pods, 'reset', this.addPods);
             Backbone.history.start();
