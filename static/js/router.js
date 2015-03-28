@@ -10,7 +10,8 @@ define([
             'categories/:id':          'categories',
             'subcategories/:id':       'subcategories',
             'pods/subcategories/:id/': 'podsBySubcategory',
-            'signin':                  'signin'
+            'signin':                  'signin',
+            'upload':                  'upload'
         },
         index: function() {
             app.pods.fetch({ reset: true });
@@ -45,6 +46,9 @@ define([
                 });
                 this.hasModalCloseHandler = true;
             }
+        },
+        upload: function() {
+            $('#upload').modal();
         }
 
     });

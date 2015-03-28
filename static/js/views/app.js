@@ -8,8 +8,9 @@ define([
     'collections/pods',
     'views/subcategories',
     'views/listen',
-    'views/signin'
-], function($, _, Backbone, Bootstrap, Router, PodView, Pods, SubcategoriesView, ListenView, SigninView) {
+    'views/signin',
+    'views/upload'
+], function($, _, Backbone, Bootstrap, Router, PodView, Pods, SubcategoriesView, ListenView, SigninView, UploadView) {
     'use strict';
 
     var AppView = Backbone.View.extend({
@@ -18,6 +19,7 @@ define([
             app.router = new Router();
             app.listenView = new ListenView();
             app.signinView = new SigninView();
+            app.uploadView = new UploadView();
             app.pods = new Pods();
             this.listenTo(app.pods, 'reset', this.addPods);
             Backbone.history.start();
