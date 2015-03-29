@@ -59,5 +59,17 @@ def pods(request, category_id=None):
     return HttpResponse(json.dumps(data), content_type='application/json')
 
 def categories(request):
-    categories = [{ 'name': cat.name, 'description': cat.description } for cat in Category.objects.all()]
-    return HttpResponse(json.dumps(categories), content_type='application/json')
+    if request.method == 'GET':
+        data = [{ 'name': cat.name, 'description': cat.description } for cat in Category.objects.all()]
+    else:
+        form = request.POST
+        name = form.get('name')
+        description = form.get('description')
+        if name and description:
+            cat = Category(name=name, description=description)
+            cat.save()
+            data = { 'success': True }
+        else:
+            data = { 'success': False }
+
+    return HttpResponse(json.dumps(data), content_type='application/json')

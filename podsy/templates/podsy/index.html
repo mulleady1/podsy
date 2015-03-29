@@ -32,15 +32,16 @@
               {% for cat in categories %}
               <li><a href="#/pods/categories/{{ cat.id }}/">{{ cat.name }}</a></li>
               {% endfor %}
+              <li><a href="#/categories/">More...</a></li>
               {% if username %}
-              <li><a href="#/categories/new/">Add category</a></li>
+              <li><a href="#/categories/new/">Add category...</a></li>
               {% endif %}
             </ul>
           </li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
           {% if username %}
-          <li><a href="#/upload">Create</a></li>
+          <li><a href="#/pods/new/">Create</a></li>
           <li><a href="#/account">{{ username }}</a></li>
           {% else %}
           <li><a href="#/signin">Sign in</a></li>
@@ -86,7 +87,7 @@
     </div>
   </div>
   <div id="category" class="modal fade">
-    <div class="modal-dialog modal">
+    <div class="modal-dialog">
       <div class="modal-content">
         <form action="/categories/" method="post">
           {% csrf_token %}
@@ -123,34 +124,13 @@
 
             <!-- Nav tabs -->
             <ul class="nav nav-tabs" role="tablist">
-              <li role="presentation" class="active"><a href="#file" aria-controls="home" role="tab" data-toggle="tab">Upload file</a></li>
-              <li role="presentation"><a href="#nofile" aria-controls="profile" role="tab" data-toggle="tab">Link to existing podcast</a></li>
+              <li role="presentation" class="active"><a href="#nofile" aria-controls="profile" role="tab" data-toggle="tab">Link to existing podcast</a></li>
+              <li role="presentation"><a href="#file" aria-controls="home" role="tab" data-toggle="tab">Upload file</a></li>
             </ul>
 
             <!-- Tab panes -->
             <div class="tab-content">
-              <div role="tabpanel" class="tab-pane fade in active" id="file">
-                <p>
-                  <form action="/pods/" method="post">
-                    {% csrf_token %}
-                    <div class="form-group">
-                      <input type="text" class="form-control" name="name" placeholder="Title">
-                    </div>
-                    <div class="form-group">
-                      <select class="form-control" name="category_id">
-                        <option>Category</option>
-                        {% for cat in categories %}
-                        <option value="{{ cat.id }}">{{ cat.name }}</option>
-                        {% endfor %}
-                      </select>
-                    </div>
-                    <div class="form-group">
-                      <input type="file" class="form-control" name="audio_file">
-                    </div>
-                  </form>
-                </p>
-              </div>
-              <div role="tabpanel" class="tab-pane fade" id="nofile">
+              <div role="tabpanel" class="tab-pane fade in active" id="nofile">
                 <p>
                   <form action="/pods/" method="post">
                     {% csrf_token %}
@@ -173,6 +153,27 @@
                     </div>
                   </p>
                 </form>
+              </div>
+              <div role="tabpanel" class="tab-pane fade" id="file">
+                <p>
+                  <form action="/pods/" method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+                      <input type="text" class="form-control" name="name" placeholder="Title">
+                    </div>
+                    <div class="form-group">
+                      <select class="form-control" name="category_id">
+                        <option>Category</option>
+                        {% for cat in categories %}
+                        <option value="{{ cat.id }}">{{ cat.name }}</option>
+                        {% endfor %}
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <input type="file" class="form-control" name="audio_file">
+                    </div>
+                  </form>
+                </p>
               </div>
             </div>
 

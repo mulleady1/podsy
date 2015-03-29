@@ -5,9 +5,8 @@ define([
 
     var Pods = Backbone.Collection.extend({
         model: Pod,
-        url: '/pods'
+        url: '/pods/'
     });
 
     return Pods;
 });
-

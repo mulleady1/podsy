@@ -5,15 +5,18 @@ define([
     var Router = Backbone.Router.extend({
         routes: {
             '':                        'index',
+            'pods/new/':               'addPod',
             'pods/:id/':               'pods',
-            'categories/new/':             'addCategory',
-            'categories/:id':          'categories',
             'pods/categories/:id/':    'podsByCategory',
-            'signin':                  'signin',
-            'upload':                  'upload'
+            'categories/new/':         'addCategory',
+            'categories/:id':          'categories',
+            'signin':                  'signin'
         },
         index: function() {
             app.pods.fetch({ reset: true });
+        },
+        addPod: function() {
+            $('#upload').modal();
         },
         pods: function(id) {
             if (!app.pods.length) {
@@ -26,22 +29,19 @@ define([
                 });
             }
         },
+        podsByCategory: function(id) {
+            $.get('/pods/categories/{id}/'.replace('{id}', id)).then(function(data) {
+                app.pods.reset(data);
+            });
+        },
         addCategory: function() {
             $('#category').modal();
         },
         categories: function(id) {
 
         },
-        podsByCategory: function(id) {
-            $.get('/pods/categories/{id}/'.replace('{id}', id)).then(function(data) {
-                app.pods.reset(data);
-            });
-        },
         signin: function() {
             $('#signin').modal();
-        },
-        upload: function() {
-            $('#upload').modal();
         }
 
     });

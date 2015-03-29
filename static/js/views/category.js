@@ -4,15 +4,22 @@ define([
     'backbone'
 ], function($, _, Backbone) {
     var CategoryView = Backbone.View.extend({
-        tagName: 'li',
-        template: _.template($('#category-template').html()),
+        el: '#category',
         events: {
-            'click .upvote': 'toggleUpvote',
-            'click .downvote': 'toggleDownvote'
+            'click button.submit': 'submit',
+            'hide.bs.modal': 'hide'
         },
-        render: function() {
-            this.$el.html(this.template(this.model.toJSON()));
-            return this;
+        submit: function() {
+            var formData = this.$el.find('form').serialize();
+            $.post('/categories/', formData).then(function(data) {
+                if (data.success) {
+                    location.hash = '';
+                    location.reload();
+                }
+            });
+        },
+        hide: function() {
+            history.back();
         }
     });
 
