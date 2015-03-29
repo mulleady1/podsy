@@ -6,6 +6,7 @@ define([
         routes: {
             '':                        'index',
             'pods/:id/':               'pods',
+            'categories/new/':             'addCategory',
             'categories/:id':          'categories',
             'pods/categories/:id/':    'podsByCategory',
             'signin':                  'signin',
@@ -24,6 +25,9 @@ define([
                     }
                 });
             }
+        },
+        addCategory: function() {
+            $('#category').modal();
         },
         categories: function(id) {
 
