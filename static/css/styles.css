@@ -31,6 +31,9 @@ ul {
 .podtitle .category {
     font-size: 80%;
 }
+#category-container {
+    display: none;
+}
 
 
 /* Bootsnipp widgets - begin */

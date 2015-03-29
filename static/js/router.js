@@ -38,7 +38,9 @@ define([
             $('#category').modal();
         },
         categories: function(id) {
-
+            if (!app.categories.length) {
+                app.categories.fetch({ reset: true });
+            }
         },
         signin: function() {
             $('#signin').modal();
