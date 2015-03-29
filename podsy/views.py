@@ -9,7 +9,6 @@ def home(request):
     context = {
         'pods' : Pod.objects.all(),
         'categories' : Category.objects.all(),
-        'subcategories' : Subcategory.objects.all(),
         'username' : request.session.get('username', '')
     }
     return render(request, 'podsy/index.html', context)
@@ -19,26 +18,43 @@ def signin(request):
     p = request.POST['password']
     user = authenticate(username=u, password=p)
     if user:
+        request.session['user_id'] = user.id
         request.session['username'] = user.username
-        return HttpResponseRedirect('/')
+        data = { 'success': True }
+    else:
+        data = { 'success': False }
 
-    data = { 'success': False }
     return HttpResponse(json.dumps(data), content_type='application/json')
 
-def pods(request, subcategory_id=None):
-    if subcategory_id:
-        pods = Pod.objects.filter(subcategory_id=subcategory_id)
-    else:
-        pods = Pod.objects.all()
+def pods(request, category_id=None):
+    if request.method == 'GET':
+        if category_id:
+            pods = Pod.objects.filter(category_id=category_id)
+        else:
+            pods = Pod.objects.all()
 
-    data = [{
-        'id': pod.id,
-        'audioUrl': pod.audio_file_url,
-        'podcastUrl': pod.podcast_url,
-        'name': pod.name,
-        'category': pod.subcategory.category.name,
-        'subcategory': pod.subcategory.name
-    } for pod in pods]
+        data = [{
+            'id': pod.id,
+            'audioUrl': pod.audio_url,
+            'podcastUrl': pod.podcast_url,
+            'name': pod.name,
+            'category': pod.category.name
+        } for pod in pods]
+
+    else:
+        form = request.POST
+        if form.get('name') and form.get('category_id') and form.get('audio_file'):
+            cat = Category.objects.get(pk=form.get('category_id'))
+            pod = Pod(name=form.get('name'), audio_file=form.get('audio_file'), user_id=request.session['user_id'], category=cat)
+            pod.save()
+            data = { 'success': True }
+        elif form.get('name') and form.get('category_id') and form.get('audio_url') and form.get('podcast_url'):
+            cat = Category.objects.get(pk=form.get('category_id'))
+            pod = Pod(name=form.get('name'), audio_url=form.get('audio_url'), podcast_url=form.get('podcast_url'), user_id=request.session['user_id'], category=cat)
+            pod.save()
+            data = { 'success': True }
+        else:
+            data = { 'success': False }
 
     return HttpResponse(json.dumps(data), content_type='application/json')
 

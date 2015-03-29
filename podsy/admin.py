@@ -5,4 +5,3 @@ from podsy.models import *
 admin.site.register(Pod)
 admin.site.register(PodsyUser)
 admin.site.register(Category)
-admin.site.register(Subcategory)

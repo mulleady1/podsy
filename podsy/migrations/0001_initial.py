@@ -28,8 +28,11 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('name', models.CharField(max_length=1000)),
-                ('url', models.CharField(max_length=1000)),
-                ('image_url', models.CharField(max_length=1000, blank=True)),
+                ('podcast_url', models.URLField(blank=True)),
+                ('audio_url', models.URLField(blank=True)),
+                ('audio_file', models.BinaryField(blank=True)),
+                ('upvotes', models.IntegerField(default=0)),
+                ('downvotes', models.IntegerField(default=0)),
                 ('category', models.ForeignKey(to='podsy.Category')),
             ],
             options={
@@ -40,8 +43,8 @@ class Migration(migrations.Migration):
             name='PodsyUser',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('favoriteCategories', models.ManyToManyField(to='podsy.Category')),
-                ('favoritePods', models.ManyToManyField(to='podsy.Pod')),
+                ('favoriteCategories', models.ManyToManyField(to='podsy.Category', blank=True)),
+                ('favoritePods', models.ManyToManyField(to='podsy.Pod', blank=True)),
                 ('user', models.OneToOneField(to=settings.AUTH_USER_MODEL)),
             ],
             options={

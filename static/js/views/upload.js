@@ -7,12 +7,18 @@ define([
         el: '#upload',
         events: {
             'click button.submit': 'submit',
-            'hide.bs.modal': 'close'
+            'hide.bs.modal': 'hide'
         },
         submit: function() {
-            this.$el.find('form').submit();
+            var formData = this.$el.find('.tab-pane.active form').serialize();
+            $.post('/pods/', formData).then(function(data) {
+                if (data.success) {
+                    location.hash = '';
+                    location.reload();
+                }
+            });
         },
-        close: function() {
+        hide: function() {
             history.back();
         }
     });

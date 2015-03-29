@@ -6,11 +6,10 @@ define([
     'router',
     'views/pod',
     'collections/pods',
-    'views/subcategories',
     'views/listen',
     'views/signin',
     'views/upload'
-], function($, _, Backbone, Bootstrap, Router, PodView, Pods, SubcategoriesView, ListenView, SigninView, UploadView) {
+], function($, _, Backbone, Bootstrap, Router, PodView, Pods, ListenView, SigninView, UploadView) {
     'use strict';
 
     var AppView = Backbone.View.extend({

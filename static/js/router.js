@@ -1,15 +1,13 @@
 define([
     'backbone',
-    'collections/subcategories',
-    'views/subcategory'
-], function(Backbone, Subcategories, SubcategoryView) {
+    'views/category'
+], function(Backbone, CategoryView) {
     var Router = Backbone.Router.extend({
         routes: {
             '':                        'index',
             'pods/:id/':               'pods',
             'categories/:id':          'categories',
-            'subcategories/:id':       'subcategories',
-            'pods/subcategories/:id/': 'podsBySubcategory',
+            'pods/categories/:id/':    'podsByCategory',
             'signin':                  'signin',
             'upload':                  'upload'
         },
@@ -30,22 +28,13 @@ define([
         categories: function(id) {
 
         },
-        subcategories: function(id) {
-
-        },
-        podsBySubcategory: function(id) {
-            $.get('/pods/subcategories/{id}/'.replace('{id}', id)).then(function(data) {
+        podsByCategory: function(id) {
+            $.get('/pods/categories/{id}/'.replace('{id}', id)).then(function(data) {
                 app.pods.reset(data);
             });
         },
         signin: function() {
             $('#signin').modal();
-            if (!this.hasModalCloseHandler) {
-                $('#signin').on('hide.bs.modal', function(e) {
-                    history.back();
-                });
-                this.hasModalCloseHandler = true;
-            }
         },
         upload: function() {
             $('#upload').modal();
