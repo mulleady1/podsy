@@ -50,7 +50,7 @@
       </div>
     </div>
   </nav>
-  <div id="pod-container" class="container">
+  <div id="pods-container" class="container">
     <div class="panel panel-default">
       <div class="panel-heading">
         <h3 class="panel-title">Pods</h3>
@@ -61,7 +61,7 @@
       </div>
     </div>
   </div>
-  <div id="category-container" class="container">
+  <div id="categories-container" class="container">
     <div class="panel panel-default">
       <div class="panel-heading">
         <h3 class="panel-title">Categories</h3>
@@ -229,8 +229,7 @@
   </script>
   <script type="text/template" id="category-template">
     <div class="category">
-      <div class="category-name"><%= name %></div>
-      <div class="category-description"><%= description %></div>
+      <h4><%= name %> <small><%= description %></h4>
     </div>
   </script>
   <script src="{% static 'js/require.js' %}" data-main="{% static 'js/main' %}"></script>

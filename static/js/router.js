@@ -9,10 +9,12 @@ define([
             'pods/:id/':               'pods',
             'pods/categories/:id/':    'podsByCategory',
             'categories/new/':         'addCategory',
-            'categories/:id':          'categories',
+            'categories/':             'categories',
             'signin':                  'signin'
         },
         index: function() {
+            $('#pods-container').show();
+            $('#categories-container').hide();
             app.pods.fetch({ reset: true });
         },
         addPod: function() {
