@@ -60,7 +60,12 @@ def pods(request, category_id=None):
 
 def categories(request):
     if request.method == 'GET':
-        data = [{ 'name': cat.name, 'description': cat.description } for cat in Category.objects.all()]
+        data = [{
+            'id': cat.id, 
+            'name': cat.name,
+            'description': cat.description
+        } for cat in Category.objects.all()]
+
     else:
         form = request.POST
         name = form.get('name')

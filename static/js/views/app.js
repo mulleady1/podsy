@@ -47,8 +47,6 @@ define([
         },
         addCategories: function() {
             this.$('#categories-list').html('');
-            this.$('#categories-container').show();
-            this.$('#pods-container').hide();
             app.categories.each(this.addCategory, this);
         }
     });

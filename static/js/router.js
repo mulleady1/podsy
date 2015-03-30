@@ -32,6 +32,8 @@ define([
             }
         },
         podsByCategory: function(id) {
+            $('#pods-container').show();
+            $('#categories-container').hide();
             $.get('/pods/categories/{id}/'.replace('{id}', id)).then(function(data) {
                 app.pods.reset(data);
             });
@@ -40,6 +42,8 @@ define([
             $('#category').modal();
         },
         categories: function(id) {
+            $('#pods-container').hide();
+            $('#categories-container').show();
             if (!app.categories.length) {
                 app.categories.fetch({ reset: true });
             }
