@@ -10,11 +10,12 @@ define([
             'pods/categories/:id/':    'podsByCategory',
             'categories/new/':         'addCategory',
             'categories/':             'categories',
-            'signin':                  'signin'
+            'signin/':                 'signin',
+            'account/':                'account',
         },
         index: function() {
+            $('.card').hide();
             $('#pods-container').show();
-            $('#categories-container').hide();
             app.pods.fetch({ reset: true });
         },
         addPod: function() {
@@ -32,8 +33,8 @@ define([
             }
         },
         podsByCategory: function(id) {
+            $('.card').hide();
             $('#pods-container').show();
-            $('#categories-container').hide();
             $.get('/pods/categories/{id}/'.replace('{id}', id)).then(function(data) {
                 app.pods.reset(data);
             });
@@ -42,7 +43,7 @@ define([
             $('#category').modal();
         },
         categories: function(id) {
-            $('#pods-container').hide();
+            $('.card').hide();
             $('#categories-container').show();
             if (!app.categories.length) {
                 app.categories.fetch({ reset: true });
@@ -50,6 +51,10 @@ define([
         },
         signin: function() {
             $('#signin').modal();
+        },
+        account: function() {
+            $('.card').hide();
+            $('#account-container').show();
         }
 
     });
