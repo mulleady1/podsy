@@ -10,7 +10,8 @@
   <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}">
   <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
   <link rel="icon" sizes="96x96" href="{% static 'images/icon.png' %}">
-  <script>var app = {};</script>
+  <script>var app = { loggedIn: {{ loggedIn }} };</script>
+
 </head>
 <body>
   <nav class="navbar navbar-default">
@@ -38,6 +39,7 @@
               {% endif %}
             </ul>
           </li>
+          <li><a href="#/about/">About</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
           {% if username %}
@@ -50,6 +52,8 @@
       </div>
     </div>
   </nav>
+
+  <!-- 'Cards' -->
   <div id="pods-container" class="container card">
     <div class="panel panel-default">
       <div class="panel-heading">
@@ -82,6 +86,38 @@
       </div>
     </div>
   </div>
+  <div id="about-container" class="container card">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">About</h3>
+      </div>
+      <div class="panel-body">
+        <h2>We're a new community.</h2>
+        <p>
+          We created Podsy to serve the community of podcasts in two
+          fundamental areas:
+          <ul>
+            <li>
+              Pre-Podsy, the web didn't have a central, go-to place for podcasts,
+              like YouTube is for videos or like Reddit is for social news and cats.
+              A number of sites have tried, and so has iTunes, but none have reached
+              the potential of what we think can be done.
+            </li>
+            <li>
+              We realized that our target audience is large--anyone with a career who
+              commutes to work--
+            </li>
+            <li>
+              We're here to provide not just a repository of audio content, but a
+              community that is dynamic, interactive, and helpful to listeners' lives.
+            </li>
+          </ul>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modals -->
   <div id="signin" class="modal fade">
     <div class="modal-dialog modal-sm">
       <div class="modal-content">
@@ -208,6 +244,8 @@
       </div>
     </div>
   </div>
+
+  <!-- Templates -->
   <script type="text/template" id="pod-template">
     <div class="pod">
       <div class="votebuttons">
@@ -216,6 +254,7 @@
       </div>
       <div class="podtitle">
         <a href="#/pods/<%= id %>/"><%= name %></a>
+        <span class="glyphicon glyphicon-star<% if (!fav) print('-empty') %>"></span>
         <div class="category"><%= category %></div>
       </div>
     </div>

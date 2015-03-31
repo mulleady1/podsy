@@ -12,6 +12,7 @@ define([
             'categories/':             'categories',
             'signin/':                 'signin',
             'account/':                'account',
+            'about/':                  'about',
         },
         index: function() {
             $('.card').hide();
@@ -55,6 +56,10 @@ define([
         account: function() {
             $('.card').hide();
             $('#account-container').show();
+        },
+        about: function() {
+            $('.card').hide();
+            $('#about-container').show();
         }
 
     });

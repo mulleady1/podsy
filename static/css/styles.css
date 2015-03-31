@@ -31,7 +31,11 @@ ul {
 .podtitle .category {
     font-size: 80%;
 }
-#categories-container {
+.pod .glyphicon {
+    color: #aaa;
+    cursor: pointer;
+}
+.card:not(#pods-container) {
     display: none;
 }
 

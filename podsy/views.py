@@ -1,7 +1,7 @@
 from django.contrib.auth import authenticate
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
-from django.views.generic import TemplateView, ListView
+from django.views.generic import View, TemplateView, ListView
 from podsy.models import *
 import json
 
@@ -9,7 +9,8 @@ def home(request):
     context = {
         'pods' : Pod.objects.all(),
         'categories' : Category.objects.all(),
-        'username' : request.session.get('username', '')
+        'username' : request.session.get('username', ''),
+        'loggedIn' : 'true' if request.session.get('username') else 'false'
     }
     return render(request, 'podsy/index.html', context)
 
@@ -26,8 +27,9 @@ def signin(request):
 
     return HttpResponse(json.dumps(data), content_type='application/json')
 
-def pods(request, category_id=None):
-    if request.method == 'GET':
+class PodView(View):
+
+    def get(self, request, category_id=None):
         if category_id:
             pods = Pod.objects.filter(category_id=category_id)
         else:
@@ -41,7 +43,9 @@ def pods(request, category_id=None):
             'category': pod.category.name
         } for pod in pods]
 
-    else:
+        return HttpResponse(json.dumps(data), content_type='application/json')
+
+    def post(self, request):
         form = request.POST
         if form.get('name') and form.get('category_id') and form.get('audio_file'):
             cat = Category.objects.get(pk=form.get('category_id'))
@@ -56,12 +60,17 @@ def pods(request, category_id=None):
         else:
             data = { 'success': False }
 
-    return HttpResponse(json.dumps(data), content_type='application/json')
+        return HttpResponse(json.dumps(data), content_type='application/json')
+
+    def put(self, request, pod_id=None):
+        data = request.PUT
+
+        return HttpResponse(json.dumps(data), content_type='application/json')
 
 def categories(request):
     if request.method == 'GET':
         data = [{
-            'id': cat.id, 
+            'id': cat.id,
             'name': cat.name,
             'description': cat.description
         } for cat in Category.objects.all()]

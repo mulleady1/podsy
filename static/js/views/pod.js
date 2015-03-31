@@ -9,7 +9,8 @@ define([
         events: {
             'click .upvote': 'toggleUpvote',
             'click .downvote': 'toggleDownvote',
-            'click .podtitle > a': 'listen'
+            'click .podtitle > a': 'listen',
+            'click .podtitle > .glyphicon': 'toggleFavorite'
         },
         initialize: function() {
             this.listenTo(this.model, 'listen', this.listen);
@@ -26,6 +27,13 @@ define([
         },
         toggleDownvote: function() {
             this.model.toggleDownvote();
+        },
+        toggleFavorite: function() {
+            if (!app.loggedIn) {
+                return;
+            }
+            this.$el.find('.podtitle > .glyphicon').toggleClass('glyphicon-star glyphicon-star-empty');
+            this.model.toggleFavorite();
         }
     });
 
