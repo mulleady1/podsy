@@ -59,6 +59,9 @@ define([
             $('#signup-container').show();
         },
         account: function() {
+            if (!app.loggedIn) {
+                return;
+            }
             $('.card').hide();
             $('#account-container').show();
         },

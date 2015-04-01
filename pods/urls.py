@@ -1,10 +1,11 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
-from podsy.views import PodView, CategoryView
+from podsy.views import *
 
 urlpatterns = patterns('',
     url(r'^$', 'podsy.views.home'),
-    url(r'^signin/$', 'podsy.views.signin'),
+    url(r'^signin/$', SigninView.as_view()),
+    url(r'^signout/$', SignoutView.as_view()),
     url(r'^pods/$', PodView.as_view()),
     url(r'^pods/(?P<pod_id>\d+)/$', PodView.as_view()),
     url(r'^pods/subcategories/(?P<subcategory_id>\d+)/$', PodView.as_view()),

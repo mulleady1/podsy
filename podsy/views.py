@@ -1,4 +1,4 @@
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.views.generic import View, TemplateView, ListView
@@ -15,18 +15,28 @@ def home(request):
     }
     return render(request, 'podsy/index.html', context)
 
-def signin(request):
-    u = request.POST['email']
-    p = request.POST['password']
-    user = authenticate(username=u, password=p)
-    if user:
-        request.session['user_id'] = user.id
-        request.session['username'] = user.username
-        data = { 'success': True }
-    else:
-        data = { 'success': False }
+class SigninView(View):
 
-    return HttpResponse(json.dumps(data), content_type='application/json')
+    def post(self, request):
+        u = request.POST['email']
+        p = request.POST['password']
+        user = authenticate(username=u, password=p)
+        if user:
+            login(request, user)
+            request.session['user_id'] = user.id
+            request.session['username'] = user.username
+            data = { 'success': True }
+        else:
+            data = { 'success': False }
+
+        return HttpResponse(json.dumps(data), content_type='application/json')
+
+class SignoutView(View):
+
+    def post(self, request):
+        logout(request)
+        return HttpResponseRedirect('/')
+
 
 class PodView(View):
 
@@ -72,7 +82,7 @@ class PodView(View):
         return HttpResponse(json.dumps(data), content_type='application/json')
 
 class CategoryView(View):
-    
+
     def get(self, request):
         data = [{
             'id': cat.id,
