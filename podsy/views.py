@@ -71,15 +71,18 @@ class PodView(View):
 
         return HttpResponse(json.dumps(data), content_type='application/json')
 
-def categories(request):
-    if request.method == 'GET':
+class CategoryView(View):
+    
+    def get(self, request):
         data = [{
             'id': cat.id,
             'name': cat.name,
             'description': cat.description
         } for cat in Category.objects.all()]
 
-    else:
+        return HttpResponse(json.dumps(data), content_type='application/json')
+
+    def post(self, request):
         form = request.POST
         name = form.get('name')
         description = form.get('description')
@@ -90,4 +93,4 @@ def categories(request):
         else:
             data = { 'success': False }
 
-    return HttpResponse(json.dumps(data), content_type='application/json')
+        return HttpResponse(json.dumps(data), content_type='application/json')
