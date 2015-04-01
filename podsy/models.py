@@ -6,6 +6,8 @@ class PodsyUser(models.Model):
     user = models.OneToOneField(User)
     favoritePods = models.ManyToManyField('Pod', blank=True)
     favoriteCategories = models.ManyToManyField('Subcategory', blank=True)
+    created = models.DateField(auto_now_add=True)
+    modified = models.DateField(auto_now=True)
 
     @property
     def username(self):
@@ -23,6 +25,9 @@ class Pod(models.Model):
     downvotes = models.IntegerField(default=0)
     user = models.ForeignKey('PodsyUser')
     subcategory = models.ForeignKey('Subcategory')
+    tags = models.ManyToManyField('Tag', blank=True)
+    created = models.DateField(auto_now_add=True)
+    modified = models.DateField(auto_now=True)
 
     def __str__(self):
         return self.name
@@ -30,6 +35,8 @@ class Pod(models.Model):
 class Category(models.Model):
     name = models.CharField(max_length=100)
     description = models.CharField(max_length=1000, blank=True)
+    created = models.DateField(auto_now_add=True)
+    modified = models.DateField(auto_now=True)
 
     def __str__(self):
         return self.name
@@ -38,9 +45,16 @@ class Subcategory(models.Model):
     name = models.CharField(max_length=100)
     description = models.CharField(max_length=1000, blank=True)
     category = models.ForeignKey('Category')
+    created = models.DateField(auto_now_add=True)
+    modified = models.DateField(auto_now=True)
 
     def __str__(self):
         return self.name
+
+class Tag(models.Model):
+    name = models.CharField(max_length=25)
+    created = models.DateField(auto_now_add=True)
+    modified = models.DateField(auto_now=True)
 
 class PodForm(ModelForm):
     class Meta:
