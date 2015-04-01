@@ -7,10 +7,11 @@ define([
             '':                        'index',
             'pods/new/':               'addPod',
             'pods/:id/':               'pods',
-            'pods/categories/:id/':    'podsByCategory',
+            'pods/subcategories/:id/': 'podsBySubcategory',
             'categories/new/':         'addCategory',
             'categories/':             'categories',
             'signin/':                 'signin',
+            'signup/':                 'signup',
             'account/':                'account',
             'about/':                  'about',
         },
@@ -33,10 +34,10 @@ define([
                 });
             }
         },
-        podsByCategory: function(id) {
+        podsBySubcategory: function(id) {
             $('.card').hide();
             $('#pods-container').show();
-            $.get('/pods/categories/{id}/'.replace('{id}', id)).then(function(data) {
+            $.get('/pods/subcategories/{id}/'.replace('{id}', id)).then(function(data) {
                 app.pods.reset(data);
             });
         },
@@ -52,6 +53,10 @@ define([
         },
         signin: function() {
             $('#signin').modal();
+        },
+        signup: function() {
+            $('.card').hide();
+            $('#signup-container').show();
         },
         account: function() {
             $('.card').hide();

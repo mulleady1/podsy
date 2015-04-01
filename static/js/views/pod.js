@@ -13,6 +13,7 @@ define([
             'click .podtitle > .glyphicon': 'toggleFavorite'
         },
         initialize: function() {
+            this.listenTo(this.model, 'change', this.render);
             this.listenTo(this.model, 'listen', this.listen);
         },
         render: function() {
@@ -32,7 +33,6 @@ define([
             if (!app.loggedIn) {
                 return;
             }
-            this.$el.find('.podtitle > .glyphicon').toggleClass('glyphicon-star glyphicon-star-empty');
             this.model.toggleFavorite();
         }
     });

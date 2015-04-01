@@ -7,10 +7,11 @@ import json
 
 def home(request):
     context = {
-        'pods' : Pod.objects.all(),
-        'categories' : Category.objects.all(),
-        'username' : request.session.get('username', ''),
-        'loggedIn' : 'true' if request.session.get('username') else 'false'
+        'pods': Pod.objects.all(),
+        'categories': Category.objects.all(),
+        'subcategories': Subcategory.objects.all(),
+        'username': request.session.get('username', ''),
+        'loggedIn': 'true' if request.session.get('username') else 'false'
     }
     return render(request, 'podsy/index.html', context)
 
@@ -29,9 +30,9 @@ def signin(request):
 
 class PodView(View):
 
-    def get(self, request, category_id=None):
-        if category_id:
-            pods = Pod.objects.filter(category_id=category_id)
+    def get(self, request, subcategory_id=None):
+        if subcategory_id:
+            pods = Pod.objects.filter(subcategory_id=subcategory_id)
         else:
             pods = Pod.objects.all()
 
@@ -40,7 +41,10 @@ class PodView(View):
             'audioUrl': pod.audio_url,
             'podcastUrl': pod.podcast_url,
             'name': pod.name,
-            'category': pod.category.name
+            'category_id': pod.subcategory.category.id,
+            'category': pod.subcategory.category.name,
+            'subcategory_id': pod.subcategory.id,
+            'subcategory': pod.subcategory.name
         } for pod in pods]
 
         return HttpResponse(json.dumps(data), content_type='application/json')
