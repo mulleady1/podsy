@@ -8,6 +8,7 @@ urlpatterns = patterns('',
     url(r'^signout/$', SignoutView.as_view()),
     url(r'^pods/$', PodView.as_view()),
     url(r'^pods/(?P<pod_id>\d+)/$', PodView.as_view()),
+    url(r'^pods/categories/(?P<category_id>\d+)/$', PodView.as_view()),
     url(r'^pods/subcategories/(?P<subcategory_id>\d+)/$', PodView.as_view()),
     url(r'^categories/$', CategoryView.as_view()),
 

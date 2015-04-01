@@ -40,8 +40,10 @@ class SignoutView(View):
 
 class PodView(View):
 
-    def get(self, request, subcategory_id=None):
-        if subcategory_id:
+    def get(self, request, category_id=None, subcategory_id=None):
+        if category_id:
+            pods = Pod.objects.filter(subcategory__category_id=category_id)
+        elif subcategory_id:
             pods = Pod.objects.filter(subcategory_id=subcategory_id)
         else:
             pods = Pod.objects.all()

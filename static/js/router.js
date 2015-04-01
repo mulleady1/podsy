@@ -7,6 +7,7 @@ define([
             '':                        'index',
             'pods/new/':               'addPod',
             'pods/:id/':               'pods',
+            'pods/categories/:id/':    'podsByCategory',
             'pods/subcategories/:id/': 'podsBySubcategory',
             'categories/new/':         'addCategory',
             'categories/':             'categories',
@@ -33,6 +34,13 @@ define([
                     }
                 });
             }
+        },
+        podsByCategory: function(id) {
+            $('.card').hide();
+            $('#pods-container').show();
+            $.get('/pods/categories/{id}/'.replace('{id}', id)).then(function(data) {
+                app.pods.reset(data);
+            });
         },
         podsBySubcategory: function(id) {
             $('.card').hide();
