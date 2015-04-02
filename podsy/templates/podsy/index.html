@@ -10,7 +10,12 @@
   <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}">
   <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
   <link rel="icon" sizes="96x96" href="{% static 'images/icon.png' %}">
-  <script>var app = { loggedIn: {{ loggedIn }} };</script>
+  <script>
+    var app = {
+      loggedIn: {{ loggedIn }},
+      csrf: "{% csrf_token %}"
+    };
+  </script>
 
 </head>
 <body>
@@ -82,7 +87,6 @@
       </div>
       <div class="panel-body">
         <form>
-          {% csrf_token %}
           <div class="form-group">
             <input type="email" class="form-control" name="email" placeholder="Email">
           </div>
@@ -119,7 +123,6 @@
       <div class="panel-body">
         <p>Username: {{ username }}</p>
         <form action="/signout/" method="post">
-          {% csrf_token %}
           <p><button type="submit" class="btn btn-default">Log out</button></p>
         </form>
       </div>
@@ -157,7 +160,6 @@
     <div class="modal-dialog modal-sm">
       <div class="modal-content">
         <form action="/signin/" method="post">
-          {% csrf_token %}
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             <h4 class="modal-title">Sign in</h4>
@@ -182,7 +184,6 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <form action="/categories/" method="post">
-          {% csrf_token %}
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             <h4 class="modal-title">Add category</h4>
@@ -225,7 +226,6 @@
               <div role="tabpanel" class="tab-pane fade in active" id="nofile">
                 <p>
                   <form action="/pods/" method="post">
-                    {% csrf_token %}
                     <div class="form-group">
                       <input type="text" class="form-control" name="name" placeholder="Title">
                     </div>
@@ -249,7 +249,6 @@
               <div role="tabpanel" class="tab-pane fade" id="file">
                 <p>
                   <form action="/pods/" method="post">
-                    {% csrf_token %}
                     <div class="form-group">
                       <input type="text" class="form-control" name="name" placeholder="Title">
                     </div>

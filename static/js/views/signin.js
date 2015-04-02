@@ -17,6 +17,7 @@ define([
         submit: function() {
             var self = this,
                 formData = this.$el.find('form').serialize();
+
             $.post('/signin/', formData).then(function(data) {
                 if (data.success) {
                     location.hash = '';
