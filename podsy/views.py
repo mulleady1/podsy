@@ -87,20 +87,14 @@ class PodView(View):
     def put(self, request, pod_id=None):
         data = json.loads(request.body)
         pod = Pod.objects.get(pk=data.get('id'))
-        try:
-            fav = data['fav']
-            if fav:
-                # Add to favorites.
-                user = request.user
-                u = PodsyUser.objects.get(user=user)
-                if not pod in u.favoritePods.all():
-                    u.favoritePods.add(pod)
+        user = request.user
+        u = PodsyUser.objects.get(user=user)
 
-            else:
-                # Remove from favorites.
-                pass
-        except KeyError:
-            pass
+        fav = data.get('fav')
+        if fav and pod not in u.favoritePods.all():
+            u.favoritePods.add(pod)
+        else:
+            u.favoritePods.remove(pod)
 
         return HttpResponse(json.dumps(data), content_type='application/json')
 
