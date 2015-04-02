@@ -4,9 +4,6 @@ define([
     'use strict';
 
     var Pod = Backbone.Model.extend({
-        defaults: {
-            fav: false
-        },
         toggleUpvote: function() {
             console.log('pod.toggleUpvote');
         },

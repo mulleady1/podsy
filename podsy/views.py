@@ -48,6 +48,11 @@ class PodView(View):
         else:
             pods = Pod.objects.all()
 
+        favs = []
+        if request.user:
+            u = PodsyUser.objects.get(user=request.user)
+            favs = u.favoritePods.all()
+
         data = [{
             'id': pod.id,
             'audioUrl': pod.audio_url,
@@ -56,7 +61,8 @@ class PodView(View):
             'category_id': pod.subcategory.category.id,
             'category': pod.subcategory.category.name,
             'subcategory_id': pod.subcategory.id,
-            'subcategory': pod.subcategory.name
+            'subcategory': pod.subcategory.name,
+            'fav': pod in favs
         } for pod in pods]
 
         return HttpResponse(json.dumps(data), content_type='application/json')
@@ -87,9 +93,8 @@ class PodView(View):
                 # Add to favorites.
                 user = request.user
                 u = PodsyUser.objects.get(user=user)
-                #if not pod in u.favoritePods:
-                #    u.favoritePods.add(pod)
-                #print u.favoritePods    
+                if not pod in u.favoritePods.all():
+                    u.favoritePods.add(pod)
 
             else:
                 # Remove from favorites.
