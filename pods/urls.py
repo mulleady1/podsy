@@ -5,6 +5,7 @@ from podsy.views import *
 urlpatterns = patterns('',
     url(r'^$', 'podsy.views.home'),
     url(r'^signin/$', SigninView.as_view()),
+    url(r'^signup/$', SignupView.as_view()),
     url(r'^signout/$', SignoutView.as_view()),
     url(r'^pods/$', PodView.as_view()),
     url(r'^pods/(?P<pod_id>\d+)/$', PodView.as_view()),

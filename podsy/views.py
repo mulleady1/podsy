@@ -11,8 +11,8 @@ def home(request):
         'pods': Pod.objects.all(),
         'categories': Category.objects.all(),
         'subcategories': Subcategory.objects.all(),
-        'username': request.session.get('username', ''),
-        'loggedIn': 'true' if request.session.get('username') else 'false'
+        'username': request.user.username,
+        'loggedIn': 'true' if request.user.is_authenticated() else 'false'
     }
     return render(request, 'podsy/index.html', context)
 
@@ -24,9 +24,6 @@ class SigninView(View):
         user = authenticate(username=u, password=p)
         if user:
             login(request, user)
-            request.session['user_id'] = user.id
-            request.session['username'] = user.username
-            request.session['podsyUser'] = PodsyUser.objects.get(user=user)
             data = { 'success': True }
         else:
             data = { 'success': False }
@@ -43,15 +40,9 @@ class SignupView(View):
         podsyUser = PodsyUser(user=user)
         podsyUser.save()
 
-        #authenticate(username=u, password=p)
-        #login(request, user)
-
-        request.session['user_id'] = user.id
-        request.session['username'] = user.username
-        request.session['podsyUser'] = PodsyUser.objects.get(user=user)
-        data = { 'success': True }
-
-        return HttpResponse(json.dumps(data), content_type='application/json')
+        user = authenticate(username=u, password=p)
+        login(request, user)
+        return HttpResponseRedirect('/')
 
 class SignoutView(View):
 
@@ -71,7 +62,7 @@ class PodView(View):
             pods = Pod.objects.all()
 
         favs = []
-        if request.user:
+        if request.user.is_authenticated():
             u = PodsyUser.objects.get(user=request.user)
             favs = u.favoritePods.all()
 
@@ -93,12 +84,12 @@ class PodView(View):
         form = request.POST
         if form.get('name') and form.get('category_id') and form.get('audio_file'):
             cat = Category.objects.get(pk=form.get('category_id'))
-            pod = Pod(name=form.get('name'), audio_file=form.get('audio_file'), user_id=request.session['user_id'], category=cat)
+            pod = Pod(name=form.get('name'), audio_file=form.get('audio_file'), user=request.user, category=cat)
             pod.save()
             data = { 'success': True }
         elif form.get('name') and form.get('category_id') and form.get('audio_url') and form.get('podcast_url'):
             cat = Category.objects.get(pk=form.get('category_id'))
-            pod = Pod(name=form.get('name'), audio_url=form.get('audio_url'), podcast_url=form.get('podcast_url'), user_id=request.session['user_id'], category=cat)
+            pod = Pod(name=form.get('name'), audio_url=form.get('audio_url'), podcast_url=form.get('podcast_url'), user=request.user, category=cat)
             pod.save()
             data = { 'success': True }
         else:
@@ -108,9 +99,9 @@ class PodView(View):
 
     def put(self, request, pod_id=None):
         data = json.loads(request.body)
-        pod = Pod.objects.get(pk=data.get('id'))
-        u = request.session.get('podsyUser')
         fav = data.get('fav')
+        pod = Pod.objects.get(pk=data.get('id'))
+        u = PodsyUser.objects.get(user=request.user)
 
         if fav and pod not in u.favoritePods.all():
             u.favoritePods.add(pod)

@@ -86,7 +86,8 @@
         <h3 class="panel-title">Sign up</h3>
       </div>
       <div class="panel-body">
-        <form>
+        <form action="/signup/" method="post">
+          {% csrf_token %}
           <div class="form-group">
             <input type="email" class="form-control" name="email" placeholder="Email">
           </div>
@@ -123,6 +124,7 @@
       <div class="panel-body">
         <p>Username: {{ username }}</p>
         <form action="/signout/" method="post">
+          {% csrf_token %}
           <p><button type="submit" class="btn btn-default">Log out</button></p>
         </form>
       </div>
