@@ -82,14 +82,15 @@ class PodView(View):
 
     def post(self, request):
         form = request.POST
-        if form.get('name') and form.get('category_id') and form.get('audio_file'):
-            cat = Category.objects.get(pk=form.get('category_id'))
-            pod = Pod(name=form.get('name'), audio_file=form.get('audio_file'), user=request.user, category=cat)
+        u = PodsyUser.objects.get(user=request.user)
+        if form.get('name') and form.get('subcategory_id') and form.get('audio_file'):
+            cat = Subcategory.objects.get(pk=form.get('subcategory_id'))
+            pod = Pod(name=form.get('name'), audio_file=form.get('audio_file'), user=u, subcategory=cat)
             pod.save()
             data = { 'success': True }
-        elif form.get('name') and form.get('category_id') and form.get('audio_url') and form.get('podcast_url'):
-            cat = Category.objects.get(pk=form.get('category_id'))
-            pod = Pod(name=form.get('name'), audio_url=form.get('audio_url'), podcast_url=form.get('podcast_url'), user=request.user, category=cat)
+        elif form.get('name') and form.get('subcategory_id') and form.get('audio_url') and form.get('podcast_url'):
+            cat = Subcategory.objects.get(pk=form.get('subcategory_id'))
+            pod = Pod(name=form.get('name'), audio_url=form.get('audio_url'), podcast_url=form.get('podcast_url'), user=u, subcategory=cat)
             pod.save()
             data = { 'success': True }
         else:

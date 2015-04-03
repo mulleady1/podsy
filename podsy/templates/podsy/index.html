@@ -238,9 +238,9 @@
                       <input type="text" class="form-control" name="podcast_url" placeholder="Podcast url">
                     </div>
                     <div class="form-group">
-                      <select class="form-control" name="category_id">
-                        <option>Category</option>
-                        {% for cat in categories %}
+                      <select class="form-control" name="subcategory_id">
+                        <option>Subcategory</option>
+                        {% for cat in subcategories %}
                         <option value="{{ cat.id }}">{{ cat.name }}</option>
                         {% endfor %}
                       </select>
@@ -255,9 +255,9 @@
                       <input type="text" class="form-control" name="name" placeholder="Title">
                     </div>
                     <div class="form-group">
-                      <select class="form-control" name="category_id">
-                        <option>Category</option>
-                        {% for cat in categories %}
+                      <select class="form-control" name="subcategory_id">
+                        <option>Subcategory</option>
+                        {% for cat in subcategories %}
                         <option value="{{ cat.id }}">{{ cat.name }}</option>
                         {% endfor %}
                       </select>
