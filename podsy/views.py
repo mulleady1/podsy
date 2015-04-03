@@ -1,4 +1,5 @@
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.views.generic import View, TemplateView, ListView
@@ -25,9 +26,30 @@ class SigninView(View):
             login(request, user)
             request.session['user_id'] = user.id
             request.session['username'] = user.username
+            request.session['podsyUser'] = PodsyUser.objects.get(user=user)
             data = { 'success': True }
         else:
             data = { 'success': False }
+
+        return HttpResponse(json.dumps(data), content_type='application/json')
+
+class SignupView(View):
+
+    def post(self, request):
+        u = request.POST['username']
+        e = request.POST['email']
+        p = request.POST['password']
+        user = User.objects.create_user(u, e, p)
+        podsyUser = PodsyUser(user=user)
+        podsyUser.save()
+
+        #authenticate(username=u, password=p)
+        #login(request, user)
+
+        request.session['user_id'] = user.id
+        request.session['username'] = user.username
+        request.session['podsyUser'] = PodsyUser.objects.get(user=user)
+        data = { 'success': True }
 
         return HttpResponse(json.dumps(data), content_type='application/json')
 
@@ -87,10 +109,9 @@ class PodView(View):
     def put(self, request, pod_id=None):
         data = json.loads(request.body)
         pod = Pod.objects.get(pk=data.get('id'))
-        user = request.user
-        u = PodsyUser.objects.get(user=user)
-
+        u = request.session.get('podsyUser')
         fav = data.get('fav')
+
         if fav and pod not in u.favoritePods.all():
             u.favoritePods.add(pod)
         else:
