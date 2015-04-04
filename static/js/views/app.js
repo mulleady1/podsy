@@ -12,8 +12,9 @@ define([
     'views/signin',
     'views/upload',
     'views/category',
+    'views/categorydetail',
     'forms/category'
-], function($, _, Backbone, Bootstrap, Router, PodView, Pods, Categories, Subcategories, ListenView, SigninView, UploadView, CategoryView, CategoryForm) {
+], function($, _, Backbone, Bootstrap, Router, PodView, Pods, Categories, Subcategories, ListenView, SigninView, UploadView, CategoryView, CategoryDetailView, CategoryForm) {
     'use strict';
 
     var AppView = Backbone.View.extend({
@@ -24,6 +25,7 @@ define([
             app.signinView = new SigninView();
             app.uploadView = new UploadView();
             app.categoryView = new CategoryView();
+            app.categoryDetailView = new CategoryDetailView();
             app.categoryForm = new CategoryForm();
 
             app.pods = new Pods();

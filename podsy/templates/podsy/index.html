@@ -76,10 +76,6 @@
   </nav>
 
   <!-- 'Cards' -->
-  <div id="category-container" class="container card">
-    <h3 class="panel-title">Category Details</h3>
-    <p></p>
-  </div>
   <div id="pods-container" class="container card">
     <div class="panel panel-default">
       <div class="panel-heading">
@@ -331,6 +327,9 @@
     <div class="category">
       <h5><strong><a href="#/pods/categories/<%= id %>/"><%= name %></a></strong> <%= description %></h5>
     </div>
+  </script>
+  <script type="text/template" id="category-detail-template">
+    <h4><%= name %> - <small><%= description %></small></h4>
   </script>
   <script src="{% static 'js/require.js' %}" data-main="{% static 'js/main' %}"></script>
 </body>

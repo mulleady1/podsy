@@ -46,16 +46,15 @@ define([
         },
         podsByCategory: function(id) {
             $('.card').hide();
-            $('#category-container').show();
             if (app.categories.length) {
-                $('#category-container h3').html(app.categories.get(id).get('name'));
-                $('#category-container p').html(app.categories.get(id).get('description'));
+                var view = app.categoryDetailView.render(app.categories.get(id).toJSON());
+                view.$el.insertBefore('#pods-container');
             } else {
                 app.categories.fetch({
                     reset: true,
                     success: function() {
-                        $('#category-container h3').html(app.categories.get(id).get('name'));
-                        $('#category-container p').html(app.categories.get(id).get('description'));
+                        var view = app.categoryDetailView.render(app.categories.get(id).toJSON());
+                        view.$el.insertBefore('#pods-container');
                     }
                 });
             }
@@ -66,16 +65,15 @@ define([
         },
         podsBySubcategory: function(id) {
             $('.card').hide();
-            $('#category-container').show();
             if (app.subcategories.length) {
-                $('#category-container h3').html(app.subcategories.get(id).get('name'));
-                $('#category-container p').html(app.subcategories.get(id).get('description'));
+                var view = app.categoryDetailView.render(app.subcategories.get(id).toJSON());
+                view.$el.insertBefore('#pods-container');
             } else {
                 app.subcategories.fetch({
                     reset: true,
                     success: function() {
-                        $('#category-container h3').html(app.subcategories.get(id).get('name'));
-                        $('#category-container p').html(app.subcategories.get(id).get('description'));
+                        var view = app.categoryDetailView.render(app.subcategories.get(id).toJSON());
+                        view.$el.insertBefore('#pods-container');
                     }
                 });
             }

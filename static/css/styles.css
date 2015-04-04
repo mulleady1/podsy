@@ -33,11 +33,8 @@ body {
 .card:not(#pods-container) {
     display: none;
 }
-.card > h3 {
-    margin-left: 15px;
-}
-.card > p {
-    margin: 15px;
+.card > h4 {
+    margin: 10px;
 }
 
 
