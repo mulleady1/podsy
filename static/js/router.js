@@ -46,6 +46,19 @@ define([
         },
         podsByCategory: function(id) {
             $('.card').hide();
+            $('#category-container').show();
+            if (app.categories.length) {
+                $('#category-container h3').html(app.categories.get(id).get('name'));
+                $('#category-container p').html(app.categories.get(id).get('description'));
+            } else {
+                app.categories.fetch({
+                    reset: true,
+                    success: function() {
+                        $('#category-container h3').html(app.categories.get(id).get('name'));
+                        $('#category-container p').html(app.categories.get(id).get('description'));
+                    }
+                });
+            }
             $('#pods-container').show();
             $.get('/pods/categories/{id}/'.replace('{id}', id)).then(function(data) {
                 app.pods.reset(data);
@@ -53,6 +66,19 @@ define([
         },
         podsBySubcategory: function(id) {
             $('.card').hide();
+            $('#category-container').show();
+            if (app.subcategories.length) {
+                $('#category-container h3').html(app.subcategories.get(id).get('name'));
+                $('#category-container p').html(app.subcategories.get(id).get('description'));
+            } else {
+                app.subcategories.fetch({
+                    reset: true,
+                    success: function() {
+                        $('#category-container h3').html(app.subcategories.get(id).get('name'));
+                        $('#category-container p').html(app.subcategories.get(id).get('description'));
+                    }
+                });
+            }
             $('#pods-container').show();
             $.get('/pods/subcategories/{id}/'.replace('{id}', id)).then(function(data) {
                 app.pods.reset(data);

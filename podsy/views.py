@@ -137,3 +137,27 @@ class CategoryView(View):
             data = { 'success': False }
 
         return HttpResponse(json.dumps(data), content_type='application/json')
+
+class SubcategoryView(View):
+
+    def get(self, request):
+        data = [{
+            'id': cat.id,
+            'name': cat.name,
+            'description': cat.description
+        } for cat in Subcategory.objects.all()]
+
+        return HttpResponse(json.dumps(data), content_type='application/json')
+
+    def post(self, request):
+        form = request.POST
+        name = form.get('name')
+        description = form.get('description')
+        if name and description:
+            cat = Subcategory(name=name, description=description)
+            cat.save()
+            data = { 'success': True }
+        else:
+            data = { 'success': False }
+
+        return HttpResponse(json.dumps(data), content_type='application/json')

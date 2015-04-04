@@ -13,6 +13,7 @@ urlpatterns = patterns('',
     url(r'^pods/categories/(?P<category_id>\d+)/$', PodView.as_view()),
     url(r'^pods/subcategories/(?P<subcategory_id>\d+)/$', PodView.as_view()),
     url(r'^categories/$', CategoryView.as_view()),
+    url(r'^subcategories/$', SubcategoryView.as_view()),
 
     url(r'^admin/', include(admin.site.urls)),
 )

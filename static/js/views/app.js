@@ -7,12 +7,13 @@ define([
     'views/pod',
     'collections/pods',
     'collections/categories',
+    'collections/subcategories',
     'views/listen',
     'views/signin',
     'views/upload',
     'views/category',
     'forms/category'
-], function($, _, Backbone, Bootstrap, Router, PodView, Pods, Categories, ListenView, SigninView, UploadView, CategoryView, CategoryForm) {
+], function($, _, Backbone, Bootstrap, Router, PodView, Pods, Categories, Subcategories, ListenView, SigninView, UploadView, CategoryView, CategoryForm) {
     'use strict';
 
     var AppView = Backbone.View.extend({
@@ -27,6 +28,7 @@ define([
 
             app.pods = new Pods();
             app.categories = new Categories();
+            app.subcategories = new Subcategories();
 
             this.listenTo(app.pods, 'reset', this.addPods);
             this.listenTo(app.categories, 'reset', this.addCategories);
