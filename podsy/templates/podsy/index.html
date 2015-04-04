@@ -77,15 +77,8 @@
 
   <!-- 'Cards' -->
   <div id="pods-container" class="container card">
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title">Pods</h3>
-      </div>
-      <div class="panel-body">
-        <ul id="pods-list" class="list-unstyled">
-        </ul>
-      </div>
-    </div>
+    <ul id="pods-list" class="list-unstyled">
+    </ul>
   </div>
   <div id="signup-container" class="container card">
     <div class="panel panel-default">
@@ -329,7 +322,7 @@
     </div>
   </script>
   <script type="text/template" id="category-detail-template">
-    <h4><%= name %> - <small><%= description %></small></h4>
+    <h4><%= name %> &nbsp;<small><%= description %></small></h4>
   </script>
   <script src="{% static 'js/require.js' %}" data-main="{% static 'js/main' %}"></script>
 </body>

@@ -40,6 +40,7 @@ define([
             if (!app.loggedIn) return;
             $('.card').hide();
             $('#pods-container').show();
+            app.categoryDetailView.show({ name: 'My favorite pods', description: '' });
             $.get('/pods/favs/').then(function(data) {
                 app.pods.reset(data);
             });
@@ -47,14 +48,12 @@ define([
         podsByCategory: function(id) {
             $('.card').hide();
             if (app.categories.length) {
-                var view = app.categoryDetailView.render(app.categories.get(id).toJSON());
-                view.$el.insertBefore('#pods-container');
+                app.categoryDetailView.show(app.categories.get(id).toJSON());
             } else {
                 app.categories.fetch({
                     reset: true,
                     success: function() {
-                        var view = app.categoryDetailView.render(app.categories.get(id).toJSON());
-                        view.$el.insertBefore('#pods-container');
+                        app.categoryDetailView.show(app.categories.get(id).toJSON());
                     }
                 });
             }
@@ -66,14 +65,12 @@ define([
         podsBySubcategory: function(id) {
             $('.card').hide();
             if (app.subcategories.length) {
-                var view = app.categoryDetailView.render(app.subcategories.get(id).toJSON());
-                view.$el.insertBefore('#pods-container');
+                app.categoryDetailView.show(app.subcategories.get(id).toJSON());
             } else {
                 app.subcategories.fetch({
                     reset: true,
                     success: function() {
-                        var view = app.categoryDetailView.render(app.subcategories.get(id).toJSON());
-                        view.$el.insertBefore('#pods-container');
+                        app.categoryDetailView.show(app.subcategories.get(id).toJSON());
                     }
                 });
             }

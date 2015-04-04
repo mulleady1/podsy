@@ -20,6 +20,9 @@ body {
 .category-name {
     font-weight: bold;
 }
+#pods-list li:nth-child(even) {
+    background: #fafafa;
+}
 .podtitle > a {
     font-weight: bold;
 }
@@ -34,7 +37,7 @@ body {
     display: none;
 }
 .card > h4 {
-    margin: 10px;
+    margin: 0 0 15px 10px;
 }
 
 

@@ -14,6 +14,10 @@ define([
             this.$el.show();
             return this;
         },
+        show: function(data) {
+            this.render(data);
+            this.$el.insertBefore('#pods-container');
+        }
     });
 
     return CategoryDetailView;
