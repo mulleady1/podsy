@@ -29,6 +29,11 @@ body {
 .podtitle .category {
     font-size: 80%;
 }
+@media (max-width: 480px) {
+    .podtitle {
+        width: 90%;
+    }
+}
 .pod .glyphicon {
     color: #aaa;
     cursor: pointer;

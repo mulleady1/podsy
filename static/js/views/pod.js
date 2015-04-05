@@ -30,9 +30,7 @@ define([
             this.model.toggleDownvote();
         },
         toggleFavorite: function() {
-            if (!app.loggedIn) {
-                return;
-            }
+            if (!app.loggedIn) return;
             this.model.toggleFavorite();
         }
     });
