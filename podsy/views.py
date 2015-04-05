@@ -6,13 +6,24 @@ from django.views.generic import View, TemplateView, ListView
 from podsy.models import *
 import json
 
+def getuser(request):
+    return PodsyUser.objects.get(user=request.user)
+
 def home(request):
+    if request.user.is_authenticated():
+        u = getuser(request)
+        loggedIn = 'true'
+    else:
+        u = {}
+        loggedIn = 'false'
+
     context = {
         'pods': Pod.objects.all(),
         'categories': Category.objects.all(),
         'subcategories': Subcategory.objects.all(),
         'username': request.user.username,
-        'loggedIn': 'true' if request.user.is_authenticated() else 'false'
+        'loggedIn': loggedIn,
+        'u': u
     }
     return render(request, 'podsy/index.html', context)
 
@@ -56,7 +67,7 @@ class PodView(View):
 
     def get(self, request, category_id=None, subcategory_id=None):
         if self.favs:
-            pods = PodsyUser.objects.get(user=request.user).favoritePods.all()
+            pods = getuser(request).favoritePods.all()
         elif category_id:
             pods = Pod.objects.filter(subcategory__category_id=category_id)
         elif subcategory_id:
@@ -66,7 +77,7 @@ class PodView(View):
 
         favs = []
         if request.user.is_authenticated():
-            u = PodsyUser.objects.get(user=request.user)
+            u = getuser(request)
             favs = u.favoritePods.all()
 
         data = [{
@@ -87,7 +98,7 @@ class PodView(View):
 
     def post(self, request):
         form = request.POST
-        u = PodsyUser.objects.get(user=request.user)
+        u = getuser(request)
         if form.get('name') and form.get('subcategory_id') and form.get('audio_file'):
             cat = Subcategory.objects.get(pk=form.get('subcategory_id'))
             pod = Pod(name=form.get('name'), audio_file=form.get('audio_file'), user=u, subcategory=cat)
@@ -107,7 +118,7 @@ class PodView(View):
         data = json.loads(request.body)
         pod = Pod.objects.get(pk=data.get('id'))
         fav = data.get('fav')
-        u = PodsyUser.objects.get(user=request.user)
+        u = getuser(request)
 
         # Check for change in upvotes/downvotes.
         if data.get('upToggled'):
