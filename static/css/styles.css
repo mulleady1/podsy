@@ -39,7 +39,9 @@ body {
 .card > h4 {
     margin: 0 0 15px 10px;
 }
-
+.glyphicon.red {
+    color: red;
+}
 
 /* Bootsnipp widgets - begin */
 .dropdown-submenu {

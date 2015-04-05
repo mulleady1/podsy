@@ -78,7 +78,9 @@ class PodView(View):
             'category': pod.subcategory.category.name,
             'subcategory_id': pod.subcategory.id,
             'subcategory': pod.subcategory.name,
-            'fav': pod in favs
+            'fav': pod in favs,
+            'upvotes': pod.upvotes,
+            'downvotes': pod.downvotes
         } for pod in pods]
 
         return HttpResponse(json.dumps(data), content_type='application/json')

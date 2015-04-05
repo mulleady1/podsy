@@ -84,6 +84,9 @@ define([
                     if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
                         xhr.setRequestHeader("X-CSRFToken", csrftoken);
                     }
+                    if (settings.url.charAt(settings.url.length - 1) != '/') {
+                        settings.url += '/';
+                    }
                 }
             });
         }
