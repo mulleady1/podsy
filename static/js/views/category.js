@@ -9,9 +9,6 @@ define([
         events: {
             'click .upvote': 'toggleUpvote'
         },
-        initialize: function() {
-            //this.listenTo(this.model, 'listen', this.listen);
-        },
         render: function() {
             this.$el.html(this.template(this.model.toJSON()));
             return this;

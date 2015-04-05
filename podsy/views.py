@@ -105,13 +105,24 @@ class PodView(View):
 
     def put(self, request, pod_id=None):
         data = json.loads(request.body)
-        fav = data.get('fav')
         pod = Pod.objects.get(pk=data.get('id'))
+        fav = data.get('fav')
         u = PodsyUser.objects.get(user=request.user)
 
+        # Check for change in upvotes/downvotes.
+        if data.get('upToggled'):
+            pod.upvotes += 1
+        elif data.get('downToggled'):
+            pod.downvotes += 1
+        if data.get('upToggleRemoved'):
+            pod.upvotes -= 1
+        elif data.get('downToggleRemoved'):
+            pod.downvotes -= 1
+
+        # Check for change in favorite status.
         if fav and pod not in u.favoritePods.all():
             u.favoritePods.add(pod)
-        else:
+        elif not fav and pod in u.favoritePods.all():
             u.favoritePods.remove(pod)
 
         return HttpResponse(json.dumps(data), content_type='application/json')

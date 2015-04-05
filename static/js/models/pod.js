@@ -7,38 +7,50 @@ define([
         defaults: function() {
             return {
                 upToggled: false,
-                downToggled: false
+                downToggled: false,
+                upToggleRemoved: false,
+                downToggleRemoved: false
             }
         },
         toggleUpvote: function() {
-            var up = 1,
-                upToggled = true;
-            if (this.get('upToggled')) {
-                up = -1;
-                upToggled = false;
-            }
-            if (this.get('downToggled')) {
-                this.set('downToggled', false);
-                up++;
-            }
-            this.set('upvotes', this.get('upvotes') + up);
-            this.set('upToggled', upToggled);
-            this.save();
-        },
-        toggleDownvote: function() {
-            var down = 1,
-                downToggled = true;
-            if (this.get('downToggled')) {
-                down = -1;
-                downToggled = false;
-            }
             if (this.get('upToggled')) {
                 this.set('upToggled', false);
-                down++;
+                this.set('upToggleRemoved', true);
+            } else {
+                this.set('upToggled', true);
+                this.set('upToggleRemoved', false);
             }
-            this.set('downvotes', this.get('downvotes') + down);
-            this.set('downToggled', downToggled);
+
+            if (this.get('downToggled')) {
+                this.set('downToggled', false);
+                this.set('downToggleRemoved', true);
+            }
+
             this.save();
+
+            // Reset for next time.
+            this.set('upToggleRemoved', false);
+            this.set('downToggleRemoved', false);
+        },
+        toggleDownvote: function() {
+            if (this.get('downToggled')) {
+                this.set('downToggled', false);
+                this.set('downToggleRemoved', true);
+            } else {
+                this.set('downToggled', true);
+                this.set('downToggleRemoved', false);
+            }
+
+            if (this.get('upToggled')) {
+                this.set('upToggled', false);
+                this.set('upToggleRemoved', true);
+            }
+
+            this.save();
+
+            // Reset for next time.
+            this.set('upToggleRemoved', false);
+            this.set('downToggleRemoved', false);
         },
         toggleFavorite: function() {
             this.set('fav', !this.get('fav'));
