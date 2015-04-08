@@ -56,6 +56,14 @@ class Tag(models.Model):
     created = models.DateField(auto_now_add=True)
     modified = models.DateField(auto_now=True)
 
+class Comment(models.Model):
+    pod = models.ForeignKey('Pod')
+    user = models.ForeignKey('PodsyUser')
+    parent = models.ForeignKey('Comment', blank=True)
+    text = models.CharField(max_length=10000)
+    created = models.DateField(auto_now_add=True)
+    modified = models.DateField(auto_now=True)
+
 class PodForm(ModelForm):
     class Meta:
         model = Pod

@@ -185,3 +185,34 @@ class SubcategoryView(View):
             data = { 'success': False }
 
         return HttpResponse(json.dumps(data), content_type='application/json')
+
+class CommentView(View):
+
+    def get(self, request, comment_id=None, pod_id=None):
+        if comment_id:
+            comments = [Comment.objects.get(pk=comment_id)]
+        elif pod_id:
+            pod = Pod.objects.get(pk=pod_id)
+            comments = Comment.objects.filter(pod=pod)
+        else:
+            comments = Comment.objects.all()
+
+        data = [{
+            'id': comment.id,
+            'text': comment.text
+        } for comment in comments]
+
+        return HttpResponse(json.dumps(data), content_type='application/json')
+
+    def post(self, request, pod_id):
+        form = request.POST
+        text = form.get('text')
+        parent_id = form.get('parent_id')
+        if parent_id:
+            comment = Comment(pod_id=pod_id, parent_id=parent_id, user=getuser(request.user), text=text)
+        else:
+            comment = Comment(pod_id=pod_id, user=getuser(request.user), text=text)
+        comment.save()
+        data = { 'success': True }
+
+        return HttpResponse(json.dumps(data), content_type='application/json')
