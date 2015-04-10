@@ -136,6 +136,8 @@ class PodView(View):
         elif not fav and pod in u.favoritePods.all():
             u.favoritePods.remove(pod)
 
+        pod.save()
+        
         return HttpResponse(json.dumps(data), content_type='application/json')
 
 class CategoryView(View):
@@ -214,5 +216,13 @@ class CommentView(View):
             comment = Comment(pod_id=pod_id, user=getuser(request.user), text=text)
         comment.save()
         data = { 'success': True }
+
+        return HttpResponse(json.dumps(data), content_type='application/json')
+
+    def put(self, request):
+        data = json.loads(request.body)
+        comment = Comment.objects.get(pk=data.get('id'))
+        comment.text = data.get('text')
+        comment.save()
 
         return HttpResponse(json.dumps(data), content_type='application/json')
