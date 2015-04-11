@@ -59,7 +59,7 @@ class Tag(models.Model):
 class Comment(models.Model):
     pod = models.ForeignKey('Pod')
     user = models.ForeignKey('PodsyUser')
-    parent = models.ForeignKey('Comment', blank=True)
+    parent = models.ForeignKey('Comment', null=True, blank=True)
     text = models.CharField(max_length=10000)
     created = models.DateField(auto_now_add=True)
     modified = models.DateField(auto_now=True)

@@ -5,6 +5,7 @@ define([
     'bootstrap',
     'router',
     'views/pod',
+    'views/poddetail',
     'collections/pods',
     'collections/categories',
     'collections/subcategories',
@@ -14,17 +15,18 @@ define([
     'views/category',
     'views/categorydetail',
     'forms/category'
-], function($, _, Backbone, Bootstrap, Router, PodView, Pods, Categories, Subcategories, ListenView, SigninView, UploadView, CategoryView, CategoryDetailView, CategoryForm) {
+], function($, _, Backbone, Bootstrap, Router, PodView, PodDetailView, Pods, Categories, Subcategories, ListenView, SigninView, UploadView, CategoryView, CategoryDetailView, CategoryForm) {
     'use strict';
 
     var AppView = Backbone.View.extend({
         el: 'body',
         initialize: function() {
             app.router = new Router();
-            app.listenView = new ListenView();
+            //app.listenView = new ListenView();
             app.signinView = new SigninView();
             app.uploadView = new UploadView();
             app.categoryView = new CategoryView();
+            app.podDetailView = new PodDetailView();
             app.categoryDetailView = new CategoryDetailView();
             app.categoryForm = new CategoryForm();
 
@@ -34,6 +36,8 @@ define([
 
             this.listenTo(app.pods, 'reset', this.addPods);
             this.listenTo(app.categories, 'reset', this.addCategories);
+
+            app.pods.fetch({ reset: true });
 
             this.addAjaxToken();
 

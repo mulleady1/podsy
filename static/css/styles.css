@@ -34,6 +34,9 @@ body {
         width: 90%;
     }
 }
+#pod-detail > p, #pod-detail > .comments-container {
+    margin-left: 20px;
+}
 .pod .glyphicon {
     color: #aaa;
     cursor: pointer;

@@ -21,7 +21,7 @@ define([
             return this;
         },
         listen: function() {
-            app.listenView.render(this.model.toJSON());
+            //app.listenView.show(this.model.toJSON());
         },
         toggleUpvote: function() {
             this.model.toggleUpvote();

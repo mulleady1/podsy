@@ -20,21 +20,14 @@ define([
         index: function() {
             $('.card').hide();
             $('#pods-container').show();
-            app.pods.fetch({ reset: true });
         },
         addPod: function() {
             $('#upload').modal();
         },
         pods: function(id) {
-            if (!app.pods.length) {
-                app.pods.fetch({
-                    reset: true,
-                    success: function() {
-                        var pod = app.pods.get(id);
-                        pod.listen();
-                    }
-                });
-            }
+            $('.card').hide();
+            app.podDetailView.show(app.pods.get(id));
+            app.podDetailView.$el.show();
         },
         favPods: function() {
             if (!app.loggedIn) return;

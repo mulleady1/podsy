@@ -301,25 +301,13 @@
     </div>
   </script>
   <script type="text/template" id="pod-detail-template">
-    <div>
+    <div id="pod-detail">
       <h3>Listen</h3>
-      <div class="votebuttons">
-        <a class="upvote"><span class="glyphicon glyphicon-arrow-up <% if (upToggled) print('red') %>"></span></a><br>
-        <a class="downvote"><span class="glyphicon glyphicon-arrow-down <% if (downToggled) print('red') %>"></span></a>
-      </div>
-      <div class="podtitle">
-        <a href="#/pods/<%= id %>/"><%= name %></a>
-        <span class="glyphicon glyphicon-star<% if (!fav) print('-empty') %>"></span>
-        <div class="category">
-          <a href="#/pods/categories/<%= category_id %>/"><%= category %></a>
-          >
-          <a href="#/pods/subcategories/<%= subcategory_id %>/"><%= subcategory %></a>
-        </div>
-      </div>
-    </div>
-    <div>
-      <h3>Listen</h3>
-      comments here
+      <p><%= name %></p>
+      <p><audio src="<%= audioUrl %>" controls autoplay></audio></p>
+      <p><a href="<%= podcastUrl %>" target="_blank"><%= podcastUrl %></a></p>
+      <h3>Talk</h3>
+      <div class="comments-container"></div>
     </div>
   </script>
   <script type="text/template" id="pod-listen-template">
@@ -346,6 +334,10 @@
   </script>
   <script type="text/template" id="category-detail-template">
     <h4><%= name %> &nbsp;<small><%= description %></small></h4>
+  </script>
+  <script type="text/template" id="comment-template">
+    <p><%= id %></p>
+    <p><%= text %></p>
   </script>
   <script src="{% static 'js/require.js' %}" data-main="{% static 'js/main' %}"></script>
 </body>

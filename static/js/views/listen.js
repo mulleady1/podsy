@@ -11,8 +11,11 @@ define([
         },
         render: function(data) {
             this.$el.html(this.template(data));
-            this.$el.modal();
             return this;
+        },
+        show: function(data) {
+            this.render(data);
+            this.$el.modal();
         },
         stop: function() {
             this.$el.html('');
