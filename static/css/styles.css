@@ -34,7 +34,7 @@ body {
         width: 90%;
     }
 }
-#pod-detail > p, #pod-detail > .comments-container {
+#pod-detail > p, #pod-detail > form {
     margin-left: 20px;
 }
 .pod .glyphicon {
@@ -49,6 +49,9 @@ body {
 }
 .glyphicon.red {
     color: red;
+}
+.comments-container {
+    margin-left: 15px;
 }
 .comment {
     border: 1px solid #bbb;
