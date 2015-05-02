@@ -195,14 +195,11 @@ class CommentView(View):
             comments = [Comment.objects.get(pk=comment_id)]
         elif pod_id:
             pod = Pod.objects.get(pk=pod_id)
-            comments = Comment.objects.filter(pod=pod)
+            comments = Comment.objects.filter(pod=pod, parent=None)
         else:
             comments = Comment.objects.all()
 
-        data = [{
-            'id': comment.id,
-            'text': comment.text
-        } for comment in comments]
+        data = [comment.data for comment in comments]
 
         return HttpResponse(json.dumps(data), content_type='application/json')
 

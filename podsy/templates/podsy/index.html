@@ -80,6 +80,8 @@
     <ul id="pods-list" class="list-unstyled">
     </ul>
   </div>
+  <div id="pod-detail-container" class="container card">
+  </div>
   <div id="signup-container" class="container card">
     <div class="panel panel-default">
       <div class="panel-heading">
@@ -338,6 +340,7 @@
   <script type="text/template" id="comment-template">
     <p><%= id %></p>
     <p><%= text %></p>
+    <div class="children-container"></div>
   </script>
   <script src="{% static 'js/require.js' %}" data-main="{% static 'js/main' %}"></script>
 </body>

@@ -1,6 +1,6 @@
 define([
     'models/comment'
-], function(Category) {
+], function(Comment) {
     'use strict';
 
     var Comments = Backbone.Collection.extend({

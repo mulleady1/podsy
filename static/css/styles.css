@@ -50,6 +50,11 @@ body {
 .glyphicon.red {
     color: red;
 }
+.comment {
+    border: 1px solid #bbb;
+    padding: 5px;
+    margin: 5px;
+}
 
 /* Bootsnipp widgets - begin */
 .dropdown-submenu {

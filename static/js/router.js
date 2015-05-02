@@ -27,7 +27,6 @@ define([
         pods: function(id) {
             $('.card').hide();
             app.podDetailView.show(app.pods.get(id));
-            app.podDetailView.$el.show();
         },
         favPods: function() {
             if (!app.loggedIn) return;

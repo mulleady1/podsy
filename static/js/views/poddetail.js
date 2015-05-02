@@ -6,6 +6,7 @@ define([
     'views/comment'
 ], function($, _, Backbone, Comment, CommentView) {
     var PodDetailView = Backbone.View.extend({
+        el: '#pod-detail-container',
         template: _.template($('#pod-detail-template').html()),
         className: 'container card',
         events: {
@@ -18,17 +19,24 @@ define([
             this.$el.html(this.template(this.model.toJSON()));
             return this;
         },
-        show: function(pod) {
+        setModel: function(pod) {
             this.model = pod;
-            $('body').append(this.render().el);
-            var $el = this.$el.find('.comments-container');
-            $.get('/pods/{id}/comments'.replace('{id}', pod.get('id'))).then(function(data) {
-                _.each(data, function(attrs) {
-                    var comment = new Comment(attrs);
-                    var commentView = new CommentView({ model: comment });
-                    $el.append(commentView.render().el);
-                });
-            });
+            return this;
+        },
+        show: function(pod) {
+            this.setModel(pod).render().$el.show();
+            $.get('/pods/{id}/comments'.replace('{id}', pod.get('id'))).then(this.showComments.bind(this));
+        },
+        showComments: function(commentsData) {
+            this.$el.find('.comments-container').html('');
+            _.each(commentsData, this.showComment.bind(this));
+        },
+        showComment: function(commentData) {
+            var $el = this.$el.find('.comments-container'),
+                comment = new Comment(commentData),
+                commentView = new CommentView({ model: comment });
+
+            $el.append(commentView.render().el);
         },
         toggleUpvote: function() {
             this.model.toggleUpvote();

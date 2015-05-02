@@ -64,6 +64,16 @@ class Comment(models.Model):
     created = models.DateField(auto_now_add=True)
     modified = models.DateField(auto_now=True)
 
+    @property
+    def data(self):
+        children = Comment.objects.filter(parent=self)
+        childrenData = [child.data for child in children]
+        return {
+            'id': self.id,
+            'text': self.text,
+            'children': childrenData
+        }
+
 class PodForm(ModelForm):
     class Meta:
         model = Pod
