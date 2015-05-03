@@ -55,6 +55,7 @@ define([
             this.comments.add(comment);
             comment.save();
             this.showComment(null, null, null, comment);
+            this.$el.find('textarea[name="text"]').html('');
         },
         toggleUpvote: function() {
             this.model.toggleUpvote();

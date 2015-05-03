@@ -73,7 +73,7 @@ class Comment(models.Model):
             'text': self.text,
             'userid': self.user.id,
             'username': self.user.username,
-            'timestamp': self.created.strftime('%b %d'),
+            'timestamp': self.created.strftime('%b %d').replace(' 0', ' '),
             'children': childrenData
         }
 
