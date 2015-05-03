@@ -35,9 +35,9 @@ define([
             });
             return this;
         },
-        showReply: function() {
-            this.$el.find('button.reply').hide();
-            this.$el.find('.reply-container').show();
+        showReply: function(e) {
+            $(e.target).hide();
+            $(e.target).siblings('.reply-container').show();
         },
         submit: function() {
             var textarea = this.$el.find('textarea[name="text"]');
