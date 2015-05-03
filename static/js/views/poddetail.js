@@ -30,7 +30,7 @@ define([
             $.get('/pods/{id}/comments'.replace('{id}', pod.get('id'))).then(this.showComments.bind(this));
         },
         showComments: function(commentsData) {
-            this.comments = new Comments(commentsData);
+            this.comments = new Comments(commentsData).setPod(this.model);
             this.$el.find('.comments-container').html('');
             _.each(commentsData, this.showComment.bind(this));
         },
@@ -42,12 +42,14 @@ define([
             $el.append(commentView.render().el);
         },
         addComment: function() {
+            if (!app.loggedIn) return;
             var data = {
-                text: this.$el.find('textarea[name="text"]').val()
+                text: this.$el.find('textarea[name="text"]').val(),
+                url: this.comments.url
             };
             var comment = new Comment(data);
             this.comments.add(comment);
-            this.comments.sync();
+            comment.save();
         },
         toggleUpvote: function() {
             this.model.toggleUpvote();
