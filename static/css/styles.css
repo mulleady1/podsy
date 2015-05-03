@@ -34,9 +34,6 @@ body {
         width: 90%;
     }
 }
-#pod-detail > p, #pod-detail > form {
-    margin-left: 20px;
-}
 .pod .glyphicon {
     color: #aaa;
     cursor: pointer;
@@ -50,13 +47,16 @@ body {
 .glyphicon.red {
     color: red;
 }
-.comments-container {
-    margin-left: 15px;
-}
 .comment {
-    border: 1px solid #bbb;
+    border: 1px solid #ddd;
+    border-radius: 3px;
     padding: 5px;
-    margin: 5px;
+    margin: 5px 0;
+}
+.comment-metadata {
+    font-size: 80%;
+    color: #999;
+    margin-bottom: 5px;
 }
 
 /* Bootsnipp widgets - begin */

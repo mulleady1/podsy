@@ -71,6 +71,9 @@ class Comment(models.Model):
         return {
             'id': self.id,
             'text': self.text,
+            'userid': self.user.id,
+            'username': self.user.username,
+            'timestamp': self.created.strftime('%b %d'),
             'children': childrenData
         }
 

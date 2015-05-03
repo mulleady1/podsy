@@ -346,7 +346,9 @@
     <h4><%= name %> &nbsp;<small><%= description %></small></h4>
   </script>
   <script type="text/template" id="comment-template">
-    <p><%= id %></p>
+    <div class="comment-metadata">
+      <%= timestamp %> by <a href="#/users/<%= userid %>/"><%= username %></a>
+    </div>
     <p><%= text %></p>
     <div class="children-container"></div>
   </script>
