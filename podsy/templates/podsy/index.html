@@ -360,6 +360,18 @@
       <%= timestamp %> by <a href="#/users/<%= userid %>/"><%= username %></a>
     </div>
     <p><%= text %></p>
+    <div class="comment-actions">
+      <button type="button" class="btn btn-link btn-xs reply">Reply...</button>
+      <form class="reply-container">
+        <div>
+          <textarea class="form-control" name="text"></textarea>
+        </div>
+        <div>
+          <button type="button" class="btn btn-primary btn-xs submit">Submit</button>
+        </div>
+      <form class="reply-container">
+      </form>
+    </div>
     <div class="children-container"></div>
   </script>
   <script src="{% static 'js/require.js' %}" data-main="{% static 'js/main' %}"></script>

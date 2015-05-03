@@ -61,6 +61,12 @@ textarea {
     color: #999;
     margin-bottom: 5px;
 }
+.reply-container {
+    display: none;
+}
+.reply-container > div {
+    margin-bottom: 5px;
+}
 
 /* Bootsnipp widgets - begin */
 .dropdown-submenu {
