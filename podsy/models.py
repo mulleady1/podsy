@@ -77,6 +77,9 @@ class Comment(models.Model):
             'children': childrenData
         }
 
+    def __str__(self):
+        return self.text
+
 class PodForm(ModelForm):
     class Meta:
         model = Pod

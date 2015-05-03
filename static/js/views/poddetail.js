@@ -34,22 +34,27 @@ define([
             this.$el.find('.comments-container').html('');
             _.each(commentsData, this.showComment.bind(this));
         },
-        showComment: function(commentData) {
-            var $el = this.$el.find('.comments-container'),
-                comment = new Comment(commentData),
-                commentView = new CommentView({ model: comment });
+        showComment: function(commentData, index, collection, comment) {
+            var $el = this.$el.find('.comments-container');
+            comment = comment || new Comment(commentData);
+            var commentView = new CommentView({ model: comment });
 
             $el.append(commentView.render().el);
         },
         addComment: function() {
             if (!app.loggedIn) return;
+            var date = new Date();
             var data = {
                 text: this.$el.find('textarea[name="text"]').val(),
-                url: this.comments.url
+                url: this.comments.url,
+                userid: app.userid,
+                username: app.username,
+                timestamp: '%b %d'.replace('%b', app.monthNames[date.getMonth()]).replace('%d', date.getDate())
             };
             var comment = new Comment(data);
             this.comments.add(comment);
             comment.save();
+            this.showComment(null, null, null, comment);
         },
         toggleUpvote: function() {
             this.model.toggleUpvote();

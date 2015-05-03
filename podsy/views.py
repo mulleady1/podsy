@@ -204,17 +204,21 @@ class CommentView(View):
         return HttpResponse(json.dumps(data), content_type='application/json')
 
     def post(self, request, pod_id):
-        form = request.POST
-        text = form.get('text')
-        parent_id = form.get('parent_id')
+        data = json.loads(request.body)
+        text = data.get('text')
+        parent_id = data.get('parent_id')
         if parent_id:
-            comment = Comment(pod_id=pod_id, parent_id=parent_id, user=getuser(request.user), text=text)
+            comment = Comment(pod_id=pod_id, parent_id=parent_id, user=getuser(request), text=text)
         else:
-            comment = Comment(pod_id=pod_id, user=getuser(request.user), text=text)
+            comment = Comment(pod_id=pod_id, user=getuser(request), text=text)
         comment.save()
-        data = { 'success': True }
 
-        return HttpResponse(json.dumps(data), content_type='application/json')
+        d = { 
+            'success': True,
+            'id': comment.id
+        } 
+
+        return HttpResponse(json.dumps(d), content_type='application/json')
 
     def put(self, request):
         data = json.loads(request.body)
