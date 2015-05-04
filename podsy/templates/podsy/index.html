@@ -20,8 +20,8 @@
       csrf: "{% csrf_token %}",
       monthNames: [
         "Jan", "Feb", "Mar",
-        "Apr", "May", "Jun", 
-        "Jul", "Aug", "Sep", 
+        "Apr", "May", "Jun",
+        "Jul", "Aug", "Sep",
         "Oct", "Nov", "Dec"
       ]
     };
@@ -298,7 +298,7 @@
         <span class="glyphicon glyphicon-star<% if (!fav) print('-empty') %>"></span>
         <div class="category">
           in <a href="#/pods/categories/<%= category_id %>/"><%= category %></a>
-          tagged with <% for (var i = 0; i < tags.length; i++) print('<a class="tag" href="#/pods/tags/{tag.id}/">{tag.name}</a> '.replace('{tag.id}', tags[i].id).replace('{tag.name}', tags[i].name)) %>
+          tagged with <% for (var i = 0; i < tags.length; i++) print('<a class="tag" href="#/tags/{tag.name}/">{tag.name}</a> '.replace(/{tag.name}/g, tags[i].name)) %>
         </div>
       </div>
     </div>

@@ -16,6 +16,7 @@ define([
             'signup/':                 'signup',
             'account/':                'account',
             'about/':                  'about',
+            'tags/:tagName/':           'tags',
         },
         index: function() {
             $('.card').hide();
@@ -96,6 +97,14 @@ define([
         about: function() {
             $('.card').hide();
             $('#about-container').show();
+        },
+        tags: function(tagName) {
+          $('.card').hide();
+          $('#pods-container').show();
+          $.get('/tags/{tagName}/'.replace('{tagName}', tagName)).then(function(data) {
+              app.categoryDetailView.show({ name: data.name, description: data.description });
+              app.pods.reset(data.pods);
+          });
         }
 
     });
