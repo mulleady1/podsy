@@ -44,6 +44,7 @@ define([
             var date = new Date();
             var data = {
                 text: textarea.val(),
+                parent_id: this.model.get('id'),
                 userid: app.userid,
                 username: app.username,
                 timestamp: '%b %d'.replace('%b', app.monthNames[date.getMonth()]).replace('%d', date.getDate()),
@@ -52,6 +53,7 @@ define([
             textarea.html('');
             var commentView = this.createChild(data);
             this.render();
+            commentView.model.url = location.hash.substring(1) + 'comments/';
             commentView.model.save();
         }
     });

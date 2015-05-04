@@ -43,9 +43,10 @@ define([
         },
         addComment: function() {
             if (!app.loggedIn) return;
+            var textarea = this.$el.find('textarea[name="text"]');
             var date = new Date();
             var data = {
-                text: this.$el.find('textarea[name="text"]').val(),
+                text: textarea.val(),
                 url: this.comments.url,
                 userid: app.userid,
                 username: app.username,
@@ -55,7 +56,8 @@ define([
             this.comments.add(comment);
             comment.save();
             this.showComment(null, null, null, comment);
-            this.$el.find('textarea[name="text"]').html('');
+            textarea.html('');
+            textarea.val('');
         },
         toggleUpvote: function() {
             this.model.toggleUpvote();
