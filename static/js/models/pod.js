@@ -9,7 +9,8 @@ define([
                 upToggled: false,
                 downToggled: false,
                 upToggleRemoved: false,
-                downToggleRemoved: false
+                downToggleRemoved: false,
+                tags: []
             }
         },
         toggleUpvote: function() {

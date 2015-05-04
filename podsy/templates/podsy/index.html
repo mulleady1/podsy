@@ -46,18 +46,10 @@
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Categories <span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
               {% for cat in categories %}
-              <li class="dropdown-submenu">
+              <li>
                 <a href="#/pods/categories/{{ cat.id }}/">{{ cat.name }}</a>
-                <ul class="dropdown-menu">
-                  {% for subcat in subcategories %}
-                    {% if subcat.category.id == cat.id %}
-                    <li><a tabindex="-1" href="#/pods/subcategories/{{ subcat.id }}/">{{ subcat.name }}</a></li>
-                    {% endif %}
-                  {% endfor %}
-                </ul>
               </li>
               {% endfor %}
-              <li><a href="#/categories/">More...</a></li>
               {% if username %}
               <li><a href="#/categories/new/">Add category...</a></li>
               {% endif %}
@@ -251,9 +243,9 @@
                       <input type="text" class="form-control" name="podcast_url" placeholder="Podcast url">
                     </div>
                     <div class="form-group">
-                      <select class="form-control" name="subcategory_id">
-                        <option>Subcategory</option>
-                        {% for cat in subcategories %}
+                      <select class="form-control" name="category_id">
+                        <option>Category</option>
+                        {% for cat in categories %}
                         <option value="{{ cat.id }}">{{ cat.name }}</option>
                         {% endfor %}
                       </select>
@@ -268,9 +260,9 @@
                       <input type="text" class="form-control" name="name" placeholder="Title">
                     </div>
                     <div class="form-group">
-                      <select class="form-control" name="subcategory_id">
-                        <option>Subcategory</option>
-                        {% for cat in subcategories %}
+                      <select class="form-control" name="category_id">
+                        <option>Category</option>
+                        {% for cat in categories %}
                         <option value="{{ cat.id }}">{{ cat.name }}</option>
                         {% endfor %}
                       </select>
@@ -305,9 +297,8 @@
         <a href="#/pods/<%= id %>/"><%= name %></a>
         <span class="glyphicon glyphicon-star<% if (!fav) print('-empty') %>"></span>
         <div class="category">
-          <a href="#/pods/categories/<%= category_id %>/"><%= category %></a>
-          >
-          <a href="#/pods/subcategories/<%= subcategory_id %>/"><%= subcategory %></a>
+          in <a href="#/pods/categories/<%= category_id %>/"><%= category %></a>
+          tagged with <% for (var i = 0; i < tags.length; i++) print('<a class="tag" href="#/pods/tags/{tag.id}/">{tag.name}</a> '.replace('{tag.id}', tags[i].id).replace('{tag.name}', tags[i].name)) %>
         </div>
       </div>
     </div>

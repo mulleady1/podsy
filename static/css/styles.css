@@ -41,6 +41,10 @@ textarea {
     color: #aaa;
     cursor: pointer;
 }
+.pod .tag {
+    background: #f0f0f0;
+    padding: 3px;
+}
 .card:not(#pods-container) {
     display: none;
 }
