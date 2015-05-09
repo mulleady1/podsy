@@ -6,6 +6,7 @@ define([
     'router',
     'views/pod',
     'views/poddetail',
+    'models/pod',
     'collections/pods',
     'collections/categories',
     'collections/subcategories',
@@ -15,14 +16,14 @@ define([
     'views/category',
     'views/categorydetail',
     'forms/category'
-], function($, _, Backbone, Bootstrap, Router, PodView, PodDetailView, Pods, Categories, Subcategories, ListenView, SigninView, UploadView, CategoryView, CategoryDetailView, CategoryForm) {
+], function($, _, Backbone, Bootstrap, Router, PodView, PodDetailView, Pod, Pods, Categories, Subcategories, ListenView, SigninView, UploadView, CategoryView, CategoryDetailView, CategoryForm) {
     'use strict';
 
     var AppView = Backbone.View.extend({
         el: 'body',
         initialize: function() {
+            var self = this;
             app.router = new Router();
-            //app.listenView = new ListenView();
             app.signinView = new SigninView();
             app.uploadView = new UploadView();
             app.categoryView = new CategoryView();
@@ -30,14 +31,22 @@ define([
             app.categoryDetailView = new CategoryDetailView();
             app.categoryForm = new CategoryForm();
 
-            app.pods = new Pods();
+            app.loadInitialPods = function() {
+              var pods = [];
+              _.each(app.podsData, function(podData) {
+                  pods.push(new Pod(podData));
+              });
+              app.pods = new Pods();
+              self.listenTo(app.pods, 'reset', self.addPods);
+              app.pods.reset(pods);
+            };
+
+            app.loadInitialPods();
+
             app.categories = new Categories();
             app.subcategories = new Subcategories();
 
-            this.listenTo(app.pods, 'reset', this.addPods);
             this.listenTo(app.categories, 'reset', this.addCategories);
-
-            app.pods.fetch({ reset: true });
 
             this.addAjaxToken();
 

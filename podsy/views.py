@@ -17,8 +17,10 @@ def home(request):
         u = {}
         loggedIn = 'false'
 
+    data = [pod.data for pod in Pod.objects.all()]
+
     context = {
-        'pods': Pod.objects.all(),
+        'podsData': json.dumps(data),
         'categories': Category.objects.all(),
         'username': request.user.username,
         'loggedIn': loggedIn,

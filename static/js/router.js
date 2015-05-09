@@ -16,11 +16,12 @@ define([
             'signup/':                 'signup',
             'account/':                'account',
             'about/':                  'about',
-            'tags/:tagName/':           'tags',
+            'tags/:tagName/':          'tags'
         },
         index: function() {
             $('.card').hide();
             $('#pods-container').show();
+            app.loadInitialPods();
         },
         addPod: function() {
             $('#upload').modal();
