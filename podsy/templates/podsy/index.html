@@ -15,6 +15,7 @@
   <script>
     var app = {
       podsData: {{ podsData|safe }},
+      tagsData: {{ tagsData|safe }},
       loggedIn: {{ loggedIn }},
       userid: '{{ u.id }}',
       username: '{{ u.username }}',
@@ -251,6 +252,9 @@
                         {% endfor %}
                       </select>
                     </div>
+                    <div class="form-group">
+                      <input type="text" class="form-control" name="tags" placeholder="Tags">
+                    </div>
                   </p>
                 </form>
               </div>
@@ -267,6 +271,9 @@
                         <option value="{{ cat.id }}">{{ cat.name }}</option>
                         {% endfor %}
                       </select>
+                    </div>
+                    <div class="form-group">
+                      <input type="text" class="form-control" name="tags" placeholder="Tags">
                     </div>
                     <div class="form-group">
                       <input type="file" class="form-control" name="audio_file">

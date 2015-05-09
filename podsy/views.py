@@ -30,6 +30,7 @@ def home(request):
 
     context = {
         'podsData': json.dumps(podsData),
+        'tagsData': json.dumps([tag.data for tag in Tag.objects.all()]),
         'categories': Category.objects.all(),
         'username': request.user.username,
         'loggedIn': loggedIn,
