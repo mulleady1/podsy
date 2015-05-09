@@ -17,10 +17,19 @@ def home(request):
         u = {}
         loggedIn = 'false'
 
-    data = [pod.data for pod in Pod.objects.all()]
+    pods = Pod.objects.all()
+    favs = []
+    if request.user.is_authenticated():
+        u = getuser(request)
+        favs = u.favoritePods.all()
+    podsData = []
+    for pod in pods:
+        podData = pod.data
+        podData['fav'] = pod in favs
+        podsData.append(podData)
 
     context = {
-        'podsData': json.dumps(data),
+        'podsData': json.dumps(podsData),
         'categories': Category.objects.all(),
         'username': request.user.username,
         'loggedIn': loggedIn,
@@ -77,7 +86,7 @@ class PodView(View):
         favs = []
         if request.user.is_authenticated():
             u = getuser(request)
-            #favs = u.favoritePods.all()
+            favs = u.favoritePods.all()
 
         data = [{
             'id': pod.id,
