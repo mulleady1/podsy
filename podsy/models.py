@@ -30,6 +30,20 @@ class Pod(models.Model):
     created = models.DateField(auto_now_add=True)
     modified = models.DateField(auto_now=True)
 
+    @property
+    def data(self):
+        return {
+            'id': self.id,
+            'audioUrl': self.audio_url,
+            'podcastUrl': self.podcast_url,
+            'name': self.name,
+            'category_id': self.category.id,
+            'category': self.category.name,
+            'upvotes': self.upvotes,
+            'downvotes': self.downvotes,
+            'tags': [tag.data for tag in self.tags.all()]
+        }
+
     def __str__(self):
         return self.name
 
@@ -47,6 +61,14 @@ class Tag(models.Model):
     description = models.CharField(max_length=1000, blank=True)
     created = models.DateField(auto_now_add=True)
     modified = models.DateField(auto_now=True)
+
+    @property
+    def data(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'description': self.description
+        }
 
     def __str__(self):
         return self.name

@@ -133,7 +133,7 @@ class PodView(View):
             u.favoritePods.remove(pod)
 
         pod.save()
-        
+
         return HttpResponse(json.dumps(data), content_type='application/json')
 
 class CategoryView(View):
@@ -185,10 +185,46 @@ class CommentView(View):
             comment = Comment(pod_id=pod_id, user=getuser(request), text=text)
         comment.save()
 
-        d = { 
+        d = {
             'success': True,
             'id': comment.id
-        } 
+        }
+
+        return HttpResponse(json.dumps(d), content_type='application/json')
+
+    def put(self, request):
+        data = json.loads(request.body)
+        comment = Comment.objects.get(pk=data.get('id'))
+        comment.text = data.get('text')
+        comment.save()
+
+        return HttpResponse(json.dumps(data), content_type='application/json')
+
+class TagView(View):
+
+    def get(self, request, tag_name=None):
+        tag = Tag.objects.get(name=tag_name)
+        pods = Pod.objects.filter(tags__name=tag_name)
+
+        data = tag.data
+        data['pods'] = [pod.data for pod in pods]
+
+        return HttpResponse(json.dumps(data), content_type='application/json')
+
+    def post(self, request, pod_id):
+        data = json.loads(request.body)
+        text = data.get('text')
+        parent_id = data.get('parent_id')
+        if parent_id:
+            comment = Comment(pod_id=pod_id, parent_id=parent_id, user=getuser(request), text=text)
+        else:
+            comment = Comment(pod_id=pod_id, user=getuser(request), text=text)
+        comment.save()
+
+        d = {
+            'success': True,
+            'id': comment.id
+        }
 
         return HttpResponse(json.dumps(d), content_type='application/json')
 
