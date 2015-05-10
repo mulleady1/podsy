@@ -3,6 +3,9 @@ requirejs.config({
     bootstrap: {
       deps: [ 'jquery' ]
     }
+  },
+  paths: {
+    'jquery-ui': '//ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui'
   }
 });
 
