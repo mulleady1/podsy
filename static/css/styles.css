@@ -115,3 +115,14 @@ textarea {
     border-radius: 6px 0 6px 6px;
 }
 /* Bootsnipp widgets - end */
+
+/* jQuery autocomplete for Bootstrap - begin */
+
+.ui-autocomplete {
+  z-index: 1050;
+}
+ul.ui-autocomplete li {
+  padding: 5px;
+}
+
+/* jQuery autocomplete for Bootstrap - begin */

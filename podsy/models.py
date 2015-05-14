@@ -67,7 +67,6 @@ class Tag(models.Model):
         return {
             'id': self.id,
             'name': self.name,
-            'value': self.id,   # For jquery autocomplete
             'label': self.name, # For jquery autocomplete
             'description': self.description
         }
