@@ -7,15 +7,18 @@ define([
         events: {
             'click button.submit': 'submit',
             'shown.bs.modal': 'show',
-            'hide.bs.modal': 'hide'
+            'hide.bs.modal': 'hide',
+            'click .tags-container': 'focusTagElement',
+            'keypress input.tag': 'keypress',
+            'click span.tag .glyphicon-remove': 'removeTag'
         },
         show: function() {
-            this.$el.find('[name="tags"]').autocomplete({
+            this.$el.find('input.tag').autocomplete({
                 source: app.tagsData,
                 select: function(event, ui) {
                     debugger;
                 }
-            })
+            });
         },
         submit: function() {
             var formData = this.$el.find('.tab-pane.active form').serialize();
@@ -28,6 +31,28 @@ define([
         },
         hide: function() {
             history.back();
+        },
+        focusTagElement: function(e) {
+            this.$el.find('input.tag').focus();
+        },
+        keypress: function(e) {
+            if (e.keyCode != 13) {
+                return;
+            }
+            var input = e.target;
+            $('<span class="tag"><span class="tag-value">{val}</span><span class="glyphicon glyphicon-remove"></span></span>'.replace('{val}', input.value)).insertBefore(this.$el.find('input.tag'));
+            input.value = '';
+            input.removeAttribute('placeholder');
+        },
+        removeTag: function(e) {
+            var span = $(e.target).closest('span.tag'),
+                input = span.parent().find('input.tag');
+
+            $(e.target).closest('span.tag').remove();
+
+            if (this.$el.find('span.tag').length == 0) {
+                input.attr('placeholder', 'Tags');
+            }
         }
     });
 

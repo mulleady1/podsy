@@ -71,6 +71,26 @@ textarea {
 .reply-container > div {
     margin-bottom: 5px;
 }
+input.tag {
+  border: 0;
+  background: #fff;
+  outline-color: #fff;
+}
+span.tag {
+  display: inline-block;
+  padding: 0 5px;
+  background: #eee;
+  margin-right: 5px;
+}
+span.tag-value {
+  display: inline-block;
+  margin-right: 4px;
+}
+span.tag .glyphicon-remove {
+  color: #999;
+  font-size: 11px;
+  cursor: pointer;
+}
 
 /* Bootsnipp widgets - begin */
 .dropdown-submenu {
