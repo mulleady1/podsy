@@ -41,6 +41,9 @@ define([
               app.pods.reset(pods);
             };
 
+            app.toJs = this.toJs;
+            app.toJson = this.toJson;
+
             app.loadInitialPods();
 
             app.categories = new Categories();
@@ -102,6 +105,31 @@ define([
                     }
                 }
             });
+        },
+        toJs: function(s) {
+            var o = {},
+                kvs = s.split('&');
+
+            _.each(kvs, function(kv) {
+                var tokens = kv.split('='),
+                    k = tokens[0],
+                    v = tokens[1];
+
+                if (o.hasOwnProperty(k)) {
+                    if (typeof o[k] == 'string') {
+                        o[k] = [o[k], v];
+                    } else if (o[k] instanceof Array) {
+                        o[k].push(v);
+                    }
+                } else {
+                    o[k] = v;
+                }
+            });
+
+            return o;
+        },
+        toJson: function(o) {
+            return JSON.stringify(o, null, 4);
         }
     });
 

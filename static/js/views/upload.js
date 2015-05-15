@@ -21,8 +21,18 @@ define([
             });
         },
         submit: function() {
-            var formData = this.$el.find('.tab-pane.active form').serialize();
-            $.post('/pods/', formData).then(function(data) {
+            var tags = [],
+                formData = app.toJs(this.$el.find('.tab-pane.active form').serialize()),
+                json;
+
+            this.$el.find('span.tag-value').each(function(span) {
+                tags.push($(this).html());
+            });
+
+            formData.tags = tags;
+            json = app.toJson(formData);
+
+            $.post('/pods/', json).then(function(data) {
                 if (data.success) {
                     location.hash = '';
                     location.reload();
@@ -48,7 +58,7 @@ define([
             var span = $(e.target).closest('span.tag'),
                 input = span.parent().find('input.tag');
 
-            $(e.target).closest('span.tag').remove();
+            span.remove();
 
             if (this.$el.find('span.tag').length == 0) {
                 input.attr('placeholder', 'Tags');

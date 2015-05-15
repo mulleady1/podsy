@@ -105,16 +105,18 @@ class PodView(View):
         return HttpResponse(json.dumps(data), content_type='application/json')
 
     def post(self, request):
-        form = request.POST
+        req = json.loads(request.body)
         u = getuser(request)
-        if form.get('name') and form.get('category_id') and form.get('audio_file'):
-            cat = Category.objects.get(pk=form.get('category_id'))
-            pod = Pod(name=form.get('name'), audio_file=form.get('audio_file'), user=u, category=cat)
+        for tag in req.get('tags'):
+            tags.append(Tag(name=tag))
+        if req.get('name') and req.get('category_id') and req.get('audio_file'):
+            cat = Category.objects.get(pk=req.get('category_id'))
+            pod = Pod(name=req.get('name'), audio_file=req.get('audio_file'), user=u, category=cat)
             pod.save()
             data = { 'success': True }
-        elif form.get('name') and form.get('category_id') and form.get('audio_url') and form.get('podcast_url'):
-            cat = Category.objects.get(pk=form.get('category_id'))
-            pod = Pod(name=form.get('name'), audio_url=form.get('audio_url'), podcast_url=form.get('podcast_url'), user=u, category=cat)
+        elif req.get('name') and req.get('category_id') and req.get('audio_url') and req.get('podcast_url'):
+            cat = Category.objects.get(pk=req.get('category_id'))
+            pod = Pod(name=req.get('name'), audio_url=req.get('audio_url'), podcast_url=req.get('podcast_url'), user=u, category=cat)
             pod.save()
             data = { 'success': True }
         else:
