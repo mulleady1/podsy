@@ -137,15 +137,30 @@ class PodView(View):
 
     def post(self, request):
         odata = {}
-        import ipdb; ipdb.set_trace()
-        if request.META['CONTENT_TYPE'] == 'multipart/form-data':
+        if 'multipart/form-data' in request.META['CONTENT_TYPE']:
             form = UploadPodFileForm(request.POST, request.FILES)
             if form.is_valid():
-                f = request.FILES['file']
-                with open('filename.txt', 'wb+') as destination:
+                f = request.FILES['audio_file']
+                with open(f.name, 'wb+') as destination:
                     for chunk in f.chunks():
                         destination.write(chunk)
+
+                idata = form.data
+                pod = Pod.objects.create(name=idata.get('name'), category_id=idata.get('category_id'), audio_url=f.name, user=getuser(request))
+                if idata.get('tags'):
+                    tags = []
+                    for tag in idata.get('tags').split(','):
+                        t = Tag.objects.get_or_create(name=tag)
+                        tags.append(t[0])
+                    pod.tags.add(*tags)
+                    pod.save()
+
                 odata['success'] = True
+                odata['pod'] = pod.data
+            else:
+                odata['success'] = False
+                odata['message'] = form.errors
+
         else:
             idata = json.loads(request.body)
             u = getuser(request)

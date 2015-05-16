@@ -42,7 +42,7 @@ define([
                 type: 'POST',
                 data: formData,
                 cache: false,
-                contentType: 'multipart/form-data',
+                contentType: false,
                 processData: false
             };
 

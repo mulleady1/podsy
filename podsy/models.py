@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.forms import Form, ModelForm
+from django import forms
+from django.forms import ModelForm
 
 class PodsyUser(models.Model):
     user = models.OneToOneField(User)
@@ -103,9 +104,8 @@ class PodForm(ModelForm):
         model = Pod
         fields = ['name', 'podcast_url', 'audio_url', 'user', 'category']
 
-class UploadPodFileForm(Form):
+class UploadPodFileForm(forms.Form):
     name = forms.CharField(max_length=1000)
     category_id = forms.IntegerField()
-    tags = forms.CharField(max_length=1000)
     audio_file = forms.FileField()
-    
+    tags = forms.CharField(max_length=1000, required=False)
