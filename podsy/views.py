@@ -138,16 +138,29 @@ class PodView(View):
     def post(self, request):
         idata = json.loads(request.body)
         u = getuser(request)
+
+        name = idata.get('name')
+        category_id = idata.get('category_id')
+        audio_file = idata.get('audio_file')
+        podcast_url = idata.get('podcast_url')
+
+        tags = []
         for tag in idata.get('tags'):
-            tags.append(Tag(name=tag))
-        if idata.get('name') and idata.get('category_id') and idata.get('audio_file'):
+            t = Tag.objects.get_or_create(name=tag)
+            tags.append(t[0])
+
+        if name and category_id and audio_file:
             cat = Category.objects.get(pk=idata.get('category_id'))
-            pod = Pod(name=idata.get('name'), audio_file=idata.get('audio_file'), user=u, category=cat)
+            pod = Pod.objects.create(name=idata.get('name'), audio_file=idata.get('audio_file'), user=u, category=cat)
+            if len(tags) > 0:
+                pod.tags.add(*tags)
             pod.save()
-            data = { 'success': True }
-        elif idata.get('name') and idata.get('category_id') and idata.get('audio_url') and idata.get('podcast_url'):
+            odata = { 'success': True }
+        elif name and category_id and audio_url and podcast_url:
             cat = Category.objects.get(pk=idata.get('category_id'))
-            pod = Pod(name=idata.get('name'), audio_url=idata.get('audio_url'), podcast_url=idata.get('podcast_url'), user=u, category=cat)
+            pod = Pod.objects.create(name=idata.get('name'), audio_url=idata.get('audio_url'), podcast_url=idata.get('podcast_url'), user=u, category=cat)
+            if len(tags) > 0:
+                pod.tags.add(*tags)
             pod.save()
             odata = { 'success': True }
         else:
