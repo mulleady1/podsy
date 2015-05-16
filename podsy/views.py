@@ -1,6 +1,7 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.http import HttpResponse, HttpResponseRedirect
+from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render
 from django.views.generic import View, TemplateView, ListView
 from podsy.models import *
@@ -8,6 +9,9 @@ import json
 
 def getuser(request):
     return PodsyUser.objects.get(user=request.user)
+
+def Json(data):
+    return HttpResponse(json.dumps(data), content_type='application/json')
 
 def home(request):
     if request.user.is_authenticated():
@@ -50,21 +54,48 @@ class SigninView(View):
         else:
             odata = { 'success': False }
 
-        return HttpResponse(json.dumps(odata), content_type='application/json')
+        return Json(odata)
 
 class SignupView(View):
 
     def post(self, request):
-        u = request.POST['username']
-        e = request.POST['email']
-        p = request.POST['password']
-        user = User.objects.create_user(u, e, p)
-        podsyUser = PodsyUser(user=user)
-        podsyUser.save()
+        odata = {}
+        try:
+            idata = json.loads(request.body)
+            u = idata.get('username')
+            e = idata.get('email')
+            p = idata.get('password')
+            c = idata.get('passconfirm')
 
-        user = authenticate(username=u, password=p)
-        login(request, user)
-        return HttpResponseRedirect('/')
+            if not (u and e and p and c):
+                raise Exception('Please fill in all fields.')
+            if p != c:
+                raise Exception('Passwords must match.')
+
+            try:
+                tempuser = User.objects.get(username=u)
+                raise Exception('Username already in use.')
+            except ObjectDoesNotExist:
+                pass
+
+            try:
+                tempuser = User.objects.get(email=e)
+                raise Exception('Email already in use.')
+            except ObjectDoesNotExist:
+                pass
+
+            user = User.objects.create_user(u, e, p)
+            podsyUser = PodsyUser.objects.create(user=user)
+
+            user = authenticate(username=u, password=p)
+            login(request, user)
+
+            odata['success'] = True
+        except Exception as e:
+            odata['success'] = False
+            odata['message'] = e.message
+
+        return Json(odata)
 
 class SignoutView(View):
 
@@ -102,7 +133,7 @@ class PodView(View):
             'tags': [{ 'id': tag.id, 'name': tag.name } for tag in pod.tags.all()]
         } for pod in pods]
 
-        return HttpResponse(json.dumps(odata), content_type='application/json')
+        return Json(odata)
 
     def post(self, request):
         idata = json.loads(request.body)
@@ -122,7 +153,7 @@ class PodView(View):
         else:
             odata = { 'success': False }
 
-        return HttpResponse(json.dumps(odata), content_type='application/json')
+        return Json(odata)
 
     def put(self, request, pod_id=None):
         idata = json.loads(request.body)
@@ -152,7 +183,7 @@ class PodView(View):
             'pod': pod.data
         }
 
-        return HttpResponse(json.dumps(odata), content_type='application/json')
+        return Json(odata)
 
 class CategoryView(View):
 
@@ -163,7 +194,7 @@ class CategoryView(View):
             'description': cat.description
         } for cat in Category.objects.all()]
 
-        return HttpResponse(json.dumps(odata), content_type='application/json')
+        return Json(odata)
 
     def post(self, request):
         idata = json.loads(request.body)
@@ -176,7 +207,7 @@ class CategoryView(View):
         else:
             odata = { 'success': False }
 
-        return HttpResponse(json.dumps(odata), content_type='application/json')
+        return Json(odata)
 
 class CommentView(View):
 
@@ -191,7 +222,7 @@ class CommentView(View):
 
         odata = [comment.data for comment in comments]
 
-        return HttpResponse(json.dumps(odata), content_type='application/json')
+        return Json(odata)
 
     def post(self, request, pod_id):
         idata = json.loads(request.body)
@@ -208,7 +239,7 @@ class CommentView(View):
             'comment': comment.data
         }
 
-        return HttpResponse(json.dumps(odata), content_type='application/json')
+        return Json(odata)
 
     def put(self, request):
         idata = json.loads(request.body)
@@ -221,7 +252,7 @@ class CommentView(View):
             'comment': comment.data
         }
 
-        return HttpResponse(json.dumps(odata), content_type='application/json')
+        return Json(odata)
 
 class TagView(View):
 
@@ -232,7 +263,7 @@ class TagView(View):
         odata = tag.data
         odata['pods'] = [pod.data for pod in pods]
 
-        return HttpResponse(json.dumps(odata), content_type='application/json')
+        return Json(odata)
 
     def post(self, request, pod_id):
         idata = json.loads(request.body)
@@ -249,7 +280,7 @@ class TagView(View):
             'tag': tag.data
         }
 
-        return HttpResponse(json.dumps(odata), content_type='application/json')
+        return Json(odata)
 
     def put(self, request):
         idata = json.loads(request.body)
@@ -263,4 +294,4 @@ class TagView(View):
             'tag': tag.data
         }
 
-        return HttpResponse(json.dumps(odata), content_type='application/json')
+        return Json(odata)

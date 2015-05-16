@@ -88,7 +88,7 @@ define([
         },
         signup: function() {
             $('.card').hide();
-            $('#signup-container').show();
+            $('#signup').show();
         },
         account: function() {
             if (!app.loggedIn) return;

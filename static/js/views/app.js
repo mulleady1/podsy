@@ -12,11 +12,12 @@ define([
     'collections/subcategories',
     'views/listen',
     'views/signin',
+    'views/signup',
     'views/upload',
     'views/category',
     'views/categorydetail',
     'forms/category'
-], function($, _, Backbone, Bootstrap, Router, PodView, PodDetailView, Pod, Pods, Categories, Subcategories, ListenView, SigninView, UploadView, CategoryView, CategoryDetailView, CategoryForm) {
+], function($, _, Backbone, Bootstrap, Router, PodView, PodDetailView, Pod, Pods, Categories, Subcategories, ListenView, SigninView, SignupView, UploadView, CategoryView, CategoryDetailView, CategoryForm) {
     'use strict';
 
     var AppView = Backbone.View.extend({
@@ -25,6 +26,7 @@ define([
             var self = this;
             app.router = new Router();
             app.signinView = new SigninView();
+            app.signupView = new SignupView();
             app.uploadView = new UploadView();
             app.categoryView = new CategoryView();
             app.podDetailView = new PodDetailView();
@@ -128,8 +130,15 @@ define([
 
             return o;
         },
-        toJson: function(o) {
-            return JSON.stringify(o, null, 4);
+        toJson: function(data) {
+            if (typeof data == 'string') {
+                data = this.toJs(data);
+            }
+            if (typeof data != 'object') {
+                return null;
+            }
+
+            return JSON.stringify(data, null, 4);
         }
     });
 

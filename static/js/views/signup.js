@@ -6,37 +6,30 @@ define([
 ], function($, _, Backbone, Bootstrap) {
     'use strict';
 
-    var SigninView = Backbone.View.extend({
-        el: '#signin',
+    var SignupView = Backbone.View.extend({
+        el: '#signup',
         events: {
             'click button.submit': 'submit',
-            'focus input': 'removeErrorMessage',
-            'shown.bs.modal': 'show',
-            'hide.bs.modal': 'hide'
+            'focus input': 'removeErrorMessage'
         },
-        submit: function() {
+        submit: function(e) {
+            e.preventDefault();
             var self = this,
                 formData = app.toJson(this.$el.find('form').serialize());
 
-            $.post('/signin/', formData).then(function(data) {
+            $.post('/signup/', formData).then(function(data) {
                 if (data.success) {
                     location.hash = '';
                     location.reload();
                 } else {
-                    self.$el.find('.modal-body').prepend('<p class="text-warning">Invalid username/password.</p>');
+                    self.$el.find('form').prepend('<p class="text-warning">{msg}</p>'.replace('{msg}', data.message));
                 }
             });
         },
         removeErrorMessage: function() {
             this.$el.find('.text-warning').remove();
-        },
-        show: function() {
-            this.$el.find('input[name="email"]').focus();
-        },
-        hide: function() {
-            history.back();
         }
     });
 
-    return SigninView;
+    return SignupView;
 });
