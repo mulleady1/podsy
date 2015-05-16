@@ -228,7 +228,7 @@
             <div class="tab-content">
               <div role="tabpanel" class="tab-pane fade in active" id="nofile">
                 <p>
-                  <form action="/pods/" method="post">
+                  <form>
                     <div class="form-group">
                       <input type="text" class="form-control" name="name" placeholder="Title">
                     </div>
@@ -256,7 +256,7 @@
               </div>
               <div role="tabpanel" class="tab-pane fade" id="file">
                 <p>
-                  <form action="/pods/" method="post">
+                  <form enctype="multipart/form-data" class="file">
                     <div class="form-group">
                       <input type="text" class="form-control" name="name" placeholder="Title">
                     </div>

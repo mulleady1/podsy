@@ -21,6 +21,40 @@ define([
             });
         },
         submit: function() {
+            if (this.$el.find('.tab-pane.active form').hasClass('file')) {
+                this.submitFile();
+            } else {
+                this.submitNoFile();
+            }
+        },
+        submitFile: function() {
+            var tags = [],
+                formData = new FormData(this.$el.find('.tab-pane.active form')[0]);
+
+            this.$el.find('span.tag-value').each(function(span) {
+                tags.push($(this).html());
+            });
+
+            formData.append('tags', tags);
+
+            var settings = {
+                url: '/pods/',
+                type: 'POST',
+                data: formData,
+                cache: false,
+                contentType: 'multipart/form-data',
+                processData: false
+            };
+
+            $.ajax(settings).then(function(data) {
+                debugger;
+                if (data.success) {
+                    location.hash = '';
+                    location.reload();
+                }
+            });
+        },
+        submitNoFile: function() {
             var tags = [],
                 formData = app.toJs(this.$el.find('.tab-pane.active form').serialize()),
                 json;

@@ -136,35 +136,39 @@ class PodView(View):
         return Json(odata)
 
     def post(self, request):
-        idata = json.loads(request.body)
-        u = getuser(request)
-
-        name = idata.get('name')
-        category_id = idata.get('category_id')
-        audio_file = idata.get('audio_file')
-        podcast_url = idata.get('podcast_url')
-
-        tags = []
-        for tag in idata.get('tags'):
-            t = Tag.objects.get_or_create(name=tag)
-            tags.append(t[0])
-
-        if name and category_id and audio_file:
-            cat = Category.objects.get(pk=idata.get('category_id'))
-            pod = Pod.objects.create(name=idata.get('name'), audio_file=idata.get('audio_file'), user=u, category=cat)
-            if len(tags) > 0:
-                pod.tags.add(*tags)
-            pod.save()
-            odata = { 'success': True }
-        elif name and category_id and audio_url and podcast_url:
-            cat = Category.objects.get(pk=idata.get('category_id'))
-            pod = Pod.objects.create(name=idata.get('name'), audio_url=idata.get('audio_url'), podcast_url=idata.get('podcast_url'), user=u, category=cat)
-            if len(tags) > 0:
-                pod.tags.add(*tags)
-            pod.save()
-            odata = { 'success': True }
+        odata = {}
+        import ipdb; ipdb.set_trace()
+        if request.META['CONTENT_TYPE'] == 'multipart/form-data':
+            form = UploadPodFileForm(request.POST, request.FILES)
+            if form.is_valid():
+                f = request.FILES['file']
+                with open('filename.txt', 'wb+') as destination:
+                    for chunk in f.chunks():
+                        destination.write(chunk)
+                odata['success'] = True
         else:
-            odata = { 'success': False }
+            idata = json.loads(request.body)
+            u = getuser(request)
+
+            name = idata.get('name')
+            category_id = idata.get('category_id')
+            audio_file = idata.get('audio_file')
+            podcast_url = idata.get('podcast_url')
+
+            tags = []
+            for tag in idata.get('tags'):
+                t = Tag.objects.get_or_create(name=tag)
+                tags.append(t[0])
+
+            if name and category_id and audio_url and podcast_url:
+                cat = Category.objects.get(pk=idata.get('category_id'))
+                pod = Pod.objects.create(name=idata.get('name'), audio_url=idata.get('audio_url'), podcast_url=idata.get('podcast_url'), user=u, category=cat)
+                if len(tags) > 0:
+                    pod.tags.add(*tags)
+                pod.save()
+                odata['success'] = True
+            else:
+                odata['success'] = False
 
         return Json(odata)
 
