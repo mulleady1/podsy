@@ -46,11 +46,11 @@ class SigninView(View):
         user = authenticate(username=u, password=p)
         if user:
             login(request, user)
-            data = { 'success': True }
+            odata = { 'success': True }
         else:
-            data = { 'success': False }
+            odata = { 'success': False }
 
-        return HttpResponse(json.dumps(data), content_type='application/json')
+        return HttpResponse(json.dumps(odata), content_type='application/json')
 
 class SignupView(View):
 
@@ -89,7 +89,7 @@ class PodView(View):
             u = getuser(request)
             favs = u.favoritePods.all()
 
-        data = [{
+        odata = [{
             'id': pod.id,
             'audioUrl': pod.audio_url,
             'podcastUrl': pod.podcast_url,
@@ -102,42 +102,42 @@ class PodView(View):
             'tags': [{ 'id': tag.id, 'name': tag.name } for tag in pod.tags.all()]
         } for pod in pods]
 
-        return HttpResponse(json.dumps(data), content_type='application/json')
+        return HttpResponse(json.dumps(odata), content_type='application/json')
 
     def post(self, request):
-        req = json.loads(request.body)
+        idata = json.loads(request.body)
         u = getuser(request)
-        for tag in req.get('tags'):
+        for tag in idata.get('tags'):
             tags.append(Tag(name=tag))
-        if req.get('name') and req.get('category_id') and req.get('audio_file'):
-            cat = Category.objects.get(pk=req.get('category_id'))
-            pod = Pod(name=req.get('name'), audio_file=req.get('audio_file'), user=u, category=cat)
+        if idata.get('name') and idata.get('category_id') and idata.get('audio_file'):
+            cat = Category.objects.get(pk=idata.get('category_id'))
+            pod = Pod(name=idata.get('name'), audio_file=idata.get('audio_file'), user=u, category=cat)
             pod.save()
             data = { 'success': True }
-        elif req.get('name') and req.get('category_id') and req.get('audio_url') and req.get('podcast_url'):
-            cat = Category.objects.get(pk=req.get('category_id'))
-            pod = Pod(name=req.get('name'), audio_url=req.get('audio_url'), podcast_url=req.get('podcast_url'), user=u, category=cat)
+        elif idata.get('name') and idata.get('category_id') and idata.get('audio_url') and idata.get('podcast_url'):
+            cat = Category.objects.get(pk=idata.get('category_id'))
+            pod = Pod(name=idata.get('name'), audio_url=idata.get('audio_url'), podcast_url=idata.get('podcast_url'), user=u, category=cat)
             pod.save()
-            data = { 'success': True }
+            odata = { 'success': True }
         else:
-            data = { 'success': False }
+            odata = { 'success': False }
 
-        return HttpResponse(json.dumps(data), content_type='application/json')
+        return HttpResponse(json.dumps(odata), content_type='application/json')
 
     def put(self, request, pod_id=None):
-        data = json.loads(request.body)
+        idata = json.loads(request.body)
         pod = Pod.objects.get(pk=data.get('id'))
         fav = data.get('fav')
         u = getuser(request)
 
         # Check for change in upvotes/downvotes.
-        if data.get('upToggled'):
+        if idata.get('upToggled'):
             pod.upvotes += 1
-        elif data.get('downToggled'):
+        elif idata.get('downToggled'):
             pod.downvotes += 1
-        if data.get('upToggleRemoved'):
+        if idata.get('upToggleRemoved'):
             pod.upvotes -= 1
-        elif data.get('downToggleRemoved'):
+        elif idata.get('downToggleRemoved'):
             pod.downvotes -= 1
 
         # Check for change in favorite status.
@@ -147,32 +147,36 @@ class PodView(View):
             u.favoritePods.remove(pod)
 
         pod.save()
+        odata = {
+            'success': True,
+            'pod': pod.data
+        }
 
-        return HttpResponse(json.dumps(data), content_type='application/json')
+        return HttpResponse(json.dumps(odata), content_type='application/json')
 
 class CategoryView(View):
 
     def get(self, request):
-        data = [{
+        odata = [{
             'id': cat.id,
             'name': cat.name,
             'description': cat.description
         } for cat in Category.objects.all()]
 
-        return HttpResponse(json.dumps(data), content_type='application/json')
+        return HttpResponse(json.dumps(odata), content_type='application/json')
 
     def post(self, request):
-        form = request.POST
-        name = form.get('name')
-        description = form.get('description')
+        idata = json.loads(request.body)
+        name = idata.get('name')
+        description = idata.get('description')
         if name and description:
             cat = Category(name=name, description=description)
             cat.save()
-            data = { 'success': True }
+            odata = { 'success': True }
         else:
-            data = { 'success': False }
+            odata = { 'success': False }
 
-        return HttpResponse(json.dumps(data), content_type='application/json')
+        return HttpResponse(json.dumps(odata), content_type='application/json')
 
 class CommentView(View):
 
@@ -185,34 +189,39 @@ class CommentView(View):
         else:
             comments = Comment.objects.all()
 
-        data = [comment.data for comment in comments]
+        odata = [comment.data for comment in comments]
 
-        return HttpResponse(json.dumps(data), content_type='application/json')
+        return HttpResponse(json.dumps(odata), content_type='application/json')
 
     def post(self, request, pod_id):
-        data = json.loads(request.body)
-        text = data.get('text')
-        parent_id = data.get('parent_id')
+        idata = json.loads(request.body)
+        text = idata.get('text')
+        parent_id = idata.get('parent_id')
         if parent_id:
             comment = Comment(pod_id=pod_id, parent_id=parent_id, user=getuser(request), text=text)
         else:
             comment = Comment(pod_id=pod_id, user=getuser(request), text=text)
         comment.save()
 
-        d = {
+        odata = {
             'success': True,
-            'id': comment.id
+            'comment': comment.data
         }
 
-        return HttpResponse(json.dumps(d), content_type='application/json')
+        return HttpResponse(json.dumps(odata), content_type='application/json')
 
     def put(self, request):
-        data = json.loads(request.body)
-        comment = Comment.objects.get(pk=data.get('id'))
-        comment.text = data.get('text')
+        idata = json.loads(request.body)
+        comment = Comment.objects.get(pk=idata.get('id'))
+        comment.text = idata.get('text')
         comment.save()
 
-        return HttpResponse(json.dumps(data), content_type='application/json')
+        odata = {
+            'success': True,
+            'comment': comment.data
+        }
+
+        return HttpResponse(json.dumps(odata), content_type='application/json')
 
 class TagView(View):
 
@@ -220,32 +229,38 @@ class TagView(View):
         tag = Tag.objects.get(name=tag_name)
         pods = Pod.objects.filter(tags__name=tag_name)
 
-        data = tag.data
-        data['pods'] = [pod.data for pod in pods]
+        odata = tag.data
+        odata['pods'] = [pod.data for pod in pods]
 
-        return HttpResponse(json.dumps(data), content_type='application/json')
+        return HttpResponse(json.dumps(odata), content_type='application/json')
 
     def post(self, request, pod_id):
-        data = json.loads(request.body)
-        text = data.get('text')
-        parent_id = data.get('parent_id')
+        idata = json.loads(request.body)
+        text = idata.get('text')
+        parent_id = idata.get('parent_id')
         if parent_id:
             comment = Comment(pod_id=pod_id, parent_id=parent_id, user=getuser(request), text=text)
         else:
             comment = Comment(pod_id=pod_id, user=getuser(request), text=text)
         comment.save()
 
-        d = {
+        odata = {
             'success': True,
-            'id': comment.id
+            'tag': tag.data
         }
 
-        return HttpResponse(json.dumps(d), content_type='application/json')
+        return HttpResponse(json.dumps(odata), content_type='application/json')
 
     def put(self, request):
-        data = json.loads(request.body)
-        comment = Comment.objects.get(pk=data.get('id'))
-        comment.text = data.get('text')
-        comment.save()
+        idata = json.loads(request.body)
+        tag = Tag.objects.get(pd=idata.get('id'))
+        tag.name = idata.get('name')
+        tag.description = idata.get('description')
+        tag.save()
 
-        return HttpResponse(json.dumps(data), content_type='application/json')
+        odata = {
+            'success': True,
+            'tag': tag.data
+        }
+
+        return HttpResponse(json.dumps(odata), content_type='application/json')
