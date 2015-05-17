@@ -25,6 +25,7 @@ define([
         },
         addPod: function() {
             $('.card').hide();
+            this.collapseMobileNav();
             $('#upload').show();
         },
         pods: function(id) {
@@ -34,6 +35,7 @@ define([
         favPods: function() {
             if (!app.loggedIn) return;
             $('.card').hide();
+            this.collapseMobileNav();
             $('#pods-container').show();
             app.categoryDetailView.show({ name: 'My favorite pods', description: '' });
             $.get('/pods/favs/').then(function(data) {
@@ -42,6 +44,7 @@ define([
         },
         podsByCategory: function(id) {
             $('.card').hide();
+            this.collapseMobileNav();
             if (app.categories.length) {
                 app.categoryDetailView.show(app.categories.get(id).toJSON());
             } else {
@@ -76,6 +79,7 @@ define([
         },
         addCategory: function() {
             $('.card').hide();
+            this.collapseMobileNav();
             $('#category').show();
         },
         categories: function(id) {
@@ -87,19 +91,23 @@ define([
         },
         signin: function() {
             $('.card').hide();
+            this.collapseMobileNav();
             $('#signin').show();
         },
         signup: function() {
             $('.card').hide();
+            this.collapseMobileNav();
             $('#signup').show();
         },
         account: function() {
             if (!app.loggedIn) return;
             $('.card').hide();
+            this.collapseMobileNav();
             $('#account-container').show();
         },
         about: function() {
             $('.card').hide();
+            this.collapseMobileNav();
             $('#about-container').show();
         },
         tags: function(tagName) {
@@ -109,6 +117,12 @@ define([
               app.categoryDetailView.show({ name: data.name, description: data.description });
               app.pods.reset(data.pods);
           });
+        },
+        collapseMobileNav: function() {
+            var button = $('button.navbar-toggle[aria-expanded="true"]');
+            if (button.length) {
+                button.click();
+            }
         }
 
     });
