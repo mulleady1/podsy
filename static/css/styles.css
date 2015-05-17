@@ -91,6 +91,12 @@ span.tag .glyphicon-remove {
   font-size: 11px;
   cursor: pointer;
 }
+h3.title {
+  margin: 10px 0 20px;
+}
+h4.subtitle {
+  margin: 0 0 15px 0;
+}
 
 /* Bootsnipp widgets - begin */
 .dropdown-submenu {

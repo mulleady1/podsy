@@ -189,8 +189,8 @@ class PodView(View):
 
     def put(self, request, pod_id=None):
         idata = json.loads(request.body)
-        pod = Pod.objects.get(pk=data.get('id'))
-        fav = data.get('fav')
+        pod = Pod.objects.get(pk=idata.get('id'))
+        fav = idata.get('fav')
         u = getuser(request)
 
         # Check for change in upvotes/downvotes.
@@ -316,7 +316,7 @@ class TagView(View):
 
     def put(self, request):
         idata = json.loads(request.body)
-        tag = Tag.objects.get(pd=idata.get('id'))
+        tag = Tag.objects.get(pk=idata.get('id'))
         tag.name = idata.get('name')
         tag.description = idata.get('description')
         tag.save()

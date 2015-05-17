@@ -24,7 +24,8 @@ define([
             app.loadInitialPods();
         },
         addPod: function() {
-            $('#upload').modal();
+            $('.card').hide();
+            $('#upload').show();
         },
         pods: function(id) {
             $('.card').hide();
@@ -74,7 +75,8 @@ define([
             });
         },
         addCategory: function() {
-            $('#category').modal();
+            $('.card').hide();
+            $('#category').show();
         },
         categories: function(id) {
             $('.card').hide();
@@ -84,7 +86,8 @@ define([
             }
         },
         signin: function() {
-            $('#signin').modal();
+            $('.card').hide();
+            $('#signin').show();
         },
         signup: function() {
             $('.card').hide();

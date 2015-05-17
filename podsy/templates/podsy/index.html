@@ -88,7 +88,7 @@
   <div id="pod-detail-container" class="container card">
   </div>
   <div id="signup" class="container card">
-    <h3>Sign up</h3>
+    <h3 class="title">Sign up</h3>
     <form>
       <div class="form-group">
         <input type="email" class="form-control" name="email" placeholder="Email">
@@ -117,11 +117,9 @@
     </div>
   </div>
   <div id="account-container" class="container card">
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title">My account</h3>
-      </div>
-      <div class="panel-body">
+    <div class="row">
+      <div class="col-md-6">
+        <h3 class="title">My account</h3>
         <p>Username: {{ u.username }}</p>
         <p>Account created: {{ u.created }}</p>
         <form action="/signout/" method="post">
@@ -132,161 +130,137 @@
     </div>
   </div>
   <div id="about-container" class="container card">
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title">About</h3>
-      </div>
-      <div class="panel-body">
-        <h3>We're a new community.</h3>
-        <p>
-          We created Podsy to serve the world of podcasts in two
-          fundamental areas:
-          <ul>
-            <li>
-              Pre-Podsy, the web didn't have a central, go-to place for podcasts,
-              like YouTube is for videos or like Reddit is for social news and cats.
-              A number of sites have tried, and so has iTunes, but none have reached
-              the potential of what we think can be done.
-            </li>
-            <li>
-              We're here to provide not just a repository of audio content, but a
-              community that is dynamic, interactive, and helpful to listeners' lives.
-            </li>
-          </ul>
-        </p>
-      </div>
-    </div>
+    <h3 class="title">About</h3>
+    <h4 class="subtitle">We're a new community.</h4>
+    <p>
+      We created Podsy to serve the world of podcasts in two
+      fundamental areas:
+      <ul>
+        <li>
+          Pre-Podsy, the web didn't have a central, go-to place for podcasts,
+          like YouTube is for videos or like Reddit is for social news and cats.
+          A number of sites have tried, and so has iTunes, but none have reached
+          the potential of what we think can be done.
+        </li>
+        <li>
+          We're here to provide not just a repository of audio content, but a
+          community that is dynamic, interactive, and helpful to listeners' lives.
+        </li>
+      </ul>
+    </p>
   </div>
 
   <!-- Modals -->
-  <div id="signin" class="modal fade">
-    <div class="modal-dialog modal-sm">
-      <div class="modal-content">
+  <div id="signin" class="container card">
+    <div class="row">
+      <div class="col-md-6 col-md-offset-3">
+        <h3 class="title">Sign in</h4>
         <form action="/signin/" method="post">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title">Sign in</h4>
+          <div class="form-group">
+            <input type="email" class="form-control" name="email" placeholder="Email">
           </div>
-          <div class="modal-body">
-            <div class="form-group">
-              <input type="email" class="form-control" name="email" placeholder="Email">
-            </div>
-            <div class="form-group">
-              <input type="password" class="form-control" name="password" placeholder="Password">
-            </div>
+          <div class="form-group">
+            <input type="password" class="form-control" name="password" placeholder="Password">
           </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <div class="form-group">
             <button type="button" class="btn btn-primary submit">Sign In</button>
           </div>
         </form>
       </div>
     </div>
   </div>
-  <div id="category" class="modal fade">
-    <div class="modal-dialog">
-      <div class="modal-content">
+  <div id="category" class="container card">
+    <div class="row">
+      <div class="col-md-6">
+        <h3 class="title">Add category</h3>
         <form action="/categories/" method="post">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title">Add category</h4>
+          <div class="form-group">
+            <input type="text" class="form-control" name="name" placeholder="Category name">
           </div>
-          <div class="modal-body">
-            <div class="form-group">
-              <input type="text" class="form-control" name="name" placeholder="Category name">
-            </div>
-            <div class="form-group">
-              <input type="text" class="form-control" name="description" placeholder="Category description">
-            </div>
+          <div class="form-group">
+            <input type="text" class="form-control" name="description" placeholder="Category description">
           </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <div class="form-group">
             <button type="button" class="btn btn-primary submit">Submit</button>
           </div>
         </form>
       </div>
     </div>
   </div>
-  <div id="upload" class="modal fade">
-    <div class="modal-dialog">
-      <div class="modal-content">
+  <div id="upload" class="container card">
+    <div class="row">
+      <div class="col-md-6">
+        <h3 class="title">Create a pod</h3>
+        <div role="tabpanel">
 
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title">Create a pod</h4>
-        </div>
-        <div class="modal-body">
-          <div role="tabpanel">
+          <!-- Nav tabs -->
+          <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"><a href="#nofile" aria-controls="profile" role="tab" data-toggle="tab">Link to existing podcast</a></li>
+            <li role="presentation"><a href="#file" aria-controls="home" role="tab" data-toggle="tab">Upload file</a></li>
+          </ul>
 
-            <!-- Nav tabs -->
-            <ul class="nav nav-tabs" role="tablist">
-              <li role="presentation" class="active"><a href="#nofile" aria-controls="profile" role="tab" data-toggle="tab">Link to existing podcast</a></li>
-              <li role="presentation"><a href="#file" aria-controls="home" role="tab" data-toggle="tab">Upload file</a></li>
-            </ul>
-
-            <!-- Tab panes -->
-            <div class="tab-content">
-              <div role="tabpanel" class="tab-pane fade in active" id="nofile">
-                <p>
-                  <form>
-                    <div class="form-group">
-                      <input type="text" class="form-control" name="name" placeholder="Title">
+          <!-- Tab panes -->
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade in active" id="nofile">
+              <p>
+                <form>
+                  <div class="form-group">
+                    <input type="text" class="form-control" name="name" placeholder="Title">
+                  </div>
+                  <div class="form-group">
+                    <input type="text" class="form-control" name="audio_url" placeholder="Audio url">
+                  </div>
+                  <div class="form-group">
+                    <input type="text" class="form-control" name="podcast_url" placeholder="Podcast url">
+                  </div>
+                  <div class="form-group">
+                    <select class="form-control" name="category_id">
+                      <option value="">Category</option>
+                      {% for cat in categories %}
+                      <option value="{{ cat.id }}">{{ cat.name }}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <div class="tags-container form-control">
+                      <input type="text" class="tag" placeholder="Tags">
                     </div>
-                    <div class="form-group">
-                      <input type="text" class="form-control" name="audio_url" placeholder="Audio url">
-                    </div>
-                    <div class="form-group">
-                      <input type="text" class="form-control" name="podcast_url" placeholder="Podcast url">
-                    </div>
-                    <div class="form-group">
-                      <select class="form-control" name="category_id">
-                        <option>Category</option>
-                        {% for cat in categories %}
-                        <option value="{{ cat.id }}">{{ cat.name }}</option>
-                        {% endfor %}
-                      </select>
-                    </div>
-                    <div class="form-group">
-                      <div class="tags-container form-control">
-                        <input type="text" class="tag" placeholder="Tags">
-                      </div>
-                    </div>
-                  </p>
-                </form>
-              </div>
-              <div role="tabpanel" class="tab-pane fade" id="file">
-                <p>
-                  <form enctype="multipart/form-data" class="file">
-                    <div class="form-group">
-                      <input type="text" class="form-control" name="name" placeholder="Title">
-                    </div>
-                    <div class="form-group">
-                      <select class="form-control" name="category_id">
-                        <option>Category</option>
-                        {% for cat in categories %}
-                        <option value="{{ cat.id }}">{{ cat.name }}</option>
-                        {% endfor %}
-                      </select>
-                    </div>
-                    <div class="form-group">
-                      <div class="tags-container form-control">
-                        <input type="text" class="tag" placeholder="Tags">
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <input type="file" class="form-control" name="audio_file">
-                    </div>
-                  </form>
+                  </div>
+                  <div class="form-group">
+                    <button type="button" class="btn btn-primary submit">Submit</button>
+                  </div>
                 </p>
-              </div>
+              </form>
             </div>
-
+            <div role="tabpanel" class="tab-pane fade" id="file">
+              <p>
+                <form enctype="multipart/form-data" class="file">
+                  <div class="form-group">
+                    <input type="text" class="form-control" name="name" placeholder="Title">
+                  </div>
+                  <div class="form-group">
+                    <select class="form-control" name="category_id">
+                      <option value="">Category</option>
+                      {% for cat in categories %}
+                      <option value="{{ cat.id }}">{{ cat.name }}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <div class="tags-container form-control">
+                      <input type="text" class="tag" placeholder="Tags">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <input type="file" name="audio_file">
+                  </div>
+                  <div class="form-group">
+                    <button type="button" class="btn btn-primary submit">Submit</button>
+                  </div>
+                </form>
+              </p>
+            </div>
           </div>
-
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary submit">Submit</button>
         </div>
       </div>
     </div>
