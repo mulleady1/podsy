@@ -12,7 +12,8 @@ define([
             'click button.submit': 'submit',
             'focus input': 'removeErrorMessage',
             'shown.bs.modal': 'show',
-            'hide.bs.modal': 'hide'
+            'hide.bs.modal': 'hide',
+            'keypress input': 'keypress'
         },
         submit: function() {
             var self = this,
@@ -23,7 +24,7 @@ define([
                     location.hash = '';
                     location.reload();
                 } else {
-                    self.$el.find('.modal-body').prepend('<p class="text-warning">Invalid username/password.</p>');
+                    self.$el.find('form').prepend('<p class="text-warning">Invalid username/password.</p>');
                 }
             });
         },
@@ -35,6 +36,11 @@ define([
         },
         hide: function() {
             history.back();
+        },
+        keypress: function(e) {
+            if (e.keyCode == 13) {
+                this.submit();
+            }
         }
     });
 

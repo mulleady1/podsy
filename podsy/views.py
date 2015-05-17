@@ -45,8 +45,9 @@ def home(request):
 class SigninView(View):
 
     def post(self, request):
-        u = request.POST['email']
-        p = request.POST['password']
+        idata = json.loads(request.body)
+        u = idata.get('email')
+        p = idata.get('password')
         user = authenticate(username=u, password=p)
         if user:
             login(request, user)

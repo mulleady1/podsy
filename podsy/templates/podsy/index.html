@@ -88,22 +88,28 @@
   <div id="pod-detail-container" class="container card">
   </div>
   <div id="signup" class="container card">
-    <h3 class="title">Sign up</h3>
-    <form>
-      <div class="form-group">
-        <input type="email" class="form-control" name="email" placeholder="Email">
+    <div class="row">
+      <div class="col-md-6 col-md-offset-3">
+        <h3 class="title">Sign up</h3>
+        <form>
+          <div class="form-group">
+            <input type="email" class="form-control" name="email" placeholder="Email">
+          </div>
+          <div class="form-group">
+            <input type="text" class="form-control" name="username" placeholder="Username">
+          </div>
+          <div class="form-group">
+            <input type="password" class="form-control" name="password" placeholder="Password">
+          </div>
+          <div class="form-group">
+            <input type="password" class="form-control" name="passconfirm" placeholder="Confirm password">
+          </div>
+          <div class="form-group">
+            <button type="submit" class="btn btn-primary submit">Submit</button>
+          </div>
+        </form>
       </div>
-      <div class="form-group">
-        <input type="text" class="form-control" name="username" placeholder="Username">
-      </div>
-      <div class="form-group">
-        <input type="password" class="form-control" name="password" placeholder="Password">
-      </div>
-      <div class="form-group">
-        <input type="password" class="form-control" name="passconfirm" placeholder="Confirm password">
-      </div>
-      <button type="submit" class="btn btn-default submit">Submit</button>
-    </form>
+    </div>
   </div>
   <div id="categories-container" class="container card">
     <div class="panel panel-default">
@@ -171,7 +177,7 @@
   </div>
   <div id="category" class="container card">
     <div class="row">
-      <div class="col-md-6">
+      <div class="col-md-6 col-md-offset-3">
         <h3 class="title">Add category</h3>
         <form action="/categories/" method="post">
           <div class="form-group">
@@ -326,7 +332,7 @@
     </div>
   </script>
   <script type="text/template" id="category-detail-template">
-    <h4><%= name %> &nbsp;<small><%= description %></small></h4>
+    <h3 class="title"><%= name %> &nbsp;<small><%= description %></small></h3>
   </script>
   <script type="text/template" id="comment-template">
     <div class="comment-metadata">
