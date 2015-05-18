@@ -16,7 +16,8 @@ define([
             'signup/':                 'signup',
             'account/':                'account',
             'about/':                  'about',
-            'tags/:tagName/':          'tags'
+            'tags/':                   'tags',
+            'tags/:tagName/':          'tagByName'
         },
         index: function() {
             $('.card').hide();
@@ -110,7 +111,14 @@ define([
             this.collapseMobileNav();
             $('#about-container').show();
         },
-        tags: function(tagName) {
+        tags: function() {
+            $('.card').hide();
+            $('#tags-container').show();
+            if (app.tags.length == 0) {
+                app.tags.fetch({ reset: true });
+            }
+        },
+        tagByName: function(tagName) {
           $('.card').hide();
           $('#pods-container').show();
           $.get('/tags/{tagName}/'.replace('{tagName}', tagName)).then(function(data) {

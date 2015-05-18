@@ -8,6 +8,7 @@ define([
     'views/poddetail',
     'models/pod',
     'collections/pods',
+    'collections/tags',
     'collections/categories',
     'collections/subcategories',
     'views/listen',
@@ -16,15 +17,20 @@ define([
     'views/upload',
     'views/category',
     'views/categorydetail',
+    'views/tag',
     'forms/category'
-], function($, _, Backbone, Bootstrap, Router, PodView, PodDetailView, Pod, Pods, Categories, Subcategories, ListenView, SigninView, SignupView, UploadView, CategoryView, CategoryDetailView, CategoryForm) {
+], function($, _, Backbone, Bootstrap, Router, PodView, PodDetailView, Pod, Pods, Tags, Categories, Subcategories, ListenView, SigninView, SignupView, UploadView, CategoryView, CategoryDetailView, TagView, CategoryForm) {
     'use strict';
 
     var AppView = Backbone.View.extend({
         el: 'body',
         initialize: function() {
-            var self = this;
-            app.router = new Router();
+            // Utility functions.
+            app.toJs = this.toJs;
+            app.toJson = this.toJson;
+            app.loadInitialPods = this.loadInitialPods;
+
+            // Views.
             app.signinView = new SigninView();
             app.signupView = new SignupView();
             app.uploadView = new UploadView();
@@ -33,28 +39,23 @@ define([
             app.categoryDetailView = new CategoryDetailView();
             app.categoryForm = new CategoryForm();
 
-            app.loadInitialPods = function() {
-              var pods = [];
-              _.each(app.podsData, function(podData) {
-                  pods.push(new Pod(podData));
-              });
-              app.pods = new Pods();
-              self.listenTo(app.pods, 'reset', self.addPods);
-              app.pods.reset(pods);
-            };
-
-            app.toJs = this.toJs;
-            app.toJson = this.toJson;
-
-            app.loadInitialPods();
-
+            // Collections.
+            app.pods = new Pods();
+            app.tags = new Tags();
             app.categories = new Categories();
             app.subcategories = new Subcategories();
 
+            // Listeners.
+            this.listenTo(app.pods, 'reset', this.addPods);
+            this.listenTo(app.tags, 'reset', this.addTags);
             this.listenTo(app.categories, 'reset', this.addCategories);
 
+            // Initializers.
+            app.loadInitialPods();
             this.addAjaxToken();
 
+            // Router.
+            app.router = new Router();
             Backbone.history.start();
         },
         addPod: function(pod) {
@@ -64,6 +65,14 @@ define([
         addPods: function() {
             this.$('#pods-list').html('');
             app.pods.each(this.addPod, this);
+        },
+        addTag: function(tag) {
+            var tagView = new TagView({ model: tag });
+            this.$('#tags-list').append(tagView.render().el);
+        },
+        addTags: function() {
+            this.$('#tags-list').html('');
+            app.tags.each(this.addTag, this);
         },
         addCategory: function(category) {
             var categoryView = new CategoryView({ model: category });
@@ -139,6 +148,13 @@ define([
             }
 
             return JSON.stringify(data, null, 4);
+        },
+        loadInitialPods: function() {
+            var pods = [];
+            _.each(app.podsData, function(podData) {
+                pods.push(new Pod(podData));
+            });
+            app.pods.reset(pods);
         }
     });
 

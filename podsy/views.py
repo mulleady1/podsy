@@ -290,11 +290,14 @@ class CommentView(View):
 class TagView(View):
 
     def get(self, request, tag_name=None):
-        tag = Tag.objects.get(name=tag_name)
-        pods = Pod.objects.filter(tags__name=tag_name)
-
-        odata = tag.data
-        odata['pods'] = [pod.data for pod in pods]
+        if tag_name:
+            tag = Tag.objects.get(name=tag_name)
+            pods = Pod.objects.filter(tags__name=tag_name)
+            odata = tag.data
+            odata['pods'] = [pod.data for pod in pods]
+        else:
+            tags = Tag.objects.all()
+            odata = [tag.data for tag in tags]
 
         return Json(odata)
 

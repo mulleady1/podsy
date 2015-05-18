@@ -97,6 +97,14 @@ h3.title {
 h4.subtitle {
   margin: 0 0 15px 0;
 }
+#tags-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+#tags-list > li {
+  margin: 5px 0;
+}
 
 /* Bootsnipp widgets - begin */
 .dropdown-submenu {

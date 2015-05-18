@@ -155,8 +155,6 @@
       </ul>
     </p>
   </div>
-
-  <!-- Modals -->
   <div id="signin" class="container card">
     <div class="row">
       <div class="col-md-6 col-md-offset-3">
@@ -271,6 +269,14 @@
       </div>
     </div>
   </div>
+  <div id="tags-container" class="container card">
+    <div class="row">
+      <div class="col-xs-12">
+        <h3 class="title">Tags</h3>
+        <ul id="tags-list"></ul>
+      </div>
+    </div>
+  </div>
 
   <!-- Templates -->
   <script type="text/template" id="pod-template">
@@ -288,6 +294,14 @@
             tagged with <% for (var i = 0; i < tags.length; i++) print('<a class="tag" href="#/tags/{tag.name}/">{tag.name}</a> '.replace(/{tag.name}/g, tags[i].name)) %>
           <% } %>
         </div>
+      </div>
+    </div>
+  </script>
+  <script type="text/template" id="tag-template">
+    <div class="tag">
+      <div class="tag-title">
+        <a href="#/tags/<%= name %>/"><%= name %></a>
+        <span class="glyphicon glyphicon-star<% if (!fav) print('-empty') %>"></span>
       </div>
     </div>
   </script>
