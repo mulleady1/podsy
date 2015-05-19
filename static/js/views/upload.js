@@ -31,7 +31,7 @@ define([
             var tags = [],
                 formData = new FormData(this.$el.find('.tab-pane.active form')[0]);
 
-            this.$el.find('span.tag-value').each(function(span) {
+            this.$el.find('.tab-pane.active span.tag-value').each(function(span) {
                 tags.push($(this).html());
             });
 
@@ -59,7 +59,7 @@ define([
                 formData = app.toJs(this.$el.find('.tab-pane.active form').serialize()),
                 json;
 
-            this.$el.find('span.tag-value').each(function(span) {
+            this.$el.find('.tab-pane.active span.tag-value').each(function(span) {
                 tags.push($(this).html());
             });
 
@@ -80,11 +80,11 @@ define([
             this.$el.find('input.tag').focus();
         },
         keypress: function(e) {
-            if (e.keyCode != 13) {
+            var input = e.target;
+            if (e.keyCode != 13 || input.value.trim() == '') {
                 return;
             }
-            var input = e.target;
-            $('<span class="tag"><span class="tag-value">{val}</span><span class="glyphicon glyphicon-remove"></span></span>'.replace('{val}', input.value)).insertBefore(this.$el.find('input.tag'));
+            $('<span class="tag"><span class="tag-value">{val}</span><span class="glyphicon glyphicon-remove"></span></span>'.replace('{val}', input.value)).insertBefore(this.$el.find('.tab-pane.active input.tag'));
             input.value = '';
             input.removeAttribute('placeholder');
         },

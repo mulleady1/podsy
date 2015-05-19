@@ -151,7 +151,7 @@ class PodView(View):
                 if idata.get('tags'):
                     tags = []
                     for tag in idata.get('tags').split(','):
-                        t = Tag.objects.get_or_create(name=tag)
+                        t = Tag.objects.get_or_create(name=tag.lower())
                         tags.append(t[0])
                     pod.tags.add(*tags)
                     pod.save()
@@ -168,12 +168,12 @@ class PodView(View):
 
             name = idata.get('name')
             category_id = idata.get('category_id')
-            audio_file = idata.get('audio_file')
+            audio_url = idata.get('audio_url')
             podcast_url = idata.get('podcast_url')
 
             tags = []
             for tag in idata.get('tags'):
-                t = Tag.objects.get_or_create(name=tag)
+                t = Tag.objects.get_or_create(name=tag.lower())
                 tags.append(t[0])
 
             if name and category_id and audio_url and podcast_url:
@@ -291,7 +291,7 @@ class TagView(View):
 
     def get(self, request, tag_name=None):
         if tag_name:
-            tag = Tag.objects.get(name=tag_name)
+            tag = Tag.objects.get(name=tag_name.lower())
             pods = Pod.objects.filter(tags__name=tag_name)
             odata = tag.data
             odata['pods'] = [pod.data for pod in pods]
@@ -330,4 +330,10 @@ class TagView(View):
             'tag': tag.data
         }
 
+        return Json(odata)
+
+    def delete(self, request, tag_name):
+        tag = Tag.objects.get(name=tag_name.lower())
+        tag.delete()
+        odata = { 'success': True }
         return Json(odata)

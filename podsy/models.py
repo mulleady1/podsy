@@ -59,6 +59,7 @@ class Category(models.Model):
 
 class Tag(models.Model):
     name = models.CharField(max_length=100)
+    url = models.CharField(max_length=100, blank=True)
     description = models.CharField(max_length=1000, blank=True)
     created = models.DateField(auto_now_add=True)
     modified = models.DateField(auto_now=True)

@@ -16,7 +16,7 @@ urlpatterns = patterns('',
     url(r'^pods/(?P<pod_id>\d+)/comments/$', CommentView.as_view()),
     url(r'^comments/(?P<comment_id>\d+)/$', CommentView.as_view()),
     url(r'^tags/$', TagView.as_view()),
-    url(r'^tags/(?P<tag_name>.+)/$', TagView.as_view()),
+    url(r'^tags/(?P<tag_name>[a-z0-9-]+)/$', TagView.as_view()),
 
     url(r'^admin/', include(admin.site.urls)),
 )
