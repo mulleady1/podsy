@@ -7,14 +7,14 @@ from django.db import models, migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('podsy', '0002_auto_20150331_1930'),
+        ('podsy', '0002_tag_url'),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='subcategory',
-            name='category',
-            field=models.ForeignKey(default=1, to='podsy.Category'),
-            preserve_default=False,
+            model_name='podsyuser',
+            name='is_admin',
+            field=models.BooleanField(default=False),
+            preserve_default=True,
         ),
     ]

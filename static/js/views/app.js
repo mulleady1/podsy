@@ -6,41 +6,55 @@ define([
     'router',
     'views/pod',
     'views/poddetail',
+    'models/pod',
     'collections/pods',
+    'collections/tags',
     'collections/categories',
     'collections/subcategories',
-    'views/listen',
     'views/signin',
+    'views/signup',
     'views/upload',
     'views/category',
     'views/categorydetail',
+    'views/tag',
     'forms/category'
-], function($, _, Backbone, Bootstrap, Router, PodView, PodDetailView, Pods, Categories, Subcategories, ListenView, SigninView, UploadView, CategoryView, CategoryDetailView, CategoryForm) {
+], function($, _, Backbone, Bootstrap, Router, PodView, PodDetailView, Pod, Pods, Tags, Categories, Subcategories, SigninView, SignupView, UploadView, CategoryView, CategoryDetailView, TagView, CategoryForm) {
     'use strict';
 
     var AppView = Backbone.View.extend({
         el: 'body',
         initialize: function() {
-            app.router = new Router();
-            //app.listenView = new ListenView();
+            // Utility functions.
+            app.toJs = this.toJs;
+            app.toJson = this.toJson;
+            app.loadInitialPods = this.loadInitialPods;
+
+            // Views.
             app.signinView = new SigninView();
+            app.signupView = new SignupView();
             app.uploadView = new UploadView();
             app.categoryView = new CategoryView();
             app.podDetailView = new PodDetailView();
             app.categoryDetailView = new CategoryDetailView();
             app.categoryForm = new CategoryForm();
 
+            // Collections.
             app.pods = new Pods();
+            app.tags = new Tags();
             app.categories = new Categories();
             app.subcategories = new Subcategories();
 
+            // Listeners.
             this.listenTo(app.pods, 'reset', this.addPods);
+            this.listenTo(app.tags, 'reset', this.addTags);
             this.listenTo(app.categories, 'reset', this.addCategories);
 
-            app.pods.fetch({ reset: true });
-
+            // Initializers.
+            app.loadInitialPods();
             this.addAjaxToken();
 
+            // Router.
+            app.router = new Router();
             Backbone.history.start();
         },
         addPod: function(pod) {
@@ -50,6 +64,14 @@ define([
         addPods: function() {
             this.$('#pods-list').html('');
             app.pods.each(this.addPod, this);
+        },
+        addTag: function(tag) {
+            var tagView = new TagView({ model: tag });
+            this.$('#tags-list').append(tagView.render().el);
+        },
+        addTags: function() {
+            this.$('#tags-list').html('');
+            app.tags.each(this.addTag, this);
         },
         addCategory: function(category) {
             var categoryView = new CategoryView({ model: category });
@@ -93,6 +115,45 @@ define([
                     }
                 }
             });
+        },
+        toJs: function(s) {
+            var o = {},
+                kvs = s.split('&');
+
+            _.each(kvs, function(kv) {
+                var tokens = kv.split('='),
+                    k = tokens[0],
+                    v = tokens[1];
+
+                if (o.hasOwnProperty(k)) {
+                    if (typeof o[k] == 'string') {
+                        o[k] = [o[k], v];
+                    } else if (o[k] instanceof Array) {
+                        o[k].push(v);
+                    }
+                } else {
+                    o[k] = v;
+                }
+            });
+
+            return o;
+        },
+        toJson: function(data) {
+            if (typeof data == 'string') {
+                data = this.toJs(data);
+            }
+            if (typeof data != 'object') {
+                return null;
+            }
+
+            return JSON.stringify(data, null, 4);
+        },
+        loadInitialPods: function() {
+            var pods = [];
+            _.each(app.podsData, function(podData) {
+                pods.push(new Pod(podData));
+            });
+            app.pods.reset(pods);
         }
     });
 

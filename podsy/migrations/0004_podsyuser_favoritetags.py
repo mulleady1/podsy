@@ -7,14 +7,14 @@ from django.db import models, migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('podsy', '0007_comment'),
+        ('podsy', '0003_podsyuser_is_admin'),
     ]
 
     operations = [
-        migrations.AlterField(
-            model_name='comment',
-            name='parent',
-            field=models.ForeignKey(to='podsy.Comment', null=True),
+        migrations.AddField(
+            model_name='podsyuser',
+            name='favoriteTags',
+            field=models.ManyToManyField(to='podsy.Tag', blank=True),
             preserve_default=True,
         ),
     ]

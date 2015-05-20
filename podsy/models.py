@@ -1,13 +1,15 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django import forms
 from django.forms import ModelForm
 
 class PodsyUser(models.Model):
     user = models.OneToOneField(User)
     favoritePods = models.ManyToManyField('Pod', blank=True)
-    favoriteCategories = models.ManyToManyField('Subcategory', blank=True)
+    favoriteTags = models.ManyToManyField('Tag', blank=True)
     created = models.DateField(auto_now_add=True)
     modified = models.DateField(auto_now=True)
+    is_admin = models.BooleanField(default=False)
 
     @property
     def username(self):
@@ -24,10 +26,24 @@ class Pod(models.Model):
     upvotes = models.IntegerField(default=0)
     downvotes = models.IntegerField(default=0)
     user = models.ForeignKey('PodsyUser')
-    subcategory = models.ForeignKey('Subcategory')
+    category = models.ForeignKey('Category')
     tags = models.ManyToManyField('Tag', blank=True)
     created = models.DateField(auto_now_add=True)
     modified = models.DateField(auto_now=True)
+
+    @property
+    def data(self):
+        return {
+            'id': self.id,
+            'audioUrl': self.audio_url,
+            'podcastUrl': self.podcast_url,
+            'name': self.name,
+            'category_id': self.category.id,
+            'category': self.category.name,
+            'upvotes': self.upvotes,
+            'downvotes': self.downvotes,
+            'tags': [tag.data for tag in self.tags.all()]
+        }
 
     def __str__(self):
         return self.name
@@ -41,20 +57,24 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
-class Subcategory(models.Model):
+class Tag(models.Model):
     name = models.CharField(max_length=100)
+    url = models.CharField(max_length=100, blank=True)
     description = models.CharField(max_length=1000, blank=True)
-    category = models.ForeignKey('Category')
     created = models.DateField(auto_now_add=True)
     modified = models.DateField(auto_now=True)
+
+    @property
+    def data(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'label': self.name, # For jquery autocomplete
+            'description': self.description
+        }
 
     def __str__(self):
         return self.name
-
-class Tag(models.Model):
-    name = models.CharField(max_length=25)
-    created = models.DateField(auto_now_add=True)
-    modified = models.DateField(auto_now=True)
 
 class Comment(models.Model):
     pod = models.ForeignKey('Pod')
@@ -83,4 +103,10 @@ class Comment(models.Model):
 class PodForm(ModelForm):
     class Meta:
         model = Pod
-        fields = ['name', 'podcast_url', 'audio_url', 'user', 'subcategory']
+        fields = ['name', 'podcast_url', 'audio_url', 'user', 'category']
+
+class UploadPodFileForm(forms.Form):
+    name = forms.CharField(max_length=1000)
+    category_id = forms.IntegerField()
+    audio_file = forms.FileField()
+    tags = forms.CharField(max_length=1000, required=False)

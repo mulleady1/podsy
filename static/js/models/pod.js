@@ -6,10 +6,12 @@ define([
     var Pod = Backbone.Model.extend({
         defaults: function() {
             return {
+                fav: false,
                 upToggled: false,
                 downToggled: false,
                 upToggleRemoved: false,
-                downToggleRemoved: false
+                downToggleRemoved: false,
+                tags: []
             }
         },
         toggleUpvote: function() {
