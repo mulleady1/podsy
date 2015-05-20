@@ -5,36 +5,35 @@ define([
     var Router = Backbone.Router.extend({
         routes: {
             '':                        'index',
-            'pods/new/':               'addPod',
-            'pods/:id/':               'pods',
+            'pods/new/':               'newPod',
+            'pods/:id/':               'podById',
+            'account/pods/favs/':      'podsByFav',
             'pods/categories/:id/':    'podsByCategory',
-            'pods/subcategories/:id/': 'podsBySubcategory',
-            'categories/new/':         'addCategory',
             'categories/':             'categories',
+            'categories/new/':         'newCategory',
             'signin/':                 'signin',
             'signup/':                 'signup',
             'account/':                'account',
-            'account/pods/favs/':      'favPods',
-            'account/tags/favs/':      'favTags',
             'about/':                  'about',
             'tags/':                   'tags',
-            'tags/:tagName/':          'tagByName'
+            'tags/:tagName/':          'tagByName',
+            'account/tags/favs/':      'tagsByFav'
         },
         index: function() {
             $('.card').hide();
             $('#pods-container').show();
             app.loadInitialPods();
         },
-        addPod: function() {
+        newPod: function() {
             $('.card').hide();
             this.collapseMobileNav();
             $('#upload').show();
         },
-        pods: function(id) {
+        podById: function(id) {
             $('.card').hide();
             app.podDetailView.show(app.pods.get(id));
         },
-        favPods: function() {
+        podsByFav: function() {
             if (!app.loggedIn) return;
             $('.card').hide();
             this.collapseMobileNav();
@@ -72,34 +71,17 @@ define([
                 app.pods.reset(data);
             });
         },
-        podsBySubcategory: function(id) {
-            $('.card').hide();
-            if (app.subcategories.length) {
-                app.categoryDetailView.show(app.subcategories.get(id).toJSON());
-            } else {
-                app.subcategories.fetch({
-                    reset: true,
-                    success: function() {
-                        app.categoryDetailView.show(app.subcategories.get(id).toJSON());
-                    }
-                });
-            }
-            $('#pods-container').show();
-            $.get('/pods/subcategories/{id}/'.replace('{id}', id)).then(function(data) {
-                app.pods.reset(data);
-            });
-        },
-        addCategory: function() {
-            $('.card').hide();
-            this.collapseMobileNav();
-            $('#category').show();
-        },
         categories: function() {
             $('.card').hide();
             $('#categories-container').show();
             if (!app.categories.length) {
                 app.categories.fetch({ reset: true });
             }
+        },
+        newCategory: function() {
+            $('.card').hide();
+            this.collapseMobileNav();
+            $('#category').show();
         },
         signin: function() {
             $('.card').hide();
@@ -136,7 +118,7 @@ define([
                 app.pods.reset(data.pods);
             });
         },
-        favTags: function() {
+        tagsByFav: function() {
             if (!app.loggedIn) return;
             $('.card').hide();
             this.collapseMobileNav();
