@@ -20,37 +20,37 @@ define([
             'account/tags/favs/':      'tagsByFav'
         },
         index: function() {
-            $('.card').hide();
-            $('#pods-container').show();
+            $('.view').hide();
+            $('#pods-view').show();
             app.loadInitialPods();
         },
         newPod: function() {
-            $('.card').hide();
+            $('.view').hide();
             this.collapseMobileNav();
             $('#upload').show();
         },
         podById: function(id) {
-            $('.card').hide();
+            $('.view').hide();
             app.podDetailView.show(app.pods.get(id));
         },
         podsByFav: function() {
             if (!app.loggedIn) return;
-            $('.card').hide();
+            $('.view').hide();
             this.collapseMobileNav();
-            $('#pods-container').show();
-            app.categoryDetailView.show({ name: 'My favorite pods', description: '' });
+            $('#pods-view').show();
+            app.headerView.show({ name: 'My favorite pods', description: '' });
             $.get('/account/pods/favs/').then(function(data) {
                 app.pods.reset(data);
             });
         },
         podsByCategory: function(name) {
-            $('.card').hide();
+            $('.view').hide();
             this.collapseMobileNav();
 
             function f() {
                 app.categories.each(function(cat) {
                     if (cat.get('name').toLowerCase() == name) {
-                        app.categoryDetailView.show(cat.toJSON());
+                        app.headerView.show(cat.toJSON());
                         return false;
                     }
                 });
@@ -66,64 +66,65 @@ define([
                     }
                 });
             }
-            $('#pods-container').show();
+            $('#pods-view').show();
             $.get('/pods/categories/{name}/'.replace('{name}', name.toLowerCase())).then(function(data) {
                 app.pods.reset(data);
             });
         },
         categories: function() {
-            $('.card').hide();
-            $('#categories-container').show();
+            $('.view').hide();
+            $('#categories-view').show();
             if (!app.categories.length) {
                 app.categories.fetch({ reset: true });
             }
         },
         newCategory: function() {
-            $('.card').hide();
+            $('.view').hide();
             this.collapseMobileNav();
             $('#category').show();
         },
         signin: function() {
-            $('.card').hide();
+            $('.view').hide();
             this.collapseMobileNav();
             $('#signin').show();
         },
         signup: function() {
-            $('.card').hide();
+            $('.view').hide();
             this.collapseMobileNav();
             $('#signup').show();
         },
         account: function() {
             if (!app.loggedIn) return;
-            $('.card').hide();
+            $('.view').hide();
             this.collapseMobileNav();
-            $('#account-container').show();
+            $('#account-view').show();
         },
         about: function() {
-            $('.card').hide();
+            $('.view').hide();
             this.collapseMobileNav();
-            $('#about-container').show();
+            $('#about-view').show();
         },
         tags: function() {
-            $('.card').hide();
+            $('.view').hide();
             this.collapseMobileNav();
-            $('#tags-container').show();
+            $('#tags-view, #tags-view h3.title').show();
             app.tags.fetch({ reset: true });
         },
         tagByName: function(tagName) {
-            $('.card').hide();
-            $('#pods-container').show();
+            $('.view').hide();
+            $('#pods-view').show();
             $.get('/tags/{tagName}/'.replace('{tagName}', tagName)).then(function(data) {
-                app.categoryDetailView.show({ name: data.name, description: data.description });
+                app.headerView.show({ name: data.name, description: data.description });
                 app.pods.reset(data.pods);
             });
         },
         tagsByFav: function() {
             if (!app.loggedIn) return;
-            $('.card').hide();
+            $('.view').hide();
             this.collapseMobileNav();
-            $('#tags-container').show();
-            app.categoryDetailView.show({ name: 'My favorite Tags', description: '' });
+            $('#tags-view').show();
+            $('#tags-view h3.title').hide();
+            app.headerView.show({ name: 'My favorite tags', description: '' });
             $.get('/account/tags/favs/').then(function(data) {
                 app.tags.reset(data);
             });

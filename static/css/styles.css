@@ -40,10 +40,10 @@ textarea {
     background: #f0f0f0;
     padding: 3px;
 }
-.card:not(#pods-container) {
+.view:not(#pods-view) {
     display: none;
 }
-.card > h4 {
+.view > h4 {
     margin: 0 0 15px 10px;
 }
 .glyphicon.red {
@@ -161,13 +161,13 @@ ul.ui-autocomplete li {
 
 /* Media queries - begin */
 @media (max-width: 480px) {
-  .card {
+  .view {
     font-size: 110%;
   }
   .podtitle {
       width: 90%;
   }
-  #pods-container {
+  #pods-view {
     margin: 0;
     padding: 0;
   }
@@ -182,8 +182,5 @@ ul.ui-autocomplete li {
   }
 }
 @media (min-width: 600px) {
-  h3.title {
-    margin-left: 10px;
-  }
 }
 /* Media queries - end */

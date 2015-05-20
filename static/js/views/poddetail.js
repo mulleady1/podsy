@@ -7,9 +7,9 @@ define([
     'views/comment'
 ], function($, _, Backbone, Comment, Comments, CommentView) {
     var PodDetailView = Backbone.View.extend({
-        el: '#pod-detail-container',
+        el: '#pod-detail-view',
         template: _.template($('#pod-detail-template').html()),
-        className: 'container card',
+        className: 'container view',
         events: {
             'click .upvote': 'toggleUpvote',
             'click .downvote': 'toggleDownvote',
