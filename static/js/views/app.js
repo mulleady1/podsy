@@ -11,7 +11,6 @@ define([
     'collections/tags',
     'collections/categories',
     'collections/subcategories',
-    'views/listen',
     'views/signin',
     'views/signup',
     'views/upload',
@@ -19,7 +18,7 @@ define([
     'views/categorydetail',
     'views/tag',
     'forms/category'
-], function($, _, Backbone, Bootstrap, Router, PodView, PodDetailView, Pod, Pods, Tags, Categories, Subcategories, ListenView, SigninView, SignupView, UploadView, CategoryView, CategoryDetailView, TagView, CategoryForm) {
+], function($, _, Backbone, Bootstrap, Router, PodView, PodDetailView, Pod, Pods, Tags, Categories, Subcategories, SigninView, SignupView, UploadView, CategoryView, CategoryDetailView, TagView, CategoryForm) {
     'use strict';
 
     var AppView = Backbone.View.extend({

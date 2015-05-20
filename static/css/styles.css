@@ -100,6 +100,9 @@ h4.subtitle {
 #tags-list > li {
   margin: 5px 0;
 }
+div.tag-search {
+  margin-bottom: 5px;
+}
 
 /* Bootsnipp widgets - begin */
 .dropdown-submenu {

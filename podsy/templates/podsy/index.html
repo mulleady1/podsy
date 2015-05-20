@@ -58,6 +58,7 @@
               {% endif %}
             </ul>
           </li>
+          <li><a href="#/tags/">About</a></li>
           <li><a href="#/about/">About</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
@@ -273,6 +274,15 @@
     <div class="row">
       <div class="col-xs-12">
         <h3 class="title">Tags</h3>
+      </div>
+    </div>
+    <div class="row tag-search">
+      <div class="col-md-6">
+        <input type="text" class="form-control" name="tag-search" placeholder="Search for tags">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-12">
         <ul id="tags-list"></ul>
       </div>
     </div>
@@ -321,23 +331,6 @@
         </div>
       </form>
       <div class="comments-container"></div>
-    </div>
-  </script>
-  <script type="text/template" id="pod-listen-template">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title"><%= name %></h4>
-        </div>
-        <div class="modal-body">
-          <p><audio src="<%= audioUrl %>" controls autoplay></audio></p>
-          <p><a href="<%= podcastUrl %>" target="_blank"><%= podcastUrl %></a></p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        </div>
-      </div>
     </div>
   </script>
   <script type="text/template" id="category-template">
