@@ -1,11 +1,12 @@
 define([
     'backbone',
-    'jquery-ui'
-], function(Backbone) {
+    'models/pod'
+], function(Backbone, Pod) {
     var UploadView = Backbone.View.extend({
         el: '#upload',
         events: {
             'click button.submit': 'submit',
+            'focus input': 'removeErrorMessage',
             'shown.bs.modal': 'show',
             'hide.bs.modal': 'hide',
             'click .tags-container': 'focusTagElement',
@@ -21,6 +22,7 @@ define([
             });
         },
         submit: function() {
+            this.removeErrorMessage();
             if (this.$el.find('.tab-pane.active form').hasClass('file')) {
                 this.submitFile();
             } else {
@@ -29,7 +31,8 @@ define([
         },
         submitFile: function() {
             var tags = [],
-                formData = new FormData(this.$el.find('.tab-pane.active form')[0]);
+                form = this.$el.find('.tab-pane.active form'),
+                formData = new FormData(form[0]);
 
             this.$el.find('.tab-pane.active span.tag-value').each(function(span) {
                 tags.push($(this).html());
@@ -47,16 +50,20 @@ define([
             };
 
             $.ajax(settings).then(function(data) {
-                debugger;
                 if (data.success) {
-                    location.hash = '';
-                    location.reload();
+                    var pod = new Pod(data.pod);
+                    app.pods.unshift(pod);
+                    app.podsData.unshift(data.pod);
+                    location.hash = '#/pods/{id}/'.replace('{id}', pod.get('id'));
+                } else {
+                    form.prepend('<p class="text-warning">Something went wrong.</p>');
                 }
             });
         },
         submitNoFile: function() {
             var tags = [],
-                formData = app.toJs(this.$el.find('.tab-pane.active form').serialize()),
+                form = this.$el.find('.tab-pane.active form'),
+                formData = app.toJs(form.serialize()),
                 json;
 
             this.$el.find('.tab-pane.active span.tag-value').each(function(span) {
@@ -68,8 +75,12 @@ define([
 
             $.post('/pods/', json).then(function(data) {
                 if (data.success) {
-                    location.hash = '';
-                    location.reload();
+                    var pod = new Pod(data.pod);
+                    app.pods.unshift(pod);
+                    app.podsData.unshift(data.pod);
+                    location.hash = '#/pods/{id}/'.replace('{id}', pod.get('id'));
+                } else {
+                    form.prepend('<p class="text-warning">Something went wrong.</p>');
                 }
             });
         },
@@ -97,6 +108,9 @@ define([
             if (this.$el.find('span.tag').length == 0) {
                 input.attr('placeholder', 'Tags');
             }
+        },
+        removeErrorMessage: function() {
+            this.$el.find('.text-warning').remove();
         }
     });
 

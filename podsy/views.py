@@ -189,7 +189,9 @@ class PodView(View):
                 if len(tags) > 0:
                     pod.tags.add(*tags)
                 pod.save()
+                
                 odata['success'] = True
+                odata['pod'] = pod.data
             else:
                 odata['success'] = False
 

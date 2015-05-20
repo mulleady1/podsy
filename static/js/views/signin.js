@@ -19,6 +19,7 @@ define([
             var self = this,
                 formData = app.toJson(this.$el.find('form').serialize());
 
+            this.removeErrorMessage();
             $.post('/signin/', formData).then(function(data) {
                 if (data.success) {
                     location.hash = '';

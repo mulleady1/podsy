@@ -46,6 +46,7 @@ define([
 
             // Listeners.
             this.listenTo(app.pods, 'reset', this.addPods);
+            this.listenTo(app.pods, 'add', this.addPodToFront);
             this.listenTo(app.tags, 'reset', this.addTags);
             this.listenTo(app.categories, 'reset', this.addCategories);
 
@@ -60,6 +61,10 @@ define([
         addPod: function(pod) {
             var podView = new PodView({ model: pod });
             this.$('#pods-list').append(podView.render().el);
+        },
+        addPodToFront: function(pod) {
+            var podView = new PodView({ model: pod });
+            $('#pods-list').prepend(podView.render().el);
         },
         addPods: function() {
             this.$('#pods-list').html('');
