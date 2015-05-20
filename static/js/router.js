@@ -6,7 +6,6 @@ define([
         routes: {
             '':                        'index',
             'pods/new/':               'addPod',
-            'pods/favs/':              'favPods',
             'pods/:id/':               'pods',
             'pods/categories/:id/':    'podsByCategory',
             'pods/subcategories/:id/': 'podsBySubcategory',
@@ -15,6 +14,8 @@ define([
             'signin/':                 'signin',
             'signup/':                 'signup',
             'account/':                'account',
+            'account/pods/favs/':      'favPods',
+            'account/tags/favs/':      'favTags',
             'about/':                  'about',
             'tags/':                   'tags',
             'tags/:tagName/':          'tagByName'
@@ -39,7 +40,7 @@ define([
             this.collapseMobileNav();
             $('#pods-container').show();
             app.categoryDetailView.show({ name: 'My favorite pods', description: '' });
-            $.get('/pods/favs/').then(function(data) {
+            $.get('/account/pods/favs/').then(function(data) {
                 app.pods.reset(data);
             });
         },
@@ -123,18 +124,27 @@ define([
         },
         tags: function() {
             $('.card').hide();
+            this.collapseMobileNav();
             $('#tags-container').show();
-            if (app.tags.length == 0) {
-                app.tags.fetch({ reset: true });
-            }
+            app.tags.fetch({ reset: true });
         },
         tagByName: function(tagName) {
-          $('.card').hide();
-          $('#pods-container').show();
-          $.get('/tags/{tagName}/'.replace('{tagName}', tagName)).then(function(data) {
-              app.categoryDetailView.show({ name: data.name, description: data.description });
-              app.pods.reset(data.pods);
-          });
+            $('.card').hide();
+            $('#pods-container').show();
+            $.get('/tags/{tagName}/'.replace('{tagName}', tagName)).then(function(data) {
+                app.categoryDetailView.show({ name: data.name, description: data.description });
+                app.pods.reset(data.pods);
+            });
+        },
+        favTags: function() {
+            if (!app.loggedIn) return;
+            $('.card').hide();
+            this.collapseMobileNav();
+            $('#tags-container').show();
+            app.categoryDetailView.show({ name: 'My favorite Tags', description: '' });
+            $.get('/account/tags/favs/').then(function(data) {
+                app.tags.reset(data);
+            });
         },
         collapseMobileNav: function() {
             var button = $('button.navbar-toggle[aria-expanded="true"]');

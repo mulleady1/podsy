@@ -8,9 +8,16 @@ from podsy.models import *
 import json
 
 def getuser(request):
-    return PodsyUser.objects.get(user=request.user)
+    try:
+        return PodsyUser.objects.get(user=request.user)
+    except:
+        return False
 
 def Json(data):
+    return HttpResponse(json.dumps(data), content_type='application/json')
+
+def JsonAuthErr():
+    data = { 'success': False, 'message': 'Not logged in.' }
     return HttpResponse(json.dumps(data), content_type='application/json')
 
 def home(request):
@@ -38,7 +45,7 @@ def home(request):
         'categories': Category.objects.all(),
         'username': request.user.username,
         'loggedIn': loggedIn,
-        'u': u
+        'user': u
     }
     return render(request, 'podsy/index.html', context)
 
@@ -288,20 +295,40 @@ class CommentView(View):
         return Json(odata)
 
 class TagView(View):
+    favs = False
 
     def get(self, request, tag_name=None):
-        if tag_name:
+        if self.favs:
+            u = getuser(request)
+            if not u:
+                return JsonAuthErr()
+
+            tags = u.favoriteTags.all()
+            odata = []
+            for tag in tags:
+                data = tag.data
+                data['fav'] = True
+                odata.append(data)
+        elif tag_name:
             tag = Tag.objects.get(name=tag_name.lower())
             pods = Pod.objects.filter(tags__name=tag_name)
             odata = tag.data
             odata['pods'] = [pod.data for pod in pods]
         else:
+            u = getuser(request)
+            favs = []
+            if u:
+                favs = u.favoriteTags.all()
             tags = Tag.objects.all()
-            odata = [tag.data for tag in tags]
+            odata = []
+            for tag in tags:
+                data = tag.data
+                data['fav'] = tag in favs
+                odata.append(data)
 
         return Json(odata)
 
-    def post(self, request, pod_id):
+    def post(self, request, tag_name):
         idata = json.loads(request.body)
         text = idata.get('text')
         parent_id = idata.get('parent_id')
@@ -318,11 +345,22 @@ class TagView(View):
 
         return Json(odata)
 
-    def put(self, request):
+    def put(self, request, tag_id=None, tag_name=None):
         idata = json.loads(request.body)
-        tag = Tag.objects.get(pk=idata.get('id'))
+        u = getuser(request)
+        if not u:
+            return JsonAuthErr()
+
+        tag = Tag.objects.get(pk=tag_id)
         tag.name = idata.get('name')
         tag.description = idata.get('description')
+        fav = idata.get('fav')
+
+        if not fav and tag in u.favoriteTags.all():
+            u.favoriteTags.remove(tag)
+        elif fav and not tag in u.favoriteTags.all():
+            u.favoriteTags.add(tag)
+
         tag.save()
 
         odata = {

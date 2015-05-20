@@ -6,10 +6,10 @@ from django.forms import ModelForm
 class PodsyUser(models.Model):
     user = models.OneToOneField(User)
     favoritePods = models.ManyToManyField('Pod', blank=True)
-    #favoriteCategories = models.ManyToManyField('Category', blank=True)
-    #favoriteTags = models.ManyToManyField('Tag', blank=True)
+    favoriteTags = models.ManyToManyField('Tag', blank=True)
     created = models.DateField(auto_now_add=True)
     modified = models.DateField(auto_now=True)
+    is_admin = models.BooleanField(default=False)
 
     @property
     def username(self):

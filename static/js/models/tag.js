@@ -14,7 +14,8 @@ define([
             }
         },
         toggleFavorite: function() {
-            debugger;
+            this.set('fav', !this.get('fav'));
+            this.save();
         }
     });
 

@@ -18,8 +18,8 @@
       podsData: {{ podsData|safe }},
       tagsData: {{ tagsData|safe }},
       loggedIn: {{ loggedIn }},
-      userid: '{{ u.id }}',
-      username: '{{ u.username }}',
+      userid: '{{ user.id }}',
+      username: '{{ user.username }}',
       csrf: "{% csrf_token %}",
       monthNames: [
         "Jan", "Feb", "Mar",
@@ -53,7 +53,7 @@
                 <a href="#/pods/categories/{{ cat.name|lower }}/">{{ cat.name }}</a>
               </li>
               {% endfor %}
-              {% if username %}
+              {% if user.is_admin %}
               <li><a href="#/categories/new/">Add category...</a></li>
               {% endif %}
             </ul>
@@ -69,7 +69,8 @@
             <ul class="dropdown-menu" role="menu">
               <li><a href="#/account/">Account</a></li>
               <li role="presentation" class="dropdown-header">My Favorites</li>
-              <li><a href="#/pods/favs/">Pods</a></li>
+              <li><a href="#/account/pods/favs/">Pods</a></li>
+              <li><a href="#/account/tags/favs/">Tags</a></li>
             </ul>
           </li>
           {% else %}
@@ -127,8 +128,8 @@
     <div class="row">
       <div class="col-md-6">
         <h3 class="title">My account</h3>
-        <p>Username: {{ u.username }}</p>
-        <p>Account created: {{ u.created }}</p>
+        <p>Username: {{ user.username }}</p>
+        <p>Account created: {{ user.created }}</p>
         <form action="/signout/" method="post">
           {% csrf_token %}
           <p><button type="submit" class="btn btn-default">Log out</button></p>
@@ -311,7 +312,7 @@
     <div class="tag">
       <div class="tag-title">
         <a href="#/tags/<%= name %>/"><%= name %></a>
-        <span class="glyphicon glyphicon-star<% if (!fav) print('-empty') %>"></span>
+        <span class="fav glyphicon glyphicon-star<% if (!fav) print('-empty') %>"></span>
       </div>
     </div>
   </script>
