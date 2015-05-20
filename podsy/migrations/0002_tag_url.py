@@ -7,14 +7,14 @@ from django.db import models, migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('podsy', '0008_auto_20150410_1823'),
+        ('podsy', '0001_initial'),
     ]
 
     operations = [
-        migrations.AlterField(
-            model_name='comment',
-            name='parent',
-            field=models.ForeignKey(blank=True, to='podsy.Comment', null=True),
+        migrations.AddField(
+            model_name='tag',
+            name='url',
+            field=models.CharField(max_length=100, blank=True),
             preserve_default=True,
         ),
     ]
