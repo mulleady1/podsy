@@ -108,11 +108,11 @@ class SignoutView(View):
 class PodView(View):
     favs = False
 
-    def get(self, request, category_id=None):
+    def get(self, request, category_name=None):
         if self.favs:
             pods = getuser(request).favoritePods.all()
-        elif category_id:
-            pods = Pod.objects.filter(category_id=category_id)
+        elif category_name:
+            pods = Pod.objects.filter(category__name__iexact=category_name)
         else:
             pods = Pod.objects.all()
 
