@@ -13,11 +13,13 @@ define([
             'keypress input.tag': 'keypress',
             'click span.tag .glyphicon-remove': 'removeTag'
         },
-        show: function() {
+        initialize: function() {
+            var self = this;
             this.$el.find('input.tag').autocomplete({
                 source: app.tagsData,
                 select: function(event, ui) {
-                    debugger;
+                    event.preventDefault();
+                    self.addTagSpan(ui.item.value);
                 }
             });
         },
@@ -30,7 +32,8 @@ define([
             }
         },
         submitFile: function() {
-            var tags = [],
+            var self = this,
+                tags = [],
                 form = this.$el.find('.tab-pane.active form'),
                 formData = new FormData(form[0]);
 
@@ -54,6 +57,7 @@ define([
                     var pod = new Pod(data.pod);
                     app.pods.unshift(pod);
                     app.podsData.unshift(data.pod);
+                    self.clearForm();
                     location.hash = '#/pods/{id}/'.replace('{id}', pod.get('id'));
                 } else {
                     form.prepend('<p class="text-warning">Something went wrong.</p>');
@@ -61,7 +65,8 @@ define([
             });
         },
         submitNoFile: function() {
-            var tags = [],
+            var self = this,
+                tags = [],
                 form = this.$el.find('.tab-pane.active form'),
                 formData = app.toJs(form.serialize()),
                 json;
@@ -78,6 +83,7 @@ define([
                     var pod = new Pod(data.pod);
                     app.pods.unshift(pod);
                     app.podsData.unshift(data.pod);
+                    self.clearForm();
                     location.hash = '#/pods/{id}/'.replace('{id}', pod.get('id'));
                 } else {
                     form.prepend('<p class="text-warning">Something went wrong.</p>');
@@ -95,9 +101,13 @@ define([
             if (e.keyCode != 13 || input.value.trim() == '') {
                 return;
             }
-            $('<span class="tag"><span class="tag-value">{val}</span><span class="glyphicon glyphicon-remove"></span></span>'.replace('{val}', input.value)).insertBefore(this.$el.find('.tab-pane.active input.tag'));
-            input.value = '';
-            input.removeAttribute('placeholder');
+            this.addTagSpan(input.value);
+        },
+        addTagSpan: function(val) {
+            var input = this.$el.find('.tab-pane.active input.tag');
+            $('<span class="tag"><span class="tag-value">{val}</span><span class="glyphicon glyphicon-remove"></span></span>'.replace('{val}', val)).insertBefore(input);
+            input.val('');
+            input.attr('placeholder', '');
         },
         removeTag: function(e) {
             var span = $(e.target).closest('span.tag'),
@@ -111,6 +121,12 @@ define([
         },
         removeErrorMessage: function() {
             this.$el.find('.text-warning').remove();
+        },
+        clearForm: function() {
+            this.$el.find('form input').val('');
+            this.$el.find('form select').val('');
+            this.$el.find('form .tags-container span').remove();
+            this.$el.find('form .tags-container input').attr('Placeholder', 'Tags');
         }
     });
 

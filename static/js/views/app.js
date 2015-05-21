@@ -17,7 +17,8 @@ define([
     'views/category',
     'views/header',
     'views/tag',
-    'forms/category'
+    'forms/category',
+    'jquery-ui'
 ], function($, _, Backbone, Bootstrap, Router, PodView, PodDetailView, Pod, Pods, Tags, Categories, Subcategories, SigninView, SignupView, UploadView, CategoryView, HeaderView, TagView, CategoryForm) {
     'use strict';
 
