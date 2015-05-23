@@ -127,19 +127,12 @@ class PodView(View):
         if request.user.is_authenticated():
             u = getuser(request)
             favs = u.favoritePods.all()
-
-        odata = [{
-            'id': pod.id,
-            'audioUrl': pod.audio_url,
-            'podcastUrl': pod.podcast_url,
-            'name': pod.name,
-            'category_id': pod.category.id,
-            'category': pod.category.name,
-            'fav': pod in favs,
-            'upvotes': pod.upvotes,
-            'downvotes': pod.downvotes,
-            'tags': [{ 'id': tag.id, 'name': tag.name } for tag in pod.tags.all()]
-        } for pod in pods]
+        
+        odata = []
+        for pod in pods:
+            data = pod.data
+            data['fav'] = pod in favs
+            odata.append(data)
 
         return Json(odata)
 
