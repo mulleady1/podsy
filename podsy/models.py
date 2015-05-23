@@ -3,6 +3,9 @@ from django.contrib.auth.models import User
 from django import forms
 from django.forms import ModelForm
 
+from datetime import date, timedelta
+from itertools import chain
+
 class PodsyUser(models.Model):
     user = models.OneToOneField(User)
     favoritePods = models.ManyToManyField('Pod', blank=True)
@@ -15,10 +18,31 @@ class PodsyUser(models.Model):
     def username(self):
         return self.user.username
 
+    @property
+    def data(self):
+        return {
+            'id': self.id,
+            'username': self.username,
+            'pods': [pod.data for pod in Pod.objects.filter(user=self)]
+        }
+
     def __str__(self):
         return self.username
 
+class PodManager(models.Manager):
+    def front_page(self):
+        yesterday = date.today() - timedelta(1)
+        lastWeek = date.today() - timedelta(7)
+        lastMonth = date.today() - timedelta(30)
+        lastYear = date.today() - timedelta(365)
+        dayPods = self.filter(created__gte=yesterday)
+        weekPods = self.filter(created__gte=lastWeek)
+        monthPods = self.filter(created__gte=lastMonth)
+        yearPods = self.filter(created__gte=lastYear)
+        return list(chain(dayPods, weekPods, monthPods, yearPods))
+
 class Pod(models.Model):
+    objects = PodManager()
     name = models.CharField(max_length=1000)
     podcast_url = models.URLField(blank=True)
     audio_url = models.URLField(blank=True)
@@ -42,6 +66,10 @@ class Pod(models.Model):
             'category': self.category.name,
             'upvotes': self.upvotes,
             'downvotes': self.downvotes,
+            'created': self.created.strftime('%Y-%m-%d'),
+            'createdLabel': self.created.strftime('%b %d'),
+            'points': self.upvotes - self.downvotes,
+            'user': self.user.username,
             'tags': [tag.data for tag in self.tags.all()]
         }
 

@@ -288,6 +288,8 @@
       </div>
     </div>
   </div>
+  <div id="users-view" class="container view">
+  </div>
 
   <!-- Templates -->
   <script type="text/template" id="pod-template">
@@ -300,7 +302,10 @@
         <a href="#/pods/<%= id %>/"><%= name %></a>
         <span class="glyphicon glyphicon-star<% if (!fav) print('-empty') %>"></span>
         <div class="category">
+          <%= points %> points
           in <a href="#/pods/categories/<%= category.toLowerCase() %>/"><%= category %></a>
+          on <%= createdLabel %>
+          by <a href="#/users/<%= user %>/"><%= user %></a>
           <% if (tags.length) { %>
             tagged with <% for (var i = 0; i < tags.length; i++) print('<a class="tag" href="#/tags/{tag.name}/">{tag.name}</a> '.replace(/{tag.name}/g, tags[i].name)) %>
           <% } %>

@@ -17,7 +17,8 @@ define([
             'about/':                  'about',
             'tags/':                   'tags',
             'tags/:tagName/':          'tagByName',
-            'account/tags/favs/':      'tagsByFav'
+            'account/tags/favs/':      'tagsByFav',
+            'users/:username/':        'userByUsername'
         },
         index: function() {
             $('.view').hide();
@@ -134,6 +135,15 @@ define([
             if (button.length) {
                 button.click();
             }
+        },
+        userByUsername: function(username) {
+            $('.view').hide();
+            this.collapseMobileNav();
+            $('#users-view').show();
+            $.get('/users/{username}/'.replace('{username}', username)).then(function(data) {
+                app.headerView.show({ name: data.username, description: data.description });
+                $('#users-view').html('<pre>'+app.toJson(data)+'</pre>');
+            });
         }
 
     });

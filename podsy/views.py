@@ -28,7 +28,7 @@ def home(request):
         u = {}
         loggedIn = 'false'
 
-    pods = Pod.objects.all()
+    pods = Pod.objects.front_page()
     favs = []
     if request.user.is_authenticated():
         u = getuser(request)
@@ -189,7 +189,7 @@ class PodView(View):
                 if len(tags) > 0:
                     pod.tags.add(*tags)
                 pod.save()
-                
+
                 odata['success'] = True
                 odata['pod'] = pod.data
             else:
@@ -376,4 +376,16 @@ class TagView(View):
         tag = Tag.objects.get(name=tag_name.lower())
         tag.delete()
         odata = { 'success': True }
+        return Json(odata)
+
+class UserView(View):
+
+    def get(self, request, username=None):
+        if username:
+            user = PodsyUser.objects.get(user__username=username)
+            odata = user.data
+        else:
+            users = PodsyUser.objects.all()
+            odata = [user.data for user in users]
+
         return Json(odata)
