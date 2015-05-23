@@ -39,6 +39,8 @@ textarea {
 .pod .tag {
     background: #f0f0f0;
     padding: 3px;
+    margin-bottom: 1px;
+    display: inline-block;
 }
 .view:not(#pods-view) {
     display: none;

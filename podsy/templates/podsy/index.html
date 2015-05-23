@@ -351,7 +351,7 @@
     <div class="comment-metadata">
       <%= timestamp %> by <a href="#/users/<%= userid %>/"><%= username %></a>
     </div>
-    <p><%= text %></p>
+    <p><%= text.replace(/\n/g, '<br>') %></p>
     <div class="comment-actions">
       <button type="button" class="btn btn-link btn-xs reply">Reply...</button>
       <form class="reply-container">

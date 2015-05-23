@@ -31,14 +31,15 @@ class PodsyUser(models.Model):
 
 class PodManager(models.Manager):
     def front_page(self):
+        #import ipdb; ipdb.set_trace()
         yesterday = date.today() - timedelta(1)
         lastWeek = date.today() - timedelta(7)
         lastMonth = date.today() - timedelta(30)
         lastYear = date.today() - timedelta(365)
-        dayPods = self.filter(created__gte=yesterday)
-        weekPods = self.filter(created__gte=lastWeek)
-        monthPods = self.filter(created__gte=lastMonth)
-        yearPods = self.filter(created__gte=lastYear)
+        dayPods = self.filter(created__gte=yesterday).order_by('-upvotes', 'downvotes')
+        weekPods = self.filter(created__gte=lastWeek).order_by('-upvotes', 'downvotes')
+        monthPods = self.filter(created__gte=lastMonth).order_by('-upvotes', 'downvotes')
+        yearPods = self.filter(created__gte=lastYear).order_by('-upvotes', 'downvotes')
         return list(chain(dayPods, weekPods, monthPods, yearPods))
 
 class Pod(models.Model):
