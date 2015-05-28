@@ -127,7 +127,7 @@ class PodView(View):
         if request.user.is_authenticated():
             u = getuser(request)
             favs = u.favoritePods.all()
-        
+
         odata = []
         for pod in pods:
             data = pod.data
@@ -270,8 +270,7 @@ class CommentView(View):
         comment.save()
 
         odata = {
-            'success': True,
-            'comment': comment.data
+            'id': comment.id
         }
 
         return Json(odata)
