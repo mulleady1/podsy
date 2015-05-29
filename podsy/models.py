@@ -10,6 +10,8 @@ class PodsyUser(models.Model):
     user = models.OneToOneField(User)
     favoritePods = models.ManyToManyField('Pod', blank=True)
     favoriteTags = models.ManyToManyField('Tag', blank=True)
+    upvotedPods = models.ManyToManyField('Pod', blank=True, related_name='upvoted')
+    downvotedPods = models.ManyToManyField('Pod', blank=True, related_name='downvoted')
     created = models.DateField(auto_now_add=True)
     modified = models.DateField(auto_now=True)
     is_admin = models.BooleanField(default=False)
