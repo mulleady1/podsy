@@ -4,7 +4,7 @@ define([
     'backbone'
 ], function($, _, Backbone) {
     var CategoryForm = Backbone.View.extend({
-        el: '#category',
+        el: '#category-view',
         events: {
             'click button.submit': 'submit',
             'hide.bs.modal': 'hide'

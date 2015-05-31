@@ -7,7 +7,7 @@ define([
     'use strict';
 
     var SignupView = Backbone.View.extend({
-        el: '#signup',
+        el: '#signup-view',
         events: {
             'click button.submit': 'submit',
             'focus input': 'removeErrorMessage'
