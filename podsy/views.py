@@ -28,15 +28,21 @@ def home(request):
         u = {}
         loggedIn = 'false'
 
-    pods = Pod.objects.all()
+    pods = Pod.objects.front_page()
     favs = []
+    upToggled = []
+    downToggled = []
     if request.user.is_authenticated():
         u = getuser(request)
         favs = u.favoritePods.all()
+        upToggled = u.upvotedPods.all()
+        downToggled = u.downvotedPods.all()
     podsData = []
     for pod in pods:
         podData = pod.data
         podData['fav'] = pod in favs
+        podData['upToggled'] = pod in upToggled
+        podData['downToggled'] = pod in downToggled
         podsData.append(podData)
 
     context = {
@@ -124,22 +130,21 @@ class PodView(View):
             pods = Pod.objects.all()
 
         favs = []
+        upToggled = []
+        downToggled = []
         if request.user.is_authenticated():
             u = getuser(request)
             favs = u.favoritePods.all()
+            upToggled = u.upvotedPods.all()
+            downToggled = u.downvotedPods.all()
 
-        odata = [{
-            'id': pod.id,
-            'audioUrl': pod.audio_url,
-            'podcastUrl': pod.podcast_url,
-            'name': pod.name,
-            'category_id': pod.category.id,
-            'category': pod.category.name,
-            'fav': pod in favs,
-            'upvotes': pod.upvotes,
-            'downvotes': pod.downvotes,
-            'tags': [{ 'id': tag.id, 'name': tag.name } for tag in pod.tags.all()]
-        } for pod in pods]
+        odata = []
+        for pod in pods:
+            data = pod.data
+            data['fav'] = pod in favs
+            data['upToggled'] = pod in upToggled
+            data['downToggled'] = pod in downToggled
+            odata.append(data)
 
         return Json(odata)
 
@@ -189,7 +194,9 @@ class PodView(View):
                 if len(tags) > 0:
                     pod.tags.add(*tags)
                 pod.save()
+
                 odata['success'] = True
+                odata['pod'] = pod.data
             else:
                 odata['success'] = False
 
@@ -204,12 +211,16 @@ class PodView(View):
         # Check for change in upvotes/downvotes.
         if idata.get('upToggled'):
             pod.upvotes += 1
+            u.upvotedPods.add(pod)
         elif idata.get('downToggled'):
             pod.downvotes += 1
+            u.downvotedPods.add(pod)
         if idata.get('upToggleRemoved'):
             pod.upvotes -= 1
+            u.upvotedPods.remove(pod)
         elif idata.get('downToggleRemoved'):
             pod.downvotes -= 1
+            u.downvotedPods.remove(pod)
 
         # Check for change in favorite status.
         if fav and pod not in u.favoritePods.all():
@@ -275,8 +286,7 @@ class CommentView(View):
         comment.save()
 
         odata = {
-            'success': True,
-            'comment': comment.data
+            'id': comment.id
         }
 
         return Json(odata)
@@ -313,10 +323,18 @@ class TagView(View):
             tag = Tag.objects.get(name=tag_name.lower())
             pods = Pod.objects.filter(tags__name=tag_name)
             odata = tag.data
-            odata['pods'] = [pod.data for pod in pods]
+            odata['pods'] = []
+            for pod in pods:
+                data = pod.data
+                if request.user.is_authenticated:
+                    data['upToggled'] = pod in getuser(request).upvotedPods.all()
+                    data['downToggled'] = pod in getuser(request).downvotedPods.all()
+                odata['pods'].append(data)
         else:
             u = getuser(request)
             favs = []
+            upToggled = []
+            downToggled = []
             if u:
                 favs = u.favoriteTags.all()
             tags = Tag.objects.all()
@@ -374,4 +392,16 @@ class TagView(View):
         tag = Tag.objects.get(name=tag_name.lower())
         tag.delete()
         odata = { 'success': True }
+        return Json(odata)
+
+class UserView(View):
+
+    def get(self, request, username=None):
+        if username:
+            user = PodsyUser.objects.get(user__username=username)
+            odata = user.data
+        else:
+            users = PodsyUser.objects.all()
+            odata = [user.data for user in users]
+
         return Json(odata)

@@ -83,13 +83,13 @@
   </nav>
 
   <!-- 'Cards' -->
-  <div id="pods-container" class="container card">
+  <div id="pods-view" class="container view">
     <ul id="pods-list" class="list-unstyled">
     </ul>
   </div>
-  <div id="pod-detail-container" class="container card">
+  <div id="pod-detail-view" class="container view">
   </div>
-  <div id="signup" class="container card">
+  <div id="signup" class="container view">
     <div class="row">
       <div class="col-md-6 col-md-offset-3">
         <h3 class="title">Sign up</h3>
@@ -113,7 +113,7 @@
       </div>
     </div>
   </div>
-  <div id="categories-container" class="container card">
+  <div id="categories-view" class="container view">
     <div class="panel panel-default">
       <div class="panel-heading">
         <h3 class="panel-title">Categories</h3>
@@ -124,9 +124,9 @@
       </div>
     </div>
   </div>
-  <div id="account-container" class="container card">
+  <div id="account-view" class="container view">
     <div class="row">
-      <div class="col-md-6">
+      <div class="col-md-6 col-md-offset-3">
         <h3 class="title">My account</h3>
         <p>Username: {{ user.username }}</p>
         <p>Account created: {{ user.created }}</p>
@@ -137,7 +137,7 @@
       </div>
     </div>
   </div>
-  <div id="about-container" class="container card">
+  <div id="about-view" class="container view">
     <h3 class="title">About</h3>
     <h4 class="subtitle">We're a new community.</h4>
     <p>
@@ -157,7 +157,7 @@
       </ul>
     </p>
   </div>
-  <div id="signin" class="container card">
+  <div id="signin" class="container view">
     <div class="row">
       <div class="col-md-6 col-md-offset-3">
         <h3 class="title">Sign in</h4>
@@ -175,7 +175,7 @@
       </div>
     </div>
   </div>
-  <div id="category" class="container card">
+  <div id="category" class="container view">
     <div class="row">
       <div class="col-md-6 col-md-offset-3">
         <h3 class="title">Add category</h3>
@@ -193,7 +193,7 @@
       </div>
     </div>
   </div>
-  <div id="upload" class="container card">
+  <div id="upload" class="container view">
     <div class="row">
       <div class="col-md-6 col-md-offset-3">
         <h3 class="title">Create a pod</h3>
@@ -271,7 +271,7 @@
       </div>
     </div>
   </div>
-  <div id="tags-container" class="container card">
+  <div id="tags-view" class="container view">
     <div class="row">
       <div class="col-xs-12">
         <h3 class="title">Tags</h3>
@@ -288,6 +288,8 @@
       </div>
     </div>
   </div>
+  <div id="users-view" class="container view">
+  </div>
 
   <!-- Templates -->
   <script type="text/template" id="pod-template">
@@ -300,7 +302,10 @@
         <a href="#/pods/<%= id %>/"><%= name %></a>
         <span class="glyphicon glyphicon-star<% if (!fav) print('-empty') %>"></span>
         <div class="category">
+          <%= points %> points
           in <a href="#/pods/categories/<%= category.toLowerCase() %>/"><%= category %></a>
+          on <%= createdLabel %>
+          by <a href="#/users/<%= user %>/"><%= user %></a>
           <% if (tags.length) { %>
             tagged with <% for (var i = 0; i < tags.length; i++) print('<a class="tag" href="#/tags/{tag.name}/">{tag.name}</a> '.replace(/{tag.name}/g, tags[i].name)) %>
           <% } %>
@@ -339,14 +344,14 @@
       <h5><strong><a href="#/pods/categories/<%= id %>/"><%= name %></a></strong> <%= description %></h5>
     </div>
   </script>
-  <script type="text/template" id="category-detail-template">
+  <script type="text/template" id="view-header-template">
     <h3 class="title"><%= name %> &nbsp;<small><%= description %></small></h3>
   </script>
   <script type="text/template" id="comment-template">
     <div class="comment-metadata">
       <%= timestamp %> by <a href="#/users/<%= userid %>/"><%= username %></a>
     </div>
-    <p><%= text %></p>
+    <p><%= text.replace(/\n/g, '<br>') %></p>
     <div class="comment-actions">
       <button type="button" class="btn btn-link btn-xs reply">Reply...</button>
       <form class="reply-container">

@@ -15,10 +15,11 @@ define([
     'views/signup',
     'views/upload',
     'views/category',
-    'views/categorydetail',
+    'views/header',
     'views/tag',
-    'forms/category'
-], function($, _, Backbone, Bootstrap, Router, PodView, PodDetailView, Pod, Pods, Tags, Categories, Subcategories, SigninView, SignupView, UploadView, CategoryView, CategoryDetailView, TagView, CategoryForm) {
+    'forms/category',
+    'jquery-ui'
+], function($, _, Backbone, Bootstrap, Router, PodView, PodDetailView, Pod, Pods, Tags, Categories, Subcategories, SigninView, SignupView, UploadView, CategoryView, HeaderView, TagView, CategoryForm) {
     'use strict';
 
     var AppView = Backbone.View.extend({
@@ -27,6 +28,7 @@ define([
             // Utility functions.
             app.toJs = this.toJs;
             app.toJson = this.toJson;
+            app.getFormData = this.getFormData;
             app.loadInitialPods = this.loadInitialPods;
 
             // Views.
@@ -35,7 +37,7 @@ define([
             app.uploadView = new UploadView();
             app.categoryView = new CategoryView();
             app.podDetailView = new PodDetailView();
-            app.categoryDetailView = new CategoryDetailView();
+            app.headerView = new HeaderView();
             app.categoryForm = new CategoryForm();
 
             // Collections.
@@ -46,6 +48,7 @@ define([
 
             // Listeners.
             this.listenTo(app.pods, 'reset', this.addPods);
+            this.listenTo(app.pods, 'add', this.addPodToFront);
             this.listenTo(app.tags, 'reset', this.addTags);
             this.listenTo(app.categories, 'reset', this.addCategories);
 
@@ -60,6 +63,10 @@ define([
         addPod: function(pod) {
             var podView = new PodView({ model: pod });
             this.$('#pods-list').append(podView.render().el);
+        },
+        addPodToFront: function(pod) {
+            var podView = new PodView({ model: pod });
+            $('#pods-list').prepend(podView.render().el);
         },
         addPods: function() {
             this.$('#pods-list').html('');
@@ -147,6 +154,17 @@ define([
             }
 
             return JSON.stringify(data, null, 4);
+        },
+        getFormData: function(form) {
+            var data = {};
+            form.find('input, select').each(function(i, el) {
+                var name = $(el).prop('name');
+                var val = $(el).val();
+                if (name && val) {
+                    data[name] = val;
+                }
+            });
+            return data;
         },
         loadInitialPods: function() {
             var pods = [];
