@@ -30,7 +30,7 @@ define([
             this.pauseAudio();
             $('.view').hide();
             this.collapseMobileNav();
-            $('#upload').show();
+            $('#upload-view').show();
         },
         podById: function(id) {
             this.pauseAudio();
@@ -89,19 +89,19 @@ define([
             this.pauseAudio();
             $('.view').hide();
             this.collapseMobileNav();
-            $('#category').show();
+            $('#category-view').show();
         },
         signin: function() {
             this.pauseAudio();
             $('.view').hide();
             this.collapseMobileNav();
-            $('#signin').show();
+            $('#signin-view').show();
         },
         signup: function() {
             this.pauseAudio();
             $('.view').hide();
             this.collapseMobileNav();
-            $('#signup').show();
+            $('#signup-view').show();
         },
         account: function() {
             this.pauseAudio();
@@ -120,7 +120,8 @@ define([
             this.pauseAudio();
             $('.view').hide();
             this.collapseMobileNav();
-            $('#tags-view, #tags-view h3.title').show();
+            $('#tags-view').show();
+            $('#tags-view h3.title').html('Tags');
             app.tags.fetch({ reset: true });
         },
         tagByName: function(tagName) {
@@ -138,8 +139,7 @@ define([
             $('.view').hide();
             this.collapseMobileNav();
             $('#tags-view').show();
-            $('#tags-view h3.title').hide();
-            app.headerView.show({ name: 'My favorite tags', description: '' });
+            $('#tags-view h3.title').html('My favorite tags');
             $.get('/account/tags/favs/').then(function(data) {
                 app.tags.reset(data);
             });

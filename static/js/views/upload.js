@@ -3,7 +3,7 @@ define([
     'models/pod'
 ], function(Backbone, Pod) {
     var UploadView = Backbone.View.extend({
-        el: '#upload',
+        el: '#upload-view',
         events: {
             'click button.submit': 'submit',
             'focus input': 'removeErrorMessage',
