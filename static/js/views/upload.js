@@ -71,23 +71,28 @@ define([
                 formData = app.getFormData(form),
                 json;
 
-            this.$el.find('.tab-pane.active span.tag-value').each(function(span) {
-                tags.push($(this).html());
-            });
+            this.verifyAudio(formData.audio_url).then(function() {
+                self.$el.find('.tab-pane.active span.tag-value').each(function(span) {
+                    tags.push($(self).html());
+                });
 
-            formData.tags = tags;
-            json = app.toJson(formData);
+                formData.tags = tags;
+                json = app.toJson(formData);
 
-            $.post('/pods/', json).then(function(data) {
-                if (data.success) {
-                    var pod = new Pod(data.pod);
-                    app.pods.unshift(pod);
-                    app.podsData.unshift(data.pod);
-                    self.clearForm();
-                    location.hash = '#/pods/{id}/'.replace('{id}', pod.get('id'));
-                } else {
-                    form.prepend('<p class="text-warning">Something went wrong.</p>');
-                }
+                $.post('/pods/', json).then(function(data) {
+                    if (data.success) {
+                        var pod = new Pod(data.pod);
+                        app.pods.unshift(pod);
+                        app.podsData.unshift(data.pod);
+                        self.clearForm();
+                        location.hash = '#/pods/{id}/'.replace('{id}', pod.get('id'));
+                    } else {
+                        form.prepend('<p class="text-warning">Something went wrong.</p>');
+                    }
+                });
+            }, function() {
+                form.prepend('<p class="text-warning">That doesn\'t seem to be a URL to a valid audio file.</p>');
+                return;
             });
         },
         hide: function() {
@@ -127,6 +132,29 @@ define([
             this.$el.find('form select').val('');
             this.$el.find('form .tags-container span').remove();
             this.$el.find('form .tags-container input').attr('Placeholder', 'Tags');
+        },
+        verifyAudio: function(src) {
+            var isValid = true,
+                audio = document.createElement('audio'),
+                deferred = $.Deferred();
+
+            $(audio).on('error', function() {
+                deferred.reject();
+            });
+
+            audio.muted = true;
+            audio.src = src;
+            audio.load();
+
+            setTimeout(function() {
+                if (audio.networkState == audio.NETWORK_NO_SOURCE) {
+                    deferred.reject();
+                } else {
+                    deferred.resolve();
+                }
+            }, 1000);
+
+            return deferred.promise();
         }
     });
 
