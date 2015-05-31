@@ -68,7 +68,7 @@ define([
             var self = this,
                 tags = [],
                 form = this.$el.find('.tab-pane.active form'),
-                formData = app.toJs(form.serialize()),
+                formData = app.getFormData(form),
                 json;
 
             this.$el.find('.tab-pane.active span.tag-value').each(function(span) {

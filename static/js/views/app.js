@@ -28,6 +28,7 @@ define([
             // Utility functions.
             app.toJs = this.toJs;
             app.toJson = this.toJson;
+            app.getFormData = this.getFormData;
             app.loadInitialPods = this.loadInitialPods;
 
             // Views.
@@ -153,6 +154,17 @@ define([
             }
 
             return JSON.stringify(data, null, 4);
+        },
+        getFormData: function(form) {
+            var data = {};
+            form.find('input, select').each(function(i, el) {
+                var name = $(el).prop('name');
+                var val = $(el).val();
+                if (name && val) {
+                    data[name] = val;
+                }
+            });
+            return data;
         },
         loadInitialPods: function() {
             var pods = [];
