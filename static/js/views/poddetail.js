@@ -7,9 +7,9 @@ define([
     'views/comment'
 ], function($, _, Backbone, Comment, Comments, CommentView) {
     var PodDetailView = Backbone.View.extend({
-        el: '#pod-detail-container',
+        el: '#pod-detail-view',
         template: _.template($('#pod-detail-template').html()),
-        className: 'container card',
+        className: 'container view',
         events: {
             'click .upvote': 'toggleUpvote',
             'click .downvote': 'toggleDownvote',
@@ -27,6 +27,7 @@ define([
         },
         show: function(pod) {
             this.setModel(pod).render().$el.show();
+            this.audioEl = this.$el.find('audio')[0];
             $.get('/pods/{id}/comments'.replace('{id}', pod.get('id'))).then(this.showComments.bind(this));
         },
         showComments: function(commentsData) {

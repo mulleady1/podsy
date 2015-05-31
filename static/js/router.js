@@ -5,53 +5,58 @@ define([
     var Router = Backbone.Router.extend({
         routes: {
             '':                        'index',
-            'pods/new/':               'addPod',
-            'pods/:id/':               'pods',
+            'pods/new/':               'newPod',
+            'pods/:id/':               'podById',
+            'account/pods/favs/':      'podsByFav',
             'pods/categories/:id/':    'podsByCategory',
-            'pods/subcategories/:id/': 'podsBySubcategory',
-            'categories/new/':         'addCategory',
             'categories/':             'categories',
+            'categories/new/':         'newCategory',
             'signin/':                 'signin',
             'signup/':                 'signup',
             'account/':                'account',
-            'account/pods/favs/':      'favPods',
-            'account/tags/favs/':      'favTags',
             'about/':                  'about',
             'tags/':                   'tags',
-            'tags/:tagName/':          'tagByName'
+            'tags/:tagName/':          'tagByName',
+            'account/tags/favs/':      'tagsByFav',
+            'users/:username/':        'userByUsername'
         },
         index: function() {
-            $('.card').hide();
-            $('#pods-container').show();
+            this.pauseAudio();
+            $('.view').hide();
+            $('#pods-view').show();
             app.loadInitialPods();
         },
-        addPod: function() {
-            $('.card').hide();
+        newPod: function() {
+            this.pauseAudio();
+            $('.view').hide();
             this.collapseMobileNav();
-            $('#upload').show();
+            $('#upload-view').show();
         },
-        pods: function(id) {
-            $('.card').hide();
+        podById: function(id) {
+            this.pauseAudio();
+            $('.view').hide();
             app.podDetailView.show(app.pods.get(id));
         },
-        favPods: function() {
+        podsByFav: function() {
+            this.pauseAudio();
             if (!app.loggedIn) return;
-            $('.card').hide();
+            $('.view').hide();
             this.collapseMobileNav();
-            $('#pods-container').show();
-            app.categoryDetailView.show({ name: 'My favorite pods', description: '' });
+            $('#pods-view').show();
+            app.headerView.show({ name: 'My favorite pods', description: '' });
             $.get('/account/pods/favs/').then(function(data) {
                 app.pods.reset(data);
             });
         },
         podsByCategory: function(name) {
-            $('.card').hide();
+            this.pauseAudio();
+            $('.view').hide();
             this.collapseMobileNav();
 
             function f() {
                 app.categories.each(function(cat) {
                     if (cat.get('name').toLowerCase() == name) {
-                        app.categoryDetailView.show(cat.toJSON());
+                        app.headerView.show(cat.toJSON());
                         return false;
                     }
                 });
@@ -67,89 +72,99 @@ define([
                     }
                 });
             }
-            $('#pods-container').show();
+            $('#pods-view').show();
             $.get('/pods/categories/{name}/'.replace('{name}', name.toLowerCase())).then(function(data) {
                 app.pods.reset(data);
             });
         },
-        podsBySubcategory: function(id) {
-            $('.card').hide();
-            if (app.subcategories.length) {
-                app.categoryDetailView.show(app.subcategories.get(id).toJSON());
-            } else {
-                app.subcategories.fetch({
-                    reset: true,
-                    success: function() {
-                        app.categoryDetailView.show(app.subcategories.get(id).toJSON());
-                    }
-                });
-            }
-            $('#pods-container').show();
-            $.get('/pods/subcategories/{id}/'.replace('{id}', id)).then(function(data) {
-                app.pods.reset(data);
-            });
-        },
-        addCategory: function() {
-            $('.card').hide();
-            this.collapseMobileNav();
-            $('#category').show();
-        },
         categories: function() {
-            $('.card').hide();
-            $('#categories-container').show();
+            this.pauseAudio();
+            $('.view').hide();
+            $('#categories-view').show();
             if (!app.categories.length) {
                 app.categories.fetch({ reset: true });
             }
         },
-        signin: function() {
-            $('.card').hide();
+        newCategory: function() {
+            this.pauseAudio();
+            $('.view').hide();
             this.collapseMobileNav();
-            $('#signin').show();
+            $('#category-view').show();
+        },
+        signin: function() {
+            this.pauseAudio();
+            $('.view').hide();
+            this.collapseMobileNav();
+            $('#signin-view').show();
         },
         signup: function() {
-            $('.card').hide();
+            this.pauseAudio();
+            $('.view').hide();
             this.collapseMobileNav();
-            $('#signup').show();
+            $('#signup-view').show();
         },
         account: function() {
+            this.pauseAudio();
             if (!app.loggedIn) return;
-            $('.card').hide();
+            $('.view').hide();
             this.collapseMobileNav();
-            $('#account-container').show();
+            $('#account-view').show();
         },
         about: function() {
-            $('.card').hide();
+            this.pauseAudio();
+            $('.view').hide();
             this.collapseMobileNav();
-            $('#about-container').show();
+            $('#about-view').show();
         },
         tags: function() {
-            $('.card').hide();
+            this.pauseAudio();
+            $('.view').hide();
             this.collapseMobileNav();
-            $('#tags-container').show();
+            $('#tags-view').show();
+            $('#tags-view h3.title').html('Tags');
             app.tags.fetch({ reset: true });
         },
         tagByName: function(tagName) {
-            $('.card').hide();
-            $('#pods-container').show();
+            this.pauseAudio();
+            $('.view').hide();
+            $('#pods-view').show();
             $.get('/tags/{tagName}/'.replace('{tagName}', tagName)).then(function(data) {
-                app.categoryDetailView.show({ name: data.name, description: data.description });
+                app.headerView.show({ name: data.name, description: data.description });
                 app.pods.reset(data.pods);
             });
         },
-        favTags: function() {
+        tagsByFav: function() {
+            this.pauseAudio();
             if (!app.loggedIn) return;
-            $('.card').hide();
+            $('.view').hide();
             this.collapseMobileNav();
-            $('#tags-container').show();
-            app.categoryDetailView.show({ name: 'My favorite Tags', description: '' });
+            $('#tags-view').show();
+            $('#tags-view h3.title').html('My favorite tags');
             $.get('/account/tags/favs/').then(function(data) {
                 app.tags.reset(data);
             });
         },
         collapseMobileNav: function() {
+            this.pauseAudio();
             var button = $('button.navbar-toggle[aria-expanded="true"]');
             if (button.length) {
                 button.click();
+            }
+        },
+        userByUsername: function(username) {
+            this.pauseAudio();
+            $('.view').hide();
+            this.collapseMobileNav();
+            $('#users-view').show();
+            $.get('/users/{username}/'.replace('{username}', username)).then(function(data) {
+                app.headerView.show({ name: data.username, description: data.description });
+                $('#users-view').html('<pre>'+app.toJson(data)+'</pre>');
+            });
+        },
+        pauseAudio: function() {
+            var audioEl = app.podDetailView.audioEl;
+            if (audioEl) {
+                audioEl.pause();
             }
         }
 

@@ -6,9 +6,9 @@ define([
 ], function($, _, Backbone, Bootstrap) {
     'use strict';
 
-    var CategoryDetailView = Backbone.View.extend({
-        template: _.template($('#category-detail-template').html()),
-        className: 'container card',
+    var HeaderView = Backbone.View.extend({
+        template: _.template($('#view-header-template').html()),
+        className: 'container view',
         render: function(data) {
             this.$el.html(this.template(data));
             this.$el.show();
@@ -16,9 +16,9 @@ define([
         },
         show: function(data) {
             this.render(data);
-            this.$el.insertBefore('#pods-container');
+            this.$el.insertBefore('#pods-view');
         }
     });
 
-    return CategoryDetailView;
+    return HeaderView;
 });

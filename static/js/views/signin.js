@@ -7,7 +7,7 @@ define([
     'use strict';
 
     var SigninView = Backbone.View.extend({
-        el: '#signin',
+        el: '#signin-view',
         events: {
             'click button.submit': 'submit',
             'focus input': 'removeErrorMessage',
@@ -19,6 +19,7 @@ define([
             var self = this,
                 formData = app.toJson(this.$el.find('form').serialize());
 
+            this.removeErrorMessage();
             $.post('/signin/', formData).then(function(data) {
                 if (data.success) {
                     location.hash = '';

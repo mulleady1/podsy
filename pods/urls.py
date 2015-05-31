@@ -19,6 +19,7 @@ urlpatterns = patterns('',
     url(r'^tags/(?P<tag_id>\d+)/$', TagView.as_view()),
     url(r'^tags/(?P<tag_name>[a-z0-9-]+)/$', TagView.as_view()),
     url(r'^account/tags/favs/$', TagView.as_view(favs=True)),
+    url(r'^users/(?P<username>[a-zA-Z0-9_]+)/$', UserView.as_view()),
 
     url(r'^admin/', include(admin.site.urls)),
 )
