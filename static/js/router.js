@@ -21,20 +21,24 @@ define([
             'users/:username/':        'userByUsername'
         },
         index: function() {
+            this.pauseAudio();
             $('.view').hide();
             $('#pods-view').show();
             app.loadInitialPods();
         },
         newPod: function() {
+            this.pauseAudio();
             $('.view').hide();
             this.collapseMobileNav();
             $('#upload').show();
         },
         podById: function(id) {
+            this.pauseAudio();
             $('.view').hide();
             app.podDetailView.show(app.pods.get(id));
         },
         podsByFav: function() {
+            this.pauseAudio();
             if (!app.loggedIn) return;
             $('.view').hide();
             this.collapseMobileNav();
@@ -45,6 +49,7 @@ define([
             });
         },
         podsByCategory: function(name) {
+            this.pauseAudio();
             $('.view').hide();
             this.collapseMobileNav();
 
@@ -73,6 +78,7 @@ define([
             });
         },
         categories: function() {
+            this.pauseAudio();
             $('.view').hide();
             $('#categories-view').show();
             if (!app.categories.length) {
@@ -80,38 +86,45 @@ define([
             }
         },
         newCategory: function() {
+            this.pauseAudio();
             $('.view').hide();
             this.collapseMobileNav();
             $('#category').show();
         },
         signin: function() {
+            this.pauseAudio();
             $('.view').hide();
             this.collapseMobileNav();
             $('#signin').show();
         },
         signup: function() {
+            this.pauseAudio();
             $('.view').hide();
             this.collapseMobileNav();
             $('#signup').show();
         },
         account: function() {
+            this.pauseAudio();
             if (!app.loggedIn) return;
             $('.view').hide();
             this.collapseMobileNav();
             $('#account-view').show();
         },
         about: function() {
+            this.pauseAudio();
             $('.view').hide();
             this.collapseMobileNav();
             $('#about-view').show();
         },
         tags: function() {
+            this.pauseAudio();
             $('.view').hide();
             this.collapseMobileNav();
             $('#tags-view, #tags-view h3.title').show();
             app.tags.fetch({ reset: true });
         },
         tagByName: function(tagName) {
+            this.pauseAudio();
             $('.view').hide();
             $('#pods-view').show();
             $.get('/tags/{tagName}/'.replace('{tagName}', tagName)).then(function(data) {
@@ -120,6 +133,7 @@ define([
             });
         },
         tagsByFav: function() {
+            this.pauseAudio();
             if (!app.loggedIn) return;
             $('.view').hide();
             this.collapseMobileNav();
@@ -131,12 +145,14 @@ define([
             });
         },
         collapseMobileNav: function() {
+            this.pauseAudio();
             var button = $('button.navbar-toggle[aria-expanded="true"]');
             if (button.length) {
                 button.click();
             }
         },
         userByUsername: function(username) {
+            this.pauseAudio();
             $('.view').hide();
             this.collapseMobileNav();
             $('#users-view').show();
@@ -144,6 +160,12 @@ define([
                 app.headerView.show({ name: data.username, description: data.description });
                 $('#users-view').html('<pre>'+app.toJson(data)+'</pre>');
             });
+        },
+        pauseAudio: function() {
+            var audioEl = app.podDetailView.audioEl;
+            if (audioEl) {
+                audioEl.pause();
+            }
         }
 
     });

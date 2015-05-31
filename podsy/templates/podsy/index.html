@@ -322,22 +322,20 @@
     </div>
   </script>
   <script type="text/template" id="pod-detail-template">
-    <div id="pod-detail">
-      <h3>Listen</h3>
-      <p><%= name %></p>
-      <p><audio src="<%= audioUrl %>" controls autoplay></audio></p>
-      <p><a href="<%= podcastUrl %>" target="_blank"><%= podcastUrl %></a></p>
-      <h3>Talk</h3>
-      <form>
-        <div class="form-group">
-          <textarea class="form-control" name="text"></textarea>
-        </div>
-        <div class="form-group">
-          <button type="button" class="btn btn-primary submit">Submit</button>
-        </div>
-      </form>
-      <div class="comments-container"></div>
-    </div>
+    <h3>Listen</h3>
+    <p><%= name %></p>
+    <p><audio src="<%= audioUrl %>" controls autoplay></audio></p>
+    <p><a href="<%= podcastUrl %>" target="_blank"><%= podcastUrl %></a></p>
+    <h3>Talk</h3>
+    <form>
+      <div class="form-group">
+        <textarea class="form-control" name="text"></textarea>
+      </div>
+      <div class="form-group">
+        <button type="button" class="btn btn-primary submit">Submit</button>
+      </div>
+    </form>
+    <div class="comments-container"></div>
   </script>
   <script type="text/template" id="category-template">
     <div class="category">
