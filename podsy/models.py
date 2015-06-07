@@ -25,7 +25,10 @@ class PodsyUser(models.Model):
         return {
             'id': self.id,
             'username': self.username,
-            'pods': [pod.data for pod in Pod.objects.filter(user=self)]
+            'pods': [pod.data for pod in Pod.objects.filter(user=self)],
+            'favoriteTags': [tag.data for tag in self.favoriteTags.all()],
+            'favoritePods': [pod.data for pod in self.favoritePods.all()],
+            'comments': [comment.data for comment in Comment.objects.filter(user=self)]
         }
 
     def __str__(self):

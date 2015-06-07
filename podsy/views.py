@@ -24,20 +24,18 @@ def home(request):
     if request.user.is_authenticated():
         u = getuser(request)
         loggedIn = 'true'
-    else:
-        u = {}
-        loggedIn = 'false'
-
-    pods = Pod.objects.front_page()
-    favs = []
-    upToggled = []
-    downToggled = []
-    if request.user.is_authenticated():
-        u = getuser(request)
         favs = u.favoritePods.all()
         upToggled = u.upvotedPods.all()
         downToggled = u.downvotedPods.all()
+    else:
+        u = {}
+        loggedIn = 'false'
+        favs = []
+        upToggled = []
+        downToggled = []
+
     podsData = []
+    pods = Pod.objects.front_page()
     for pod in pods:
         podData = pod.data
         podData['fav'] = pod in favs
@@ -53,6 +51,7 @@ def home(request):
         'loggedIn': loggedIn,
         'user': u
     }
+
     return render(request, 'podsy/index.html', context)
 
 class SigninView(View):
@@ -326,7 +325,7 @@ class TagView(View):
             odata['pods'] = []
             for pod in pods:
                 data = pod.data
-                if request.user.is_authenticated:
+                if request.user.is_authenticated():
                     data['upToggled'] = pod in getuser(request).upvotedPods.all()
                     data['downToggled'] = pod in getuser(request).downvotedPods.all()
                 odata['pods'].append(data)
