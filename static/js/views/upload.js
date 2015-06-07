@@ -72,8 +72,8 @@ define([
                 json;
 
             this.verifyAudio(formData.audio_url).then(function() {
-                self.$el.find('.tab-pane.active span.tag-value').each(function(span) {
-                    tags.push($(self).html());
+                self.$el.find('.tab-pane.active span.tag-value').each(function() {
+                    tags.push($(this).html());
                 });
 
                 formData.tags = tags;
