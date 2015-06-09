@@ -7,8 +7,6 @@ define([
         events: {
             'click button.submit': 'submit',
             'focus input': 'removeErrorMessage',
-            'shown.bs.modal': 'show',
-            'hide.bs.modal': 'hide',
             'click .tags-container': 'focusTagElement',
             'keypress input.tag': 'keypress',
             'click span.tag .glyphicon-remove': 'removeTag'
@@ -94,9 +92,6 @@ define([
                 form.prepend('<p class="text-warning">That doesn\'t seem to be a URL to a valid audio file.</p>');
                 return;
             });
-        },
-        hide: function() {
-            history.back();
         },
         focusTagElement: function(e) {
             this.$el.find('input.tag').focus();

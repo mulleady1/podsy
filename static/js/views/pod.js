@@ -20,9 +20,6 @@ define([
             this.$el.html(this.template(this.model.toJSON()));
             return this;
         },
-        listen: function() {
-            //app.listenView.show(this.model.toJSON());
-        },
         toggleUpvote: function() {
             this.model.toggleUpvote();
         },

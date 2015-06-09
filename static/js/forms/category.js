@@ -6,20 +6,16 @@ define([
     var CategoryForm = Backbone.View.extend({
         el: '#category-view',
         events: {
-            'click button.submit': 'submit',
-            'hide.bs.modal': 'hide'
+            'click button.submit': 'submit'
         },
         submit: function() {
-            var formData = this.$el.find('form').serialize();
+            var formData = app.toJson(this.$el.find('form').serialize());
             $.post('/categories/', formData).then(function(data) {
                 if (data.success) {
                     location.hash = '';
                     location.reload();
                 }
             });
-        },
-        hide: function() {
-            history.back();
         }
     });
 
