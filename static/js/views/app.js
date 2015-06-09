@@ -13,13 +13,13 @@ define([
     'collections/subcategories',
     'views/signin',
     'views/signup',
-    'views/upload',
+    'forms/pod',
     'views/category',
     'views/header',
     'views/tag',
     'forms/category',
     'jquery-ui'
-], function($, _, Backbone, Bootstrap, Router, PodView, PodDetailView, Pod, Pods, Tags, Categories, Subcategories, SigninView, SignupView, UploadView, CategoryView, HeaderView, TagView, CategoryForm) {
+], function($, _, Backbone, Bootstrap, Router, PodView, PodDetailView, Pod, Pods, Tags, Categories, Subcategories, SigninView, SignupView, PodFormView, CategoryView, HeaderView, TagView, CategoryForm) {
     'use strict';
 
     var AppView = Backbone.View.extend({
@@ -34,7 +34,7 @@ define([
             // Views.
             app.signinView = new SigninView();
             app.signupView = new SignupView();
-            app.uploadView = new UploadView();
+            app.podFormView = new PodFormView();
             app.categoryView = new CategoryView();
             app.podDetailView = new PodDetailView();
             app.headerView = new HeaderView();

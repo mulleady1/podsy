@@ -31,7 +31,7 @@ define([
             app.loadInitialPods();
         },
         newPod: function() {
-            $('#upload-view').show();
+            $('#pod-form-view').show();
         },
         podById: function(id) {
             app.podDetailView.show(app.pods.get(id));

@@ -2,8 +2,8 @@ define([
     'backbone',
     'models/pod'
 ], function(Backbone, Pod) {
-    var UploadView = Backbone.View.extend({
-        el: '#upload-view',
+    var PodFormView = Backbone.View.extend({
+        el: '#pod-form-view',
         events: {
             'click button.submit': 'submit',
             'focus input': 'removeErrorMessage',
@@ -153,5 +153,5 @@ define([
         }
     });
 
-    return UploadView;
+    return PodFormView;
 });
