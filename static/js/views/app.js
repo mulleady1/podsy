@@ -58,6 +58,7 @@ define([
 
             // Router.
             app.router = new Router();
+            app.router.on('route', app.router.afterExecute);
             Backbone.history.start();
         },
         addPod: function(pod) {

@@ -26,6 +26,11 @@ define([
             $('.view').hide();
             callback.apply(this, args);
         },
+        afterExecute: function() {
+            $('.view:visible').each(function() {
+                $(this).find('input:first').focus();
+            });
+        },
         index: function() {
             $('#pods-view').show();
             app.loadInitialPods();
