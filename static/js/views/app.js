@@ -5,7 +5,7 @@ define([
     'bootstrap',
     'router',
     'views/pod',
-    'views/poddetail',
+    'views/pod-detail',
     'models/pod',
     'collections/pods',
     'collections/tags',
