@@ -28,7 +28,8 @@ class PodsyUser(models.Model):
             'pods': [pod.data for pod in Pod.objects.filter(user=self)],
             'favoriteTags': [tag.data for tag in self.favoriteTags.all()],
             'favoritePods': [pod.data for pod in self.favoritePods.all()],
-            'comments': [comment.data for comment in Comment.objects.filter(user=self)]
+            'comments': [comment.data for comment in Comment.objects.filter(user=self)],
+            'isAdmin': self.is_admin
         }
 
     def __str__(self):
@@ -128,7 +129,9 @@ class Comment(models.Model):
             'userid': self.user.id,
             'username': self.user.username,
             'timestamp': self.created.strftime('%b %d').replace(' 0', ' '),
-            'children': childrenData
+            'children': childrenData,
+            'pod': self.pod.data,
+            'preview': '%s...' % self.text[:30] if len(self.text) >= 30 else self.text
         }
 
     def __str__(self):

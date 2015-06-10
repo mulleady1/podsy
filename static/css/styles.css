@@ -51,21 +51,21 @@ textarea {
 .glyphicon.red {
     color: red;
 }
-.comment {
+#pod-detail-view .comment {
     border: 1px solid #ddd;
     border-radius: 3px;
     padding: 5px;
     margin: 5px 0;
 }
-.comment-metadata {
+#pod-detail-view .comment-metadata {
     font-size: 80%;
     color: #999;
     margin-bottom: 5px;
 }
-.reply-container {
+#pod-detail-view .reply-container {
     display: none;
 }
-.reply-container > div {
+#pod-detail-view .reply-container > div {
     margin-bottom: 5px;
 }
 input.tag {
@@ -104,6 +104,15 @@ h4.subtitle {
 }
 div.tag-search {
   margin-bottom: 5px;
+}
+#user-view ul.list-unstyled {
+  margin-bottom: 20px;
+}
+#user-view .comment {
+    color: #999;
+}
+#user-view .comment-preview {
+    color: #000;
 }
 
 /* Bootsnipp widgets - begin */

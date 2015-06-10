@@ -28,6 +28,7 @@ define([
             // Utility functions.
             app.toJs = this.toJs;
             app.toJson = this.toJson;
+            app.isMobile = this.isMobile;
             app.getFormData = this.getFormData;
             app.loadInitialPods = this.loadInitialPods;
 
@@ -173,6 +174,9 @@ define([
                 pods.push(new Pod(podData));
             });
             app.pods.reset(pods);
+        },
+        isMobile: function() {
+            return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
         }
     });
 

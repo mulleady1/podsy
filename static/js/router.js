@@ -1,7 +1,9 @@
 define([
     'backbone',
-    'views/category'
-], function(Backbone, CategoryView) {
+    'views/category',
+    'views/user',
+    'models/user',
+], function(Backbone, CategoryView, UserView, User) {
     var Router = Backbone.Router.extend({
         routes: {
             '':                        'index',
@@ -27,6 +29,7 @@ define([
             callback.apply(this, args);
         },
         afterExecute: function() {
+            if (app.isMobile()) return;
             $('.view:visible').each(function() {
                 $(this).find('input:first').focus();
             });
@@ -115,10 +118,9 @@ define([
             });
         },
         userByUsername: function(username) {
-            $('#users-view').show();
             $.get('/users/{username}/'.replace('{username}', username)).then(function(data) {
-                app.headerView.show({ name: data.username, description: data.description });
-                $('#users-view').html('<pre>'+app.toJson(data)+'</pre>');
+                if (!app.userView) app.userView = new UserView();
+                app.userView.show(new User(data));
             });
         },
         collapseMobileNav: function() {

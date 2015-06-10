@@ -297,7 +297,7 @@
       </div>
     </div>
   </div>
-  <div id="users-view" class="container view">
+  <div id="user-view" class="container view">
   </div>
 
   <!-- Templates -->
@@ -372,6 +372,43 @@
       </form>
     </div>
     <div class="children-container"></div>
+  </script>
+  <script type="text/template" id="user-template">
+    <div class="col-xs-12">
+      <h3 class="title"><%= username %></h3>
+    </div>
+    <div class="col-md-4">
+      <h4>Pods</h4>
+      <ul class="list-unstyled">
+        <% _.each(pods, function(pod) { %>
+          <li><a href="#/pods/<%= pod.id %>/"><%= pod.name %></a></li>
+        <% }); %>
+      </ul>
+    </div>
+    <div class="col-md-4">
+      <h4>Favorite pods</h4>
+      <ul class="list-unstyled">
+        <% _.each(favoritePods, function(pod) { %>
+          <li><a href="#/pods/<%= pod.id %>/"><%= pod.name %></a></li>
+        <% }); %>
+      </ul>
+    </div>
+    <div class="col-md-4">
+      <h4>Favorite tags</h4>
+      <ul class="list-unstyled">
+        <% _.each(favoriteTags, function(tag) { %>
+          <li><a href="#/tags/<%= tag.name %>/"><%= tag.name %></a></li>
+        <% }); %>
+      </ul>
+    </div>
+    <div class="col-xs-12">
+      <h4>Comments</h4>
+      <ul class="list-unstyled">
+        <% _.each(comments, function(comment) { %>
+          <li class="comment"><span class="comment-preview"><%= comment.preview %></span> in <a href="#/pods/<%= comment.pod.id %>/"><%= comment.pod.name %></a></li>
+        <% }); %>
+      </ul>
+    </div>
   </script>
   <script src="{% static 'js/require.js' %}" data-main="{% static 'js/main' %}"></script>
 </body>
