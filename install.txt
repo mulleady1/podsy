@@ -1,0 +1,9 @@
+install pip, virtualenv, postgres
+createdb podsydb
+createuser podsyuser
+GRANT **** ON DATABASE podsydb TO podsyuser;
+export PODSY_KEY=****
+export podsypass=****
+pip install -r requirements
+./manage.py migrate
+./mangae.py loaddata ./dump_YYYY-mm-dd.json
