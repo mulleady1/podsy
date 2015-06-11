@@ -5,7 +5,6 @@ define([
 ], function($, _, Backbone) {
     var UserView = Backbone.View.extend({
         el: '#user-view',
-        className: 'row',
         template: _.template($('#user-template').html()),
         render: function() {
             this.$el.html(this.template(this.model.toJSON()));

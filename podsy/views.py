@@ -4,7 +4,9 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render
 from django.views.generic import View, TemplateView, ListView
+from django.conf import settings
 from podsy.models import *
+import os
 import json
 
 def getuser(request):
@@ -58,7 +60,7 @@ class SigninView(View):
 
     def post(self, request):
         idata = json.loads(request.body)
-        u = idata.get('email')
+        u = idata.get('username')
         p = idata.get('password')
         user = authenticate(username=u, password=p)
         if user:
@@ -152,13 +154,15 @@ class PodView(View):
         if 'multipart/form-data' in request.META['CONTENT_TYPE']:
             form = UploadPodFileForm(request.POST, request.FILES)
             if form.is_valid():
+                idata = form.data
                 f = request.FILES['audio_file']
-                with open(f.name, 'wb+') as destination:
+                rel_path = os.path.join('static/audio', f.name)
+                path = os.path.join(os.getcwd(), rel_path)
+                with open(path, 'wb+') as destination:
                     for chunk in f.chunks():
                         destination.write(chunk)
 
-                idata = form.data
-                pod = Pod.objects.create(name=idata.get('name'), category_id=idata.get('category_id'), audio_url=f.name, user=getuser(request))
+                pod = Pod.objects.create(name=idata.get('name'), category_id=idata.get('category_id'), audio_url=rel_path, user=getuser(request))
                 if idata.get('tags'):
                     tags = []
                     for tag in idata.get('tags').split(','):
