@@ -304,8 +304,8 @@
   <script type="text/template" id="pod-template">
     <div class="pod">
       <div class="votebuttons">
-        <a class="upvote"><span class="glyphicon glyphicon-arrow-up <% if (upToggled) print('red') %>"></span></a><br>
-        <a class="downvote"><span class="glyphicon glyphicon-arrow-down <% if (downToggled) print('red') %>"></span></a>
+        <a class="upvote"><span class="glyphicon glyphicon-arrow-up <% if (upToggled) print('up-toggled') %>"></span></a><br>
+        <a class="downvote"><span class="glyphicon glyphicon-arrow-down <% if (downToggled) print('down-toggled') %>"></span></a>
       </div>
       <div class="podtitle">
         <a href="#/pods/<%= id %>/"><%= name %></a>

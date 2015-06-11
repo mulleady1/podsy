@@ -7,11 +7,11 @@ textarea {
     resize: none;
 }
 .votebuttons {
-    margin: 5px;
+    margin: 0 5px;
 }
 .votebuttons, .podtitle {
     display: inline-block;
-    vertical-align: middle;
+    vertical-align: top;
 }
 .votebuttons > div {
     text-align: center;
@@ -22,6 +22,9 @@ textarea {
 }
 .category-name {
     font-weight: bold;
+}
+#pods-list > li {
+    padding: 5px 0;
 }
 #pods-list li:nth-child(even) {
     background: #fafafa;
@@ -36,6 +39,9 @@ textarea {
     color: #aaa;
     cursor: pointer;
 }
+.glyphicon-arrow-up, .glyphicon-arrow-down {
+    font-size: 17px;
+}
 .pod .tag {
     background: #f0f0f0;
     padding: 3px;
@@ -48,8 +54,11 @@ textarea {
 .view > h4 {
     margin: 0 0 15px 10px;
 }
-.glyphicon.red {
-    color: red;
+.glyphicon.up-toggled {
+    color: #66c;
+}
+.glyphicon.down-toggled {
+    color: #977;
 }
 #pod-detail-view .comment {
     border: 1px solid #ddd;
@@ -190,6 +199,9 @@ ul.ui-autocomplete li {
   }
   .navbar {
     margin-bottom: 5px;
+  }
+  .glyphicon-arrow-up, .glyphicon-arrow-down {
+    font-size: 20px;
   }
 }
 @media (min-width: 600px) {
