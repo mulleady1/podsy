@@ -67,9 +67,14 @@ define([
                 tags = [],
                 form = this.$el.find('.tab-pane.active form'),
                 formData = app.getFormData(form),
+                button = this.$el.find('.tab-pane.active button.submit'),
                 json;
 
+            button.prop('disabled', true);
+            button.html('Verifying...');
             this.verifyAudio(formData.audio_url).then(function() {
+                button.html('Submit');
+                button.prop('disabled', false);
                 self.$el.find('.tab-pane.active span.tag-value').each(function() {
                     tags.push($(this).html());
                 });
@@ -89,7 +94,10 @@ define([
                     }
                 });
             }, function() {
-                form.prepend('<p class="text-warning">That doesn\'t seem to be a URL to a valid audio file.</p>');
+                button.html('Submit');
+                button.prop('disabled', false);
+                form.prepend('<p class="text-warning">That doesn\'t seem to be a URL to a valid audio file. If you\'re sure it\'s correct, click Submit again.</p>');
+                self.previousFormData = formData;
                 return;
             });
         },
@@ -137,6 +145,11 @@ define([
                 deferred.reject();
             });
 
+            if (this.previousFormData && this.previousFormData.audio_url == src) {
+                deferred.resolve();
+                return deferred.promise();
+            }
+
             audio.muted = true;
             audio.src = src;
             audio.load();
@@ -147,7 +160,7 @@ define([
                 } else {
                     deferred.resolve();
                 }
-            }, 1000);
+            }, 1500);
 
             return deferred.promise();
         }
