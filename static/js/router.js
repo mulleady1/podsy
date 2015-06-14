@@ -2,8 +2,9 @@ define([
     'backbone',
     'views/category',
     'views/user',
+    'views/account',
     'models/user',
-], function(Backbone, CategoryView, UserView, User) {
+], function(Backbone, CategoryView, UserView, AccountView, User) {
     var Router = Backbone.Router.extend({
         routes: {
             '':                        'index',
@@ -92,7 +93,10 @@ define([
         },
         account: function() {
             if (!app.loggedIn) return;
-            $('#account-view').show();
+            if (!app.accountView) {
+                app.accountView = new AccountView();
+            }
+            app.accountView.show();
         },
         about: function() {
             $('#about-view').show();

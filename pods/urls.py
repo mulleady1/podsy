@@ -1,6 +1,7 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
 from podsy.views import *
+from messaging.views import *
 
 urlpatterns = patterns('',
     url(r'^$', 'podsy.views.home'),
@@ -20,6 +21,8 @@ urlpatterns = patterns('',
     url(r'^tags/(?P<tag_name>[a-z0-9-]+)/$', TagView.as_view()),
     url(r'^account/tags/favs/$', TagView.as_view(favs=True)),
     url(r'^users/(?P<username>[a-zA-Z0-9_]+)/$', UserView.as_view()),
+    url(r'^messages/$', MessageView.as_view()),
+    url(r'^messages/(?P<message_id>\d+)/$', MessageView.as_view()),
 
     url(r'^admin/', include(admin.site.urls)),
 )

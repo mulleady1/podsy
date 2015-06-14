@@ -123,6 +123,9 @@ div.tag-search {
 #user-view .comment-preview {
     color: #000;
 }
+#account-view .nav-tabs {
+    margin-bottom: 10px;
+}
 
 /* Bootsnipp widgets - begin */
 .dropdown-submenu {
