@@ -32,6 +32,13 @@ class PodsyUser(models.Model):
             'isAdmin': self.is_admin
         }
 
+    @property
+    def shallow_data(self):
+        return {
+            'id': self.id,
+            'username': self.username
+        }
+
     def __str__(self):
         return self.username
 

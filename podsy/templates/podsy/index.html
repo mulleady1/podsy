@@ -147,7 +147,7 @@
               </form>
             </div>
             <div role="tabpanel" class="tab-pane fade" id="account-messages">
-              <ul class="messages-container"></ul>
+              <ul class="messages-container list-unstyled"></ul>
             </div>
           </div>
         </div>
@@ -430,16 +430,12 @@
     </div>
   </script>
   <script type="text/template" id="message-list-template">
-    <p>
-      <div><%= toUser.username %><small><%= created %></small></div>
-      <%= preview %>
-    </p>
+    <div class="relative"><a href="#/users/<%= toUser.username %>/"><%= toUser.username %></a><small class="right"><%= created %></small></div>
+    <div><%= preview %></div>
   </script>
   <script type="text/template" id="message-detail-template">
-    <p>
-      <div><%= toUser.username %></div>
-      <%= preview %>
-    </p>
+    <div><%= toUser.username %></div>
+    <div><%= preview %></div>
   </script>
   <script src="{% static 'js/require.js' %}" data-main="{% static 'js/main' %}"></script>
 </body>

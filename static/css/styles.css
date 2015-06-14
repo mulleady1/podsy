@@ -126,6 +126,19 @@ div.tag-search {
 #account-view .nav-tabs {
     margin-bottom: 10px;
 }
+.relative {
+  position: relative;
+}
+.relative > .right {
+  position: absolute;
+  right: 0;
+}
+.message {
+  padding: 10px 5px;
+}
+.message:nth-child(even) {
+  background: #f5f5f5;
+}
 
 /* Bootsnipp widgets - begin */
 .dropdown-submenu {

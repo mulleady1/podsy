@@ -12,8 +12,8 @@ class Message(models.Model):
     @property
     def data(self):
         return {
-            'fromUser': self.from_user.data,
-            'toUser': self.to_user.data,
+            'fromUser': self.from_user.shallow_data,
+            'toUser': self.to_user.shallow_data,
             'text': self.text,
             'preview': self.text[:30] if len(self.text) >= 30 else self.text,
             'created': self.created.strftime('%b %d').replace(' 0', ' '),
