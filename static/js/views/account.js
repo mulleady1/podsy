@@ -12,7 +12,7 @@ define([
             this.$el.show();
             var $el = this.$el.find('.messages-container');
             if (!this.messages) {
-                this.messages = []
+                this.messages = [];
                 $.get('/messages/').then(function(data) {
                     _.each(data, function(messageData) {
                         var message = new Message(messageData);

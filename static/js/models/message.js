@@ -6,6 +6,7 @@ define([
     var Message = Backbone.Model.extend({
         defaults: function() {
             return {
+                id: '',
                 fromUser: {},
                 toUser: {},
                 created: '',

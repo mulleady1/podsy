@@ -430,8 +430,15 @@
     </div>
   </script>
   <script type="text/template" id="message-list-template">
-    <div class="relative"><a href="#/users/<%= toUser.username %>/"><%= toUser.username %></a><small class="right"><%= created %></small></div>
-    <div><%= preview %></div>
+    <a href="#/messages/<%= id %>/">
+      <div class="relative">
+        <a href="#/users/<%= toUser.username %>/"><%= toUser.username %></a>
+        <small class="right"><%= created %></small>
+      </div>
+      <div>
+        <%= preview %>
+      </div>
+    </a>
   </script>
   <script type="text/template" id="message-detail-template">
     <div><%= toUser.username %></div>
