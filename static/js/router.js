@@ -3,8 +3,10 @@ define([
     'views/category',
     'views/user',
     'views/account',
+    'views/conversation-list',
+    'views/messages',
     'models/user',
-], function(Backbone, CategoryView, UserView, AccountView, User) {
+], function(Backbone, CategoryView, UserView, AccountView, ConversationListView, MessagesView, User) {
     var Router = Backbone.Router.extend({
         routes: {
             '':                        'index',
@@ -21,7 +23,10 @@ define([
             'tags/':                   'tags',
             'tags/:tagName/':          'tagByName',
             'account/tags/favs/':      'tagsByFav',
-            'users/:username/':        'userByUsername'
+            'users/:username/':        'userByUsername',
+            'conversations/':          'conversations',
+            'conversations/:id':       'conversationById',
+            'messages/':               'messages'
         },
         execute: function(callback, args, name) {
             this.pauseAudio();
@@ -126,6 +131,22 @@ define([
                 if (!app.userView) app.userView = new UserView();
                 app.userView.show(new User(data));
             });
+        },
+        conversations: function() {
+            if (!app.loggedIn) return;
+            if (!app.conversationListView) {
+                app.conversationListView = new ConversationListView();
+            }
+            app.conversationListView.show();
+        },
+        conversationById: function(id) {
+        },
+        messages: function() {
+            if (!app.loggedIn) return;
+            if (!app.messagesView) {
+                app.messagesView = new MessagesView();
+            }
+            app.messagesView.show();
         },
         collapseMobileNav: function() {
             var button = $('button.navbar-toggle[aria-expanded="true"]');

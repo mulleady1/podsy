@@ -23,6 +23,8 @@ urlpatterns = patterns('',
     url(r'^users/(?P<username>[a-zA-Z0-9_]+)/$', UserView.as_view()),
     url(r'^messages/$', MessageView.as_view()),
     url(r'^messages/(?P<message_id>\d+)/$', MessageView.as_view()),
+    url(r'^conversations/$', ConversationView.as_view()),
+    url(r'^conversations/(?P<conversation_id>\d+)/$', ConversationView.as_view()),
 
     url(r'^admin/', include(admin.site.urls)),
 )

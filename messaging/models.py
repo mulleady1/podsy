@@ -7,6 +7,18 @@ class Conversation(models.Model):
     created = models.DateField(auto_now_add=True)
     modified = models.DateField(auto_now=True)
 
+    @property
+    def data(self):
+        messages = Message.objects.filter(conversation=self).order_by('-created')
+        preview = ''
+        if len(messages) > 0:
+            preview = messages[0].preview
+        return {
+            'members': [member.shallow_data for member in self.members.all()],
+            'created': self.created.strftime('%b %d').replace(' 0', ' '),
+            'preview': preview
+        }
+
     def __str__(self):
         names = [member.username for member in self.members.all()]
         return 'Conversation started on %s with %s' % (str(self.created), ', '.join(names))
@@ -18,6 +30,10 @@ class Message(models.Model):
     created = models.DateField(auto_now_add=True)
     modified = models.DateField(auto_now=True)
 
+    @property
+    def preview(self):
+        return self.text[:30] if len(self.text) >= 30 else self.text
+    
     @property
     def data(self):
         return {

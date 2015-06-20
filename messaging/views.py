@@ -7,19 +7,25 @@ from podsy.views import getuser, Json, JsonAuthErr
 
 import json
 
+class ConversationView(View):
+
+    def get(self, request, conversation_id=None):
+        odata = []
+        u = getuser(request)
+        if conversation_id:
+            odata = Conversation.objects.get(conversation_id).data
+        elif u:
+            conversations = Conversation.objects.filter(members=u)
+            for conversation in conversations:
+                odata.append(conversation.data)
+
+        return Json(odata)
+
+
 class MessageView(View):
 
     def get(self, request, message_id=None):
-        odata = []
-        u = getuser(request)
-        if message_id:
-            odata = Message.objects.get(message_id).data
-        elif u:
-            messages = Message.objects.filter(Q(from_user=u) | Q(to_user=u))
-            for message in messages:
-                odata.append(message.data)
-
-        return Json(odata)
+        pass
 
     def post(self, request):
         idata = json.loads(request.body)

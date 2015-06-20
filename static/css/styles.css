@@ -133,10 +133,11 @@ div.tag-search {
   position: absolute;
   right: 0;
 }
-.message {
+.conversation {
   padding: 10px 5px;
+  cursor: pointer;
 }
-.message:nth-child(even) {
+.conversation:nth-child(even) {
   background: #f5f5f5;
 }
 
