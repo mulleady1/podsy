@@ -448,9 +448,13 @@
   <script type="text/template" id="conversation-list-template">
     <a href="#/conversations/<%= id %>/">
       <div class="relative">
-        <% _.each(members, function(member) { %>
-          <a href="#/users/<%= member.username %>/"><%= member.username %></a>,&nbsp;
-        <% }); %>
+        <%
+          var userLinks = [];
+          _.each(members, function(member) {
+            userLinks.push('<a href="#/users/{username}/">{username}</a>'.replace(/{username}/g, member.username));
+          });
+          print(userLinks.join(', '));
+        %>
         <small class="right"><%= created %></small>
       </div>
       <div>

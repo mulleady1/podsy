@@ -14,7 +14,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='message',
             name='conversation',
-            field=models.ForeignKey(default=2, to='messaging.Conversation'),
+            field=models.ForeignKey(default=1, to='messaging.Conversation'),
             preserve_default=False,
         ),
     ]
