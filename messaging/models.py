@@ -14,9 +14,11 @@ class Conversation(models.Model):
         if len(messages) > 0:
             preview = messages[0].preview
         return {
+            'id': self.id,
             'members': [member.shallow_data for member in self.members.all()],
             'created': self.created.strftime('%b %d').replace(' 0', ' '),
-            'preview': preview
+            'preview': preview,
+            'messages': [message.data for message in messages]
         }
 
     def __str__(self):
@@ -38,10 +40,9 @@ class Message(models.Model):
     def data(self):
         return {
             'id': self.id,
-            'fromUser': self.from_user.shallow_data,
-            'toUser': self.to_user.shallow_data,
+            'user': self.user.shallow_data,
             'text': self.text,
-            'preview': self.text[:30] if len(self.text) >= 30 else self.text,
+            'preview': self.preview,
             'created': self.created.strftime('%b %d').replace(' 0', ' '),
         }
 

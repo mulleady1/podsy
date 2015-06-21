@@ -1,6 +1,7 @@
 define([
-    'backbone'
-], function(Backbone) {
+    'backbone',
+    'collections/messages'
+], function(Backbone, Messages) {
     'use strict';
 
     var Conversation = Backbone.Model.extend({
@@ -8,6 +9,7 @@ define([
             return {
                 id: '',
                 members: [],
+                messages: new Messages(),
                 created: '',
                 preview: ''
             };

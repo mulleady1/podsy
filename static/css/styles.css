@@ -136,6 +136,7 @@ div.tag-search {
 .conversation {
   padding: 10px 5px;
   cursor: pointer;
+  height: 60px;
 }
 .conversation:nth-child(even) {
   background: #f5f5f5;

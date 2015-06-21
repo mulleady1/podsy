@@ -25,7 +25,7 @@ define([
             'account/tags/favs/':      'tagsByFav',
             'users/:username/':        'userByUsername',
             'conversations/':          'conversations',
-            'conversations/:id':       'conversationById',
+            'conversations/:id/':      'conversationById',
             'messages/':               'messages'
         },
         execute: function(callback, args, name) {
@@ -132,14 +132,13 @@ define([
                 app.userView.show(new User(data));
             });
         },
-        conversations: function() {
-            if (!app.loggedIn) return;
-            if (!app.conversationListView) {
-                app.conversationListView = new ConversationListView();
-            }
-            app.conversationListView.show();
-        },
         conversationById: function(id) {
+            if (!app.loggedIn) return;
+            if (!app.messagesView) {
+                app.messagesView = new MessagesView();
+            }
+            app.messagesView.show();
+            app.messagesView.showConversation(id);
         },
         messages: function() {
             if (!app.loggedIn) return;

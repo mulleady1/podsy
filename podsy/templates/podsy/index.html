@@ -312,7 +312,7 @@
         </ul>
       </div>
       <div class="col-xs-12 col-sm-8">
-        <div class="conversation-container">
+        <div id="conversation-detail-view">
         </div>
       </div>
     </div>
@@ -446,21 +446,36 @@
     <div><%= preview %></div>
   </script>
   <script type="text/template" id="conversation-list-template">
-    <a href="#/conversations/<%= id %>/">
-      <div class="relative">
-        <%
-          var userLinks = [];
-          _.each(members, function(member) {
-            userLinks.push('<a href="#/users/{username}/">{username}</a>'.replace(/{username}/g, member.username));
-          });
-          print(userLinks.join(', '));
-        %>
-        <small class="right"><%= created %></small>
-      </div>
-      <div>
-        <%= preview %>
-      </div>
-    </a>
+    <div class="relative">
+      <%
+        var userLinks = [];
+        _.each(members, function(member) {
+          userLinks.push('<a href="#/users/{username}/">{username}</a>'.replace(/{username}/g, member.username));
+        });
+        print(userLinks.join(', '));
+      %>
+      <small class="right"><%= created %></small>
+    </div>
+    <div>
+      <%= preview %>
+    </div>
+  </script>
+  <script type="text/template" id="conversation-detail-template">
+    <%
+      var userLinks = [];
+      _.each(members, function(member) {
+        userLinks.push('<a href="#/users/{username}/">{username}</a>'.replace(/{username}/g, member.username));
+      });
+    %>
+    <h4>Conversation with <%= userLinks.join(', ') %></h4>
+    <ul class="messages-container list-unstyled">
+      <% _.each(messages, function(message) { %>
+        <li class="message">
+          <div><a href="#/users/<%= message.username %>/"><%= message.username %></a></div>
+          <div><%= message.text.replace(/\n/g, '<br>') %></div>
+        </li>
+      <% }); %>
+    </ul>
   </script>
   <script src="{% static 'js/require.js' %}" data-main="{% static 'js/main' %}"></script>
 </body>
