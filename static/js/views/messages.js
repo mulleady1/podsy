@@ -12,6 +12,11 @@ define([
         show: function() {
             var self = this;
             this.$el.show();
+            var $el = this.$el.find('.conversations-container');
+            $el.show();
+            if (this.conversationDetailView) {
+                this.conversationDetailView.hide();
+            }
             if (!this.conversations) {
                 this.conversations = new Conversations();
                 this.listenTo(this.conversations, 'reset', this.showConversationList);
@@ -26,6 +31,10 @@ define([
             });
         },
         showConversation: function(id) {
+            var $el = this.$el.find('.conversations-container');
+            if (app.isMobile()) {
+                $el.hide();
+            }
             var conv = this.conversations.get(id);
             if (!this.conversationDetailView) {
                 this.conversationDetailView = new ConversationDetailView();

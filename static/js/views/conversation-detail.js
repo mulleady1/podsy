@@ -11,7 +11,11 @@ define([
         },
         show: function(conv) {
             this.model = conv;
+            this.$el.show();
             return this.render();
+        },
+        hide: function() {
+            this.$el.hide();
         }
     });
 
