@@ -471,7 +471,10 @@
     <ul class="messages-container list-unstyled">
       <% _.each(messages, function(message) { %>
         <li class="message">
-          <div><a href="#/users/<%= message.user.username %>/"><%= message.user.username %></a></div>
+          <div class="relative">
+            <a href="#/users/<%= message.user.username %>/"><%= message.user.username %></a>
+            <small class="right"><%= created %></small>
+            </div>
           <div><%= message.text.replace(/\n/g, '<br>') %></div>
         </li>
       <% }); %>

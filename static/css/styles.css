@@ -141,10 +141,15 @@ div.tag-search {
 .conversation:nth-child(even) {
   background: #f5f5f5;
 }
-
+.conversation:hover {
+  background: #f0f0f0;
+}
+.conversation:active {
+  background: #eee;
+}
 .message {
-    margin-top: 10px;
-    margin-bottom: 10px;
+    margin-top: 15px;
+    margin-bottom: 15px;
 }
 
 /* Bootsnipp widgets - begin */

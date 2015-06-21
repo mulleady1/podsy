@@ -31,6 +31,15 @@ define([
             });
         },
         showConversation: function(id) {
+            var self = this;
+            if (this.conversations.length == 0) {
+               this.timer = setTimeout(function() {
+                  self.showConversation(id);
+               }, 500);
+               return;
+            } else {
+                clearTimeout(this.timer);
+            }
             var $el = this.$el.find('.conversations-container');
             if (app.isMobile()) {
                 $el.hide();

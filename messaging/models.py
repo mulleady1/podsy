@@ -35,7 +35,7 @@ class Message(models.Model):
     @property
     def preview(self):
         return self.text[:30] if len(self.text) >= 30 else self.text
-    
+
     @property
     def data(self):
         return {
