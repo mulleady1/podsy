@@ -7,7 +7,6 @@ define([
     var Conversation = Backbone.Model.extend({
         defaults: function() {
             return {
-                id: '',
                 members: [],
                 messages: new Messages(),
                 created: '',

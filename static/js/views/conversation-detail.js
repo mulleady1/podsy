@@ -11,6 +11,7 @@ define([
         },
         show: function(conv) {
             this.model = conv;
+            this.model.on('all', this.render.bind(this));
             this.$el.show();
             return this.render();
         },

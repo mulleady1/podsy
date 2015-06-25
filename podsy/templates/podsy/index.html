@@ -473,12 +473,20 @@
         <li class="message">
           <div class="relative">
             <a href="#/users/<%= message.user.username %>/"><%= message.user.username %></a>
-            <small class="right"><%= created %></small>
+            <small class="right"><%= message.created %></small>
             </div>
           <div><%= message.text.replace(/\n/g, '<br>') %></div>
         </li>
       <% }); %>
     </ul>
+    <form class="">
+      <div class="form-group">
+        <textarea class="form-control message-text" placeholder="Write something..."></textarea>
+      </div>
+      <div class="form-group">
+        <button type="submit" class="btn btn-primary btn-sm create-message">Send</button>
+      </div>
+    </form>
   </script>
   <script src="{% static 'js/require.js' %}" data-main="{% static 'js/main' %}"></script>
 </body>

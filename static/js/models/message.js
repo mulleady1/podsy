@@ -1,14 +1,14 @@
 define([
-    'backbone'
-], function(Backbone) {
+    'backbone',
+    'models/user'
+], function(Backbone, User) {
     'use strict';
 
     var Message = Backbone.Model.extend({
         defaults: function() {
             return {
-                id: '',
-                fromUser: {},
-                toUser: {},
+                conversation_id: '',
+                user: new User(),
                 created: '',
                 text: '',
                 preview: ''

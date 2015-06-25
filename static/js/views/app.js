@@ -30,6 +30,7 @@ define([
             app.toJson = this.toJson;
             app.isMobile = this.isMobile;
             app.getFormData = this.getFormData;
+            app.getFormattedDate = this.getFormattedDate;
             app.loadInitialPods = this.loadInitialPods;
 
             // Views.
@@ -167,6 +168,10 @@ define([
                 }
             });
             return data;
+        },
+        getFormattedDate: function(date) {
+            date = date || new Date();
+            return '%b %d'.replace('%b', app.monthNames[date.getMonth()]).replace('%d', date.getDate());
         },
         loadInitialPods: function() {
             var pods = [];

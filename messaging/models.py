@@ -9,7 +9,7 @@ class Conversation(models.Model):
 
     @property
     def data(self):
-        messages = Message.objects.filter(conversation=self).order_by('-created')
+        messages = Message.objects.filter(conversation=self).order_by('created')
         preview = ''
         if len(messages) > 0:
             preview = messages[0].preview
@@ -40,6 +40,7 @@ class Message(models.Model):
     def data(self):
         return {
             'id': self.id,
+            'conversation_id': self.conversation.id,
             'user': self.user.shallow_data,
             'text': self.text,
             'preview': self.preview,

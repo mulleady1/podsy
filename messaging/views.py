@@ -27,15 +27,14 @@ class MessageView(View):
     def get(self, request, message_id=None):
         pass
 
-    def post(self, request):
+    def post(self, request, conversation_id):
         idata = json.loads(request.body)
         odata = {}
-        to_user = idata.get('toUser')
         text = idata.get('text')
         u = getuser(request)
         if not u:
             return JsonAuthErr()
-        if not (to_user and text):
+        if not text:
             return Json({ 'message': 'Please fill in all fields.' })
-        message = Message.objects.create(from_user=getuser(request), to_user=to_user, text=text)
+        message = Message.objects.create(conversation_id=conversation_id, user=u, text=text)
         return Json(message.data)

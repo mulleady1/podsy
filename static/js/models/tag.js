@@ -6,7 +6,6 @@ define([
     var Tag = Backbone.Model.extend({
         defaults: function() {
             return {
-                id: null,
                 name: '',
                 description: '',
                 pods: [],

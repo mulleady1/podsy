@@ -2,13 +2,19 @@ define([
     'jquery',
     'underscore',
     'backbone',
+    'models/message',
     'models/conversation',
+    'models/user',
+    'collections/messages',
     'collections/conversations',
     'views/conversation-list',
     'views/conversation-detail'
-], function($, _, Backbone, Conversation, Conversations, ConversationListView, ConversationDetailView) {
+], function($, _, Backbone, Message, Conversation, User, Messages, Conversations, ConversationListView, ConversationDetailView) {
     var MessagesView = Backbone.View.extend({
         el: '#messages-view',
+        events: {
+            'click button.create-message': 'createMessage'
+        },
         show: function() {
             var self = this;
             this.$el.show();
@@ -44,11 +50,29 @@ define([
             if (app.isMobile()) {
                 $el.hide();
             }
-            var conv = this.conversations.get(id);
+            this.conversation = this.conversations.get(id);
             if (!this.conversationDetailView) {
                 this.conversationDetailView = new ConversationDetailView();
             }
-            this.conversationDetailView.show(conv);
+            this.conversationDetailView.show(this.conversation);
+        },
+        createMessage: function(e) {
+            e.preventDefault();
+            var text = this.$el.find('textarea.message-text').val().trim();
+            if (!text) return;
+            var messageData = {
+                text: text,
+                conversation_id: this.conversation.get('id'),
+                created: app.getFormattedDate(),
+                user: {
+                    username: app.username
+                }
+            };
+            var messagesData = this.conversation.get('messages');
+            var messages = new Messages(messagesData);
+            messages.setConversationId(this.conversation.get('id'));
+            messages.create(messageData);
+            this.conversation.set('messages', messages.toJSON());
         }
     });
 

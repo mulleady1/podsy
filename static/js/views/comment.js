@@ -41,13 +41,12 @@ define([
         },
         submit: function() {
             var textarea = this.$el.find('textarea[name="text"]');
-            var date = new Date();
             var data = {
                 text: textarea.val(),
                 parent_id: this.model.get('id'),
                 userid: app.userid,
                 username: app.username,
-                timestamp: '%b %d'.replace('%b', app.monthNames[date.getMonth()]).replace('%d', date.getDate()),
+                timestamp: app.getFormattedDate(),
                 children: []
             };
             textarea.html('');
