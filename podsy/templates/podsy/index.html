@@ -396,7 +396,9 @@
       <div class="col-xs-12">
         <h3 class="title relative">
           <%= username %>
-          <small class="right xs"><a href="#/conversations/<%= username %>/">Send Message</a></small>
+          <% if (app.username != username) { %>
+            <small class="right xs"><a href="#/conversations/<%= username %>/">Send Message</a></small>
+          <% } %>
         </h3>
       </div>
       <% if (pods.length) { %>
@@ -484,7 +486,7 @@
       });
     %>
     <h4>Conversation with <%= userLinks.join(', ') %></h4>
-    <ul class="messages-container list-unstyled">
+    <ul class="messages-container list-unstyled <% if (messages.length) print('not-empty') %>">
       <% _.each(messages, function(message) { %>
         <li class="message">
           <div class="relative">

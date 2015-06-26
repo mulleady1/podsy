@@ -33,6 +33,7 @@ define([
             var $el = this.$el.find('.conversations-container');
             $el.html('');
             this.conversations.each(function(conversation) {
+                $el.addClass('not-empty');
                 var view = new ConversationListView({ model: conversation });
                 $el.append(view.render().el);
             });

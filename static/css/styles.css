@@ -136,19 +136,6 @@ div.tag-search {
 .relative > .right.xs {
     font-size: 50%;
 }
-.messages-container {
-    max-height: 500px;
-    overflow-y: auto;
-    border: 1px solid #e9e9e9;
-    border-radius: 3px;
-    padding: 4px;
-}
-.conversations-container {
-    max-height: 650px;
-    overflow-y: auto;
-    border: 1px solid #e9e9e9;
-    border-radius: 3px;
-}
 .conversation {
   padding: 10px 5px;
   cursor: pointer;
@@ -249,5 +236,18 @@ ul.ui-autocomplete li {
   }
 }
 @media (min-width: 600px) {
+    .messages-container.not-empty {
+        max-height: 500px;
+        overflow-y: auto;
+        border: 1px solid #e9e9e9;
+        border-radius: 3px;
+        padding: 4px;
+    }
+    .conversations-container.not-empty {
+        max-height: 650px;
+        overflow-y: auto;
+        border: 1px solid #e9e9e9;
+        border-radius: 3px;
+    }
 }
 /* Media queries - end */
