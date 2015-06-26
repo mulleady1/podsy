@@ -3,6 +3,7 @@ define([
     'models/conversation'
 ], function(Backbone, Conversation) {
     var ConversationListView = Backbone.View.extend({
+        tagName: 'li',
         className: 'conversation',
         template: _.template($('#conversation-list-template').html()),
         events: {

@@ -9,24 +9,24 @@ define([
 ], function(Backbone, CategoryView, UserView, AccountView, ConversationListView, MessagesView, User) {
     var Router = Backbone.Router.extend({
         routes: {
-            '':                        'index',
-            'pods/new/':               'newPod',
-            'pods/:id/':               'podById',
-            'account/pods/favs/':      'podsByFav',
-            'pods/categories/:id/':    'podsByCategory',
-            'categories/':             'categories',
-            'categories/new/':         'newCategory',
-            'signin/':                 'signin',
-            'signup/':                 'signup',
-            'account/':                'account',
-            'about/':                  'about',
-            'tags/':                   'tags',
-            'tags/:tagName/':          'tagByName',
-            'account/tags/favs/':      'tagsByFav',
-            'users/:username/':        'userByUsername',
-            'conversations/':          'conversations',
-            'conversations/:id/':      'conversationById',
-            'messages/':               'messages'
+            '':                                'index',
+            'pods/new/':                       'newPod',
+            'pods/:id/':                       'podById',
+            'account/pods/favs/':              'podsByFav',
+            'pods/categories/:id/':            'podsByCategory',
+            'categories/':                     'categories',
+            'categories/new/':                 'newCategory',
+            'signin/':                         'signin',
+            'signup/':                         'signup',
+            'account/':                        'account',
+            'about/':                          'about',
+            'tags/':                           'tags',
+            'tags/:tagName/':                  'tagByName',
+            'account/tags/favs/':              'tagsByFav',
+            'users/:username/':                'userByUsername',
+            'conversations/':                  'conversations',
+            'conversations/:param/':           'conversationByParam',
+            'messages/':                       'messages'
         },
         execute: function(callback, args, name) {
             this.pauseAudio();
@@ -132,13 +132,23 @@ define([
                 app.userView.show(new User(data));
             });
         },
-        conversationById: function(id) {
+        conversationByParam: function(param) {
             if (!app.loggedIn) return;
             if (!app.messagesView) {
                 app.messagesView = new MessagesView();
             }
             app.messagesView.show();
+            if (param.match(/\d+/)) {
+                this.conversationById(param);
+            } else {
+                this.conversationByUsername(param);
+            }
+        },
+        conversationById: function(id) {
             app.messagesView.showConversation(id);
+        },
+        conversationByUsername: function(username) {
+            app.messagesView.showConversationOrStartNew(username);
         },
         messages: function() {
             if (!app.loggedIn) return;

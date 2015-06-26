@@ -12,7 +12,8 @@ define([
                 created: '',
                 preview: ''
             };
-        }
+        },
+        url: '/conversations/'
     });
 
     return Conversation;

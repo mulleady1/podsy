@@ -56,9 +56,43 @@ define([
             }
             this.conversationDetailView.show(this.conversation);
         },
+        showConversationOrStartNew: function(username) {
+            var self = this;
+            if (this.conversations.length == 0) {
+               this.timer = setTimeout(function() {
+                  self.showConversationOrStartNew(username);
+               }, 500);
+               return;
+            } else {
+                clearTimeout(this.timer);
+            }
+
+            var conversation = this.conversations.reduce(function(memo, conv) {
+                var members = conv.get('members');
+                if (members.length == 2 && (members[0].username == username || members[1].username == username)) {
+                    return conv;
+                }
+            });
+
+            if (conversation) {
+                return this.showConversation(conversation.get('id'));
+            }
+
+            this.conversation = new Conversation({
+                members: [{
+                    username: username
+                }]
+            });
+            if (!this.conversationDetailView) {
+                this.conversationDetailView = new ConversationDetailView();
+            }
+            this.conversationDetailView.show(this.conversation);
+        },
         createMessage: function(e) {
             e.preventDefault();
-            var text = this.$el.find('textarea.message-text').val().trim();
+            var self = this,
+                text = this.$el.find('textarea.message-text').val().trim();
+
             if (!text) return;
             var messageData = {
                 text: text,
@@ -68,6 +102,17 @@ define([
                     username: app.username
                 }
             };
+
+            if (this.conversation.id) {
+                this.saveMessage(messageData);
+            } else {
+                this.conversations.add(this.conversation);
+                this.conversation.save().then(function() {
+                    self.saveMessage.call(self, messageData);
+                });
+            }
+        },
+        saveMessage: function(messageData) {
             var messagesData = this.conversation.get('messages');
             var messages = new Messages(messagesData);
             messages.setConversationId(this.conversation.get('id'));

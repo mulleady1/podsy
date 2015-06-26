@@ -133,6 +133,17 @@ div.tag-search {
   position: absolute;
   right: 0;
 }
+.relative > .right.xs {
+    font-size: 50%;
+}
+.messages-container {
+    max-height: 500px;
+    overflow-y: auto;
+}
+.conversations-container {
+    max-height: 650px;
+    overflow-y: auto;
+}
 .conversation {
   padding: 10px 5px;
   cursor: pointer;

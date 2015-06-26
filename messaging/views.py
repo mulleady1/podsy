@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.shortcuts import render
 from django.views.generic import View
 from django.db.models import Q
@@ -21,6 +22,23 @@ class ConversationView(View):
 
         return Json(odata)
 
+    def post(self, request):
+        idata = json.loads(request.body)
+        odata = {}
+        username = idata.get('members')[0]['username']
+        otherUser = User.objects.get(username=username)
+        member = PodsyUser.objects.get(user=otherUser)
+        u = getuser(request)
+        if not u:
+            return JsonAuthErr()
+        if not member:
+            return Json({ 'message': 'A conversation needs at least two participants.' })
+
+        conv = Conversation.objects.create()
+        conv.members.add(u)
+        conv.members.add(member)
+
+        return Json(conv.data)
 
 class MessageView(View):
 
