@@ -1,1 +1,1 @@
-./manage.py dumpdata --indent 4 > dump_$(date +%F).json
+./manage.py dumpdata --indent 4 -e contenttypes -e auth.Permission -e sessions > dump_$(date +%F).json
