@@ -25,12 +25,13 @@ define([
             }
             if (!this.conversations) {
                 this.conversations = new Conversations();
-                this.listenTo(this.conversations, 'reset', this.showConversationList);
+                this.listenTo(this.conversations, 'all', this.showConversationList);
                 this.conversations.fetch({ reset: true });
             }
         },
         showConversationList: function() {
             var $el = this.$el.find('.conversations-container');
+            $el.html('');
             this.conversations.each(function(conversation) {
                 var view = new ConversationListView({ model: conversation });
                 $el.append(view.render().el);
@@ -57,22 +58,32 @@ define([
             this.conversationDetailView.show(this.conversation);
         },
         showConversationOrStartNew: function(username) {
-            var self = this;
-            if (this.conversations.length == 0) {
-               this.timer = setTimeout(function() {
-                  self.showConversationOrStartNew(username);
-               }, 500);
-               return;
-            } else {
-                clearTimeout(this.timer);
+            var self = this,
+                conversation;
+
+            if (!this.attempts) {
+                this.attempts = 0;
             }
 
-            var conversation = this.conversations.reduce(function(memo, conv) {
-                var members = conv.get('members');
-                if (members.length == 2 && (members[0].username == username || members[1].username == username)) {
-                    return conv;
+            if (this.conversations.length == 0) {
+                this.attempts++;
+                if (this.attempts >= 2) {
+                    this.attempts = 0;
+                } else {
+                    this.timer = setTimeout(function() {
+                        self.showConversationOrStartNew(username);
+                    }, 500);
+                    return;
                 }
-            });
+            } else {
+                clearTimeout(this.timer);
+                var conversation = this.conversations.reduce(function(memo, conv) {
+                    var members = conv.get('members');
+                    if (members.length == 2 && (members[0].username == username || members[1].username == username)) {
+                        return conv;
+                    }
+                });
+            }
 
             if (conversation) {
                 return this.showConversation(conversation.get('id'));
