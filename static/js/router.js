@@ -138,7 +138,7 @@ define([
                 app.messagesView = new MessagesView();
             }
             app.messagesView.show();
-            if (param.match(/\d+/)) {
+            if (/^\d+$/.test(param)) {
                 this.conversationById(param);
             } else {
                 this.conversationByUsername(param);
