@@ -21,12 +21,15 @@ define([
             'account/':                        'account',
             'about/':                          'about',
             'tags/':                           'tags',
-            'tags/:tagName/':                  'tagByName',
+            'pods/tags/:tagName/':             'tagByName',
             'account/tags/favs/':              'tagsByFav',
             'users/:username/':                'userByUsername',
             'conversations/':                  'conversations',
             'conversations/:param/':           'conversationByParam',
             'messages/':                       'messages'
+        },
+        initialize: function() {
+            this.route(/pods\/.*page\/(\d+)\//, 'pageChange', this.pageChange);
         },
         execute: function(callback, args, name) {
             this.pauseAudio();
@@ -43,6 +46,14 @@ define([
         index: function() {
             $('#pods-view').show();
             app.loadInitialPods();
+        },
+        pageChange: function(num) {
+            $('#pods-view').show();
+            var url = location.hash.substring(1);
+            $.get(url).always(function(data) {
+                app.pods.reset(data);
+                app.trigger('pageChange', data.length);
+            });
         },
         newPod: function() {
             $('#pod-form-view').show();

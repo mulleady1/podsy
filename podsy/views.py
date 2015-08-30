@@ -1,10 +1,11 @@
+from django.conf import settings
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
-from django.http import HttpResponse, HttpResponseRedirect
 from django.core.exceptions import ObjectDoesNotExist
+from django.core.paginator import Paginator
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.views.generic import View, TemplateView, ListView
-from django.conf import settings
 from podsy.models import *
 import os
 import json
@@ -38,6 +39,8 @@ def home(request):
 
     podsData = []
     pods = Pod.objects.front_page()
+    p = Paginator(pods, 10)
+    pods = p.page(1).object_list
     for pod in pods:
         podData = pod.data
         podData['fav'] = pod in favs
@@ -122,7 +125,7 @@ class SignoutView(View):
 class PodView(View):
     favs = False
 
-    def get(self, request, category_name=None):
+    def get(self, request, category_name=None, page=1):
         if self.favs:
             pods = getuser(request).favoritePods.all()
         elif category_name:
@@ -130,22 +133,28 @@ class PodView(View):
         else:
             pods = Pod.objects.all()
 
-        favs = []
-        upToggled = []
-        downToggled = []
-        if request.user.is_authenticated():
-            u = getuser(request)
-            favs = u.favoritePods.all()
-            upToggled = u.upvotedPods.all()
-            downToggled = u.downvotedPods.all()
-
         odata = []
-        for pod in pods:
-            data = pod.data
-            data['fav'] = pod in favs
-            data['upToggled'] = pod in upToggled
-            data['downToggled'] = pod in downToggled
-            odata.append(data)
+
+        pag = Paginator(pods, 10)
+        page = int(page)
+        if page > 0 and page <= pag.num_pages:
+            pods = pag.page(page).object_list
+
+            favs = []
+            upToggled = []
+            downToggled = []
+            if request.user.is_authenticated():
+                u = getuser(request)
+                favs = u.favoritePods.all()
+                upToggled = u.upvotedPods.all()
+                downToggled = u.downvotedPods.all()
+
+            for pod in pods:
+                data = pod.data
+                data['fav'] = pod in favs
+                data['upToggled'] = pod in upToggled
+                data['downToggled'] = pod in downToggled
+                odata.append(data)
 
         return Json(odata)
 

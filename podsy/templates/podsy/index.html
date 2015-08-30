@@ -87,6 +87,10 @@
   <div id="pods-view" class="container view">
     <ul id="pods-list" class="list-unstyled">
     </ul>
+    <div class="pagination">
+      <a class="btn btn-link prev" href="">&#8592; Previous</a>
+      <a class="btn btn-link next" href="">Next &#8594;</a>
+    </div>
   </div>
   <div id="pod-detail-view" class="container view">
   </div>
@@ -334,7 +338,7 @@
           on <%= createdLabel %>
           by <a href="#/users/<%= user %>/"><%= user %></a>
           <% if (tags.length) { %>
-            tagged with <% for (var i = 0; i < tags.length; i++) print('<a class="tag" href="#/tags/{tag.name}/">{tag.name}</a> '.replace(/{tag.name}/g, tags[i].name)) %>
+            tagged with <% for (var i = 0; i < tags.length; i++) print('<a class="tag" href="#/pods/tags/{tag.name}/">{tag.name}</a> '.replace(/{tag.name}/g, tags[i].name)) %>
           <% } %>
         </div>
       </div>
@@ -343,7 +347,7 @@
   <script type="text/template" id="tag-template">
     <div class="tag">
       <div class="tag-title">
-        <a href="#/tags/<%= name %>/"><%= name %></a>
+        <a href="#/pods/tags/<%= name %>/"><%= name %></a>
         <span class="fav glyphicon glyphicon-star<% if (!fav) print('-empty') %>"></span>
       </div>
     </div>
@@ -426,7 +430,7 @@
           <h4>Favorite tags</h4>
           <ul class="list-unstyled">
             <% _.each(favoriteTags, function(tag) { %>
-              <li><a href="#/tags/<%= tag.name %>/"><%= tag.name %></a></li>
+              <li><a href="#/pods/tags/<%= tag.name %>/"><%= tag.name %></a></li>
             <% }); %>
           </ul>
         </div>

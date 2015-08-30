@@ -24,7 +24,53 @@ define([
 
     var AppView = Backbone.View.extend({
         el: 'body',
+        events: {
+            'click .pagination .next': 'nextPage',
+            'click .pagination .prev': 'prevPage'
+        },
+        nextPage: function(e) {
+            e.preventDefault();
+            this.pageChange(1);
+        },
+        prevPage: function(e) {
+            e.preventDefault();
+            this.pageChange(-1);
+        },
+        pageChange: function(newNum) {
+            var tokens = location.hash.split('/'),
+                index = tokens.indexOf('page'),
+                url;
+
+            if (!location.hash || location.hash == '#/') {
+                url = '#/pods/';
+            } else {
+                url = location.hash;
+            }
+
+            if (index == -1) {
+                if (newNum == -1) return;
+                url += 'page/2/';
+                app.router.navigate(url, { trigger: true });
+            } else {
+                var num = parseInt(tokens[index+1], 10);
+                if (isNaN(num)) {
+                    num = 2;
+                } else {
+                    num += newNum;
+                }
+
+                if (num >= 1) {
+                    tokens[index+1] = num;
+                    url = tokens.join('/');
+                    app.router.navigate(url, { trigger: true });
+                }
+            }
+
+        },
         initialize: function() {
+            // Listen to application-level events.
+            _.extend(app, Backbone.Events);
+
             // Utility functions.
             app.toJs = this.toJs;
             app.toJson = this.toJson;
@@ -50,12 +96,13 @@ define([
 
             // Listeners.
             this.listenTo(app.pods, 'reset', this.addPods);
+            this.listenTo(app.pods, 'reset', this.resetNavButtons);
             this.listenTo(app.pods, 'add', this.addPodToFront);
             this.listenTo(app.tags, 'reset', this.addTags);
             this.listenTo(app.categories, 'reset', this.addCategories);
+            app.on('pageChange', this.showNavButtons);
 
             // Initializers.
-            app.loadInitialPods();
             this.addAjaxToken();
 
             // Router.
@@ -90,6 +137,29 @@ define([
         addCategories: function() {
             this.$('#categories-list').html('');
             app.categories.each(this.addCategory, this);
+        },
+        showNavButtons: function(len) {
+            var prev = $('.pagination .prev'),
+                next = $('.pagination .next'),
+                re = /page\/([2-9]\d*|\d{2,})\//;
+
+            if (!len) {
+                prev.show();
+                next.hide();
+            } else if (/\/page\//.test(location.hash)) {
+                if (re.exec(location.hash)) {
+                    prev.show();
+                } else {
+                    prev.hide();
+                }
+            } else {
+                next.show();
+                prev.hide();
+            }
+        },
+        resetNavButtons: function() {
+            $('.pagination .next').show();
+            $('.pagination .prev').hide();
         },
         addAjaxToken: function() {
             function getCookie(name) {
