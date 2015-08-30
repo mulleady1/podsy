@@ -96,7 +96,6 @@ define([
 
             // Listeners.
             this.listenTo(app.pods, 'reset', this.addPods);
-            this.listenTo(app.pods, 'reset', this.resetNavButtons);
             this.listenTo(app.pods, 'add', this.addPodToFront);
             this.listenTo(app.tags, 'reset', this.addTags);
             this.listenTo(app.categories, 'reset', this.addCategories);
@@ -138,28 +137,12 @@ define([
             this.$('#categories-list').html('');
             app.categories.each(this.addCategory, this);
         },
-        showNavButtons: function(len) {
+        showNavButtons: function(opts) {
             var prev = $('.pagination .prev'),
-                next = $('.pagination .next'),
-                re = /page\/([2-9]\d*|\d{2,})\//;
-
-            if (!len) {
-                prev.show();
-                next.hide();
-            } else if (/\/page\//.test(location.hash)) {
-                if (re.exec(location.hash)) {
-                    prev.show();
-                } else {
-                    prev.hide();
-                }
-            } else {
-                next.show();
-                prev.hide();
-            }
-        },
-        resetNavButtons: function() {
-            $('.pagination .next').show();
-            $('.pagination .prev').hide();
+                next = $('.pagination .next');
+            
+            prev[opts.hasPrev ? 'show' : 'hide']();
+            next[opts.hasNext ? 'show' : 'hide']();
         },
         addAjaxToken: function() {
             function getCookie(name) {
@@ -249,6 +232,7 @@ define([
                 pods.push(new Pod(podData));
             });
             app.pods.reset(pods);
+            app.initialPodsLoaded = true;
         },
         isMobile: function() {
             return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);

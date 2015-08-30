@@ -39,8 +39,9 @@ def home(request):
 
     podsData = []
     pods = Pod.objects.front_page()
-    p = Paginator(pods, 10)
-    pods = p.page(1).object_list
+    pag = Paginator(pods, 10)
+    p = pag.page(1)
+    pods = p.object_list
     for pod in pods:
         podData = pod.data
         podData['fav'] = pod in favs
@@ -133,12 +134,15 @@ class PodView(View):
         else:
             pods = Pod.objects.all()
 
-        odata = []
+        odata = { 'pods': [] }
 
         pag = Paginator(pods, 10)
         page = int(page)
         if page > 0 and page <= pag.num_pages:
-            pagedPods = pag.page(page).object_list
+            p = pag.page(page)
+            pagedPods = p.object_list
+            odata['hasNext'] = p.has_next()
+            odata['hasPrev'] = p.has_previous()
 
             favs = []
             upToggled = []
@@ -154,7 +158,7 @@ class PodView(View):
                 data['fav'] = pod in favs
                 data['upToggled'] = pod in upToggled
                 data['downToggled'] = pod in downToggled
-                odata.append(data)
+                odata['pods'].append(data)
 
         return Json(odata)
 
@@ -319,7 +323,7 @@ class CommentView(View):
 class TagView(View):
     favs = False
 
-    def get(self, request, tag_name=None):
+    def get(self, request, tag_name=None, page=1):
         if self.favs:
             u = getuser(request)
             if not u:
@@ -336,12 +340,21 @@ class TagView(View):
             pods = Pod.objects.filter(tags__name=tag_name)
             odata = tag.data
             odata['pods'] = []
-            for pod in pods:
-                data = pod.data
-                if request.user.is_authenticated():
-                    data['upToggled'] = pod in getuser(request).upvotedPods.all()
-                    data['downToggled'] = pod in getuser(request).downvotedPods.all()
-                odata['pods'].append(data)
+
+            pag = Paginator(pods, 10)
+            page = int(page)
+            if page > 0 and page <= pag.num_pages:
+                p = pag.page(page)
+                pagedPods = p.object_list
+                odata['hasNext'] = p.has_next()
+                odata['hasPrev'] = p.has_previous()
+                
+                for pod in pagedPods:
+                    data = pod.data
+                    if request.user.is_authenticated():
+                        data['upToggled'] = pod in getuser(request).upvotedPods.all()
+                        data['downToggled'] = pod in getuser(request).downvotedPods.all()
+                    odata['pods'].append(data)
         else:
             u = getuser(request)
             favs = []

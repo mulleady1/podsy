@@ -45,14 +45,22 @@ define([
         },
         index: function() {
             $('#pods-view').show();
-            app.loadInitialPods();
+            if (!app.initialPodsLoaded) {
+                app.loadInitialPods();
+                return;
+            } 
+            $.get('/pods/').then(function(data) {
+                app.pods.reset(data.pods);
+                app.trigger('pageChange', { hasNext: data.hasNext, hasPrev: data.hasPrev });
+            });
         },
         pageChange: function(num) {
             $('#pods-view').show();
             var url = location.hash.substring(1);
             $.get(url).always(function(data) {
-                app.pods.reset(data);
-                app.trigger('pageChange', data.length);
+                var pods = data.pods;
+                app.pods.reset(pods);
+                app.trigger('pageChange', { hasNext: data.hasNext, hasPrev: data.hasPrev });
                 if (/\/tags\/|\/categories\//.test(location.hash)) {
                     app.headerView.show();
                 }
@@ -70,6 +78,7 @@ define([
             app.headerView.show({ name: 'My favorite pods', description: '' });
             $.get('/account/pods/favs/').then(function(data) {
                 app.pods.reset(data);
+                app.trigger('pageChange', { hasNext: data.hasNext, hasPrev: data.hasPrev });
             });
         },
         podsByCategory: function(name) {
@@ -92,7 +101,8 @@ define([
             }
             $('#pods-view').show();
             $.get('/pods/categories/{name}/'.replace('{name}', name.toLowerCase())).then(function(data) {
-                app.pods.reset(data);
+                app.pods.reset(data.pods);
+                app.trigger('pageChange', { hasNext: data.hasNext, hasPrev: data.hasPrev });
             });
         },
         categories: function() {
@@ -127,9 +137,10 @@ define([
         },
         tagByName: function(tagName) {
             $('#pods-view').show();
-            $.get('/tags/{tagName}/'.replace('{tagName}', tagName)).then(function(data) {
+            $.get('/pods/tags/{tagName}/'.replace('{tagName}', tagName)).then(function(data) {
                 app.headerView.show({ name: data.name, description: data.description });
                 app.pods.reset(data.pods);
+                app.trigger('pageChange', { hasNext: data.hasNext, hasPrev: data.hasPrev });
             });
         },
         tagsByFav: function() {

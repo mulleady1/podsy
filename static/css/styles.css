@@ -157,7 +157,7 @@ div.tag-search {
 .pagination {
     margin: 5px 0 15px;
 }
-.pagination > a {
+.pagination > .prev {
     display: none;
 }
 
