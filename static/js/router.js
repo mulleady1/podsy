@@ -53,6 +53,9 @@ define([
             $.get(url).always(function(data) {
                 app.pods.reset(data);
                 app.trigger('pageChange', data.length);
+                if (/\/tags\/|\/categories\//.test(location.hash)) {
+                    app.headerView.show();
+                }
             });
         },
         newPod: function() {

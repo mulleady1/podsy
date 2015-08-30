@@ -9,13 +9,16 @@ define([
     var HeaderView = Backbone.View.extend({
         template: _.template($('#view-header-template').html()),
         className: 'container view',
-        render: function(data) {
-            this.$el.html(this.template(data));
+        render: function() {
+            this.$el.html(this.template(this.model.attributes || this.model));
             this.$el.show();
             return this;
         },
         show: function(data) {
-            this.render(data);
+            if (data) {
+                this.model = data;
+            }
+            this.render();
             this.$el.insertBefore('#pods-view');
         }
     });

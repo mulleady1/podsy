@@ -138,7 +138,7 @@ class PodView(View):
         pag = Paginator(pods, 10)
         page = int(page)
         if page > 0 and page <= pag.num_pages:
-            pods = pag.page(page).object_list
+            pagedPods = pag.page(page).object_list
 
             favs = []
             upToggled = []
@@ -149,7 +149,7 @@ class PodView(View):
                 upToggled = u.upvotedPods.all()
                 downToggled = u.downvotedPods.all()
 
-            for pod in pods:
+            for pod in pagedPods:
                 data = pod.data
                 data['fav'] = pod in favs
                 data['upToggled'] = pod in upToggled
