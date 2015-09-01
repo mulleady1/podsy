@@ -141,8 +141,9 @@ define([
             var prev = $('.pagination .prev'),
                 next = $('.pagination .next');
             
-            prev[opts.hasPrev ? 'show' : 'hide']();
-            next[opts.hasNext ? 'show' : 'hide']();
+            prev[opts.hasPrev ? 'removeClass' : 'addClass']('hidden');
+            next[opts.hasNext ? 'removeClass' : 'addClass']('hidden');
+            $('body').scrollTop(0);
         },
         addAjaxToken: function() {
             function getCookie(name) {
