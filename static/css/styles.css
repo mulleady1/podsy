@@ -24,7 +24,7 @@ textarea {
     font-weight: bold;
 }
 #pods-list > li {
-    padding: 5px 0;
+    padding: 10px 0;
 }
 #pods-list li:nth-child(even) {
     background: #fafafa;
@@ -199,6 +199,9 @@ ul.ui-autocomplete li {
   .glyphicon-arrow-up, .glyphicon-arrow-down {
     font-size: 20px;
   }
+  .pagination {
+      height: 62px;
+  }
   .pagination > a {
       display: block;
       position: absolute;
@@ -209,6 +212,12 @@ ul.ui-autocomplete li {
   }
   .pagination .next {
       right: 0;
+  }
+  #messages-view .container {
+      padding: 0;
+  }
+  #messages-view .conversation {
+      padding: 10px;
   }
 }
 @media (min-width: 700px) {

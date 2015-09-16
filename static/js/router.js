@@ -48,7 +48,7 @@ define([
             if (!app.initialPodsLoaded) {
                 app.loadInitialPods();
                 return;
-            } 
+            }
             $.get('/pods/').then(function(data) {
                 app.pods.reset(data.pods);
                 app.trigger('pageChange', { hasNext: data.hasNext, hasPrev: data.hasPrev });
@@ -77,7 +77,7 @@ define([
             $('#pods-view').show();
             app.headerView.show({ name: 'My favorite pods', description: '' });
             $.get('/account/pods/favs/').then(function(data) {
-                app.pods.reset(data);
+                app.pods.reset(data.pods);
                 app.trigger('pageChange', { hasNext: data.hasNext, hasPrev: data.hasPrev });
             });
         },

@@ -13,7 +13,10 @@ define([
             this.$el.html(this.template(this.model.toJSON()));
             return this;
         },
-        onClick: function() {
+        onClick: function(e) {
+            if (e.target.tagName.toLowerCase() == 'a') {
+                return;
+            }
             app.router.navigate('#/conversations/{id}/'.replace('{id}', this.model.get('id')));
         }
     });
