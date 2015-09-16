@@ -181,6 +181,13 @@ ul.ui-autocomplete li {
 
 /* jQuery autocomplete for Bootstrap - end */
 
+/* Bootstrap overrides - begin */
+.btn-primary {
+    background-color: #069;
+    border-color: #069;
+}
+/* Bootstrap overrides - end */
+
 /* Media queries - begin */
 
 @media (max-width: 699px) {
