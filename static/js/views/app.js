@@ -140,7 +140,7 @@ define([
         showNavButtons: function(opts) {
             var prev = $('.pagination .prev'),
                 next = $('.pagination .next');
-            
+
             prev[opts.hasPrev ? 'removeClass' : 'addClass']('hidden');
             next[opts.hasNext ? 'removeClass' : 'addClass']('hidden');
             $('body').scrollTop(0);
@@ -236,7 +236,8 @@ define([
             app.initialPodsLoaded = true;
         },
         isMobile: function() {
-            return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            //return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            return window.innerWidth < 700;
         }
     });
 

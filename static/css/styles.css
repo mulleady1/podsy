@@ -243,6 +243,9 @@ ul.ui-autocomplete li {
     .pagination > a {
         display: inline-block;
     }
+    #conversation-detail-view {
+        margin-top: -39px;
+    }
 }
 
 /* Media queries - end */
