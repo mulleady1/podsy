@@ -15,14 +15,17 @@ define([
         events: {
             'click button.create-message': 'createMessage'
         },
+        initialize: function() {
+            this.conversationListViewContainer = this.$el.find('.conversations-container');
+            this.conversationDetailView = new ConversationDetailView();
+            this.conversationDetailView.on('show', this.onConversationDetailViewShow.bind(this));
+        },
         show: function() {
             var self = this;
             this.$el.show();
             var $el = this.$el.find('.conversations-container');
             $el.show();
-            if (this.conversationDetailView) {
-                this.conversationDetailView.hide();
-            }
+            this.conversationDetailView.hide();
             if (!this.conversations) {
                 this.conversations = new Conversations();
                 this.listenTo(this.conversations, 'all', this.showConversationList);
@@ -31,6 +34,7 @@ define([
         },
         showConversationList: function() {
             var $el = this.$el.find('.conversations-container');
+            this.conversationListViewContainer = $el;
             $el.html('');
             this.conversations.each(function(conversation) {
                 $el.addClass('not-empty');
@@ -55,6 +59,7 @@ define([
             this.conversation = this.conversations.get(id);
             if (!this.conversationDetailView) {
                 this.conversationDetailView = new ConversationDetailView();
+                this.conversationDetailView.on('show', this.onConversationDetailViewShow);
             }
             this.conversationDetailView.show(this.conversation);
         },
@@ -95,9 +100,6 @@ define([
                     username: username
                 }]
             });
-            if (!this.conversationDetailView) {
-                this.conversationDetailView = new ConversationDetailView();
-            }
             this.conversationDetailView.show(this.conversation);
         },
         createMessage: function(e) {
@@ -130,6 +132,11 @@ define([
             messages.setConversationId(this.conversation.get('id'));
             messages.create(messageData);
             this.conversation.set('messages', messages.toJSON());
+        },
+        onConversationDetailViewShow: function() {
+            if (app.isMobile()) {
+                this.conversationListViewContainer.hide();
+            }
         }
     });
 

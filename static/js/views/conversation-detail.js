@@ -13,6 +13,7 @@ define([
             this.model = conv;
             this.model.on('all', this.render.bind(this));
             this.$el.show();
+            this.trigger('show');
             return this.render();
         },
         hide: function() {
