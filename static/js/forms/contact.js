@@ -16,7 +16,8 @@ define([
                 json = app.toJson(formData);
 
             $.post('/contact/', json).then(function(data) {
-                alert(data);
+                console.log(data);
+                form[0].reset();
             });
         }
     });

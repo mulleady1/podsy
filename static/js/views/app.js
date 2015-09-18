@@ -213,7 +213,7 @@ define([
         },
         getFormData: function(form) {
             var data = {};
-            form.find('input, select').each(function(i, el) {
+            form.find('input, select, textarea').each(function(i, el) {
                 var name = $(el).prop('name');
                 var val = $(el).val();
                 if (this.type == 'checkbox') {
