@@ -6,7 +6,8 @@ define([
     'views/conversation-list',
     'views/messages',
     'models/user',
-], function(Backbone, CategoryView, UserView, AccountView, ConversationListView, MessagesView, User) {
+    'models/pod',
+], function(Backbone, CategoryView, UserView, AccountView, ConversationListView, MessagesView, User, Pod) {
     var Router = Backbone.Router.extend({
         routes: {
             '':                                'index',
@@ -45,10 +46,6 @@ define([
         },
         index: function() {
             $('#pods-view').show();
-            if (!app.initialPodsLoaded) {
-                app.loadInitialPods();
-                return;
-            }
             $.get('/pods/').then(function(data) {
                 app.pods.reset(data.pods);
                 app.trigger('pageChange', { hasNext: data.hasNext, hasPrev: data.hasPrev });
@@ -70,7 +67,15 @@ define([
             $('#pod-form-view').show();
         },
         podById: function(id) {
-            app.podDetailView.show(app.pods.get(id));
+            var pod = app.pods.get(id);
+            if (pod) {
+                app.podDetailView.show(pod);
+            } else {
+                $.get('/pods/{id}/'.replace('{id}', id)).then(function(data) {
+                    pod = new Pod(data.pods[0]);
+                    app.podDetailView.show(pod);
+                });
+            }
         },
         podsByFav: function() {
             if (!app.loggedIn) return;

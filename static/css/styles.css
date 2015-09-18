@@ -10,18 +10,16 @@ textarea {
     padding: 13px;
     background: url('/static/images/podsy-logo-thin.png');
     background-repeat: no-repeat;
-    background-size: 80px 20px;
+    background-size: 80px 28px;
     background-position: center;
-    background-size: 80px 25px;
     width: 110px;
 }
 .navbar-brand:active {
     padding: 13px;
     background: url('/static/images/podsy-logo-thin-active.png');
     background-repeat: no-repeat;
-    background-size: 80px 20px;
+    background-size: 80px 28px;
     background-position: center;
-    background-size: 80px 25px;
     width: 110px;
 }
 .votebuttons {

@@ -4,6 +4,7 @@ define([
     'use strict';
 
     var Pod = Backbone.Model.extend({
+        urlRoot: '/pods/',
         defaults: function() {
             return {
                 fav: false,

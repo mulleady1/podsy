@@ -126,11 +126,13 @@ class SignoutView(View):
 class PodView(View):
     favs = False
 
-    def get(self, request, category_name=None, page=1):
+    def get(self, request, category_name=None, pod_id=None, page=1):
         if self.favs:
             pods = getuser(request).favoritePods.all()
         elif category_name:
             pods = Pod.objects.filter(category__name__iexact=category_name)
+        elif pod_id:
+            pods = [Pod.objects.get(id=pod_id)]
         else:
             pods = Pod.objects.all()
 
@@ -348,7 +350,7 @@ class TagView(View):
                 pagedPods = p.object_list
                 odata['hasNext'] = p.has_next()
                 odata['hasPrev'] = p.has_previous()
-                
+
                 for pod in pagedPods:
                     data = pod.data
                     if request.user.is_authenticated():
