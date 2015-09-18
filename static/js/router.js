@@ -7,7 +7,8 @@ define([
     'views/messages',
     'models/user',
     'models/pod',
-], function(Backbone, CategoryView, UserView, AccountView, ConversationListView, MessagesView, User, Pod) {
+    'forms/contact',
+], function(Backbone, CategoryView, UserView, AccountView, ConversationListView, MessagesView, User, Pod, ContactForm) {
     var Router = Backbone.Router.extend({
         routes: {
             '':                                'index',
@@ -21,6 +22,7 @@ define([
             'signup/':                         'signup',
             'account/':                        'account',
             'about/':                          'about',
+            'contact/':                        'contact',
             'tags/':                           'tags',
             'pods/tags/:tagName/':             'tagByName',
             'account/tags/favs/':              'tagsByFav',
@@ -134,6 +136,12 @@ define([
         },
         about: function() {
             $('#about-view').show();
+        },
+        contact: function() {
+            if (!app.contactForm) {
+                app.contactForm = new ContactForm();
+            }
+            app.contactForm.show();
         },
         tags: function() {
             $('#tags-view').show();

@@ -216,7 +216,10 @@ define([
             form.find('input, select').each(function(i, el) {
                 var name = $(el).prop('name');
                 var val = $(el).val();
-                if (name && val) {
+                if (this.type == 'checkbox') {
+                    data[name] = this.value != 'on' ? this.value : this.checked;
+                }
+                else if (name && val) {
                     data[name] = val;
                 }
             });

@@ -196,6 +196,12 @@ div.tag-search {
 .pagination > .hidden {
     display: none;
 }
+.normal-weight {
+    font-weight: normal;;
+}
+textarea.md {
+    height: 150px;
+}
 
 /* jQuery autocomplete for Bootstrap - begin */
 

@@ -56,3 +56,15 @@ class MessageView(View):
             return Json({ 'message': 'Please fill in all fields.' })
         message = Message.objects.create(conversation_id=conversation_id, user=u, text=text)
         return Json(message.data)
+
+class ContactView(View):
+
+    def post(self, request):
+        idata = json.loads(request.body)
+        odata = {}
+        text = idata.get('name')
+        email = idata.get('email')
+        creator = idata.get('creator')
+        message = idata.get('message')
+        u = getuser(request)
+        return Json(idata)
