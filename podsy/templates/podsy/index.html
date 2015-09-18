@@ -333,12 +333,12 @@
         <a href="#/pods/<%= id %>/"><%= name %></a>
         <span class="glyphicon glyphicon-star<% if (!fav) print('-empty') %>"></span>
         <div class="category">
-          <%= points %> points
-          in <a href="#/pods/categories/<%= category.toLowerCase() %>/"><%= category %></a>
-          on <%= createdLabel %>
-          by <a href="#/users/<%= user %>/"><%= user %></a>
+          <%= points %>
+          / <a href="#/pods/categories/<%= category.toLowerCase() %>/"><%= category %></a>
+          / <%= createdLabel %>
+          / <a href="#/users/<%= user %>/"><%= user %></a>
           <% if (tags.length) { %>
-            tagged with <% for (var i = 0; i < tags.length; i++) print('<a class="tag" href="#/pods/tags/{tag.name}/">{tag.name}</a> '.replace(/{tag.name}/g, tags[i].name)) %>
+            / <% for (var i = 0; i < tags.length; i++) print('<a class="tag" href="#/pods/tags/{tag.name}/">{tag.name}</a> '.replace(/{tag.name}/g, tags[i].name)) %>
           <% } %>
         </div>
       </div>

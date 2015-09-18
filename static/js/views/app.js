@@ -77,7 +77,6 @@ define([
             app.isMobile = this.isMobile;
             app.getFormData = this.getFormData;
             app.getFormattedDate = this.getFormattedDate;
-            app.loadInitialPods = this.loadInitialPods;
 
             // Views.
             app.signinView = new SigninView();
@@ -226,14 +225,6 @@ define([
         getFormattedDate: function(date) {
             date = date || new Date();
             return '%b %d'.replace('%b', app.monthNames[date.getMonth()]).replace('%d', date.getDate());
-        },
-        loadInitialPods: function() {
-            var pods = [];
-            _.each(app.podsData, function(podData) {
-                pods.push(new Pod(podData));
-            });
-            app.pods.reset(pods);
-            app.initialPodsLoaded = true;
         },
         isMobile: function() {
             //return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
