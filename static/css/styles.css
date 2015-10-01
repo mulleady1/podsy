@@ -58,10 +58,8 @@ textarea {
     font-weight: bold;
 }
 #pods-list > li {
-    padding: 10px 0;
-}
-#pods-list li:nth-child(even) {
-    background: #fafafa;
+    padding: 20px 0;
+    border-bottom: 1px solid #eee;
 }
 .podtitle > a {
     font-weight: bold;
