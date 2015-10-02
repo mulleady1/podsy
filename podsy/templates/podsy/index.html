@@ -85,11 +85,15 @@
 
   <!-- Views -->
   <div id="pods-view" class="container view">
-    <ul id="pods-list" class="list-unstyled">
-    </ul>
-    <div class="pagination">
-      <a class="btn btn-link prev hidden" href="">&#8592; Previous</a>
-      <a class="btn btn-link next hidden" href="">Next &#8594;</a>
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        <ul id="pods-list" class="list-unstyled">
+        </ul>
+        <div class="pagination">
+          <a class="btn btn-link prev hidden" href="">&#8592; Previous</a>
+          <a class="btn btn-link next hidden" href="">Next &#8594;</a>
+        </div>
+      </div>
     </div>
   </div>
   <div id="pod-detail-view" class="container view">
@@ -409,7 +413,11 @@
     </div>
   </script>
   <script type="text/template" id="view-header-template">
-    <h3 class="title"><%= name %> &nbsp;<small><%= description %></small></h3>
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        <h3 class="title"><%= name %> &nbsp;<small><%= description %></small></h3>
+      </div>
+    </div>
   </script>
   <script type="text/template" id="comment-template">
     <div class="comment-metadata">
