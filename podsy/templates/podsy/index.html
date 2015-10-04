@@ -198,7 +198,13 @@
             <input type="email" class="form-control" name="email" placeholder="Email">
           </div>
           <div class="form-group">
-            <label class="normal-weight"><input type="checkbox" name="creator"> I am a content creator</label>
+            <select class="form-control" name="subject">
+              <option value="">Subject</option>
+              <option value="suggestion">Suggestion/feedback/demand</option>
+              <option value="bug">Found a bug</option>
+              <option value="creator">Question about my podcast</option>
+              <option value="other">Something else</option>
+            </select>
           </div>
           <div class="form-group">
             <textarea class="form-control md" name="message" placeholder="Message"></textarea>
@@ -207,6 +213,14 @@
             <button class="btn btn-primary" type="submit">Submit</button>
           </div>
         </form>
+      </div>
+    </div>
+  </div>
+  <div id="thanks-view" class="container view">
+    <div class="row">
+      <div class="col-md-6 col-md-offset-3">
+        <h3>Thanks! We'll be in touch shortly.</h3>
+        <p><a href="#/">&#8592; Return to Podsy</a></p>
       </div>
     </div>
   </div>

@@ -7,7 +7,8 @@ define([
         tagName: 'li',
         template: _.template($('#tag-template').html()),
         events: {
-            'click .glyphicon.fav': 'toggleFavorite'
+            'click .glyphicon.fav': 'toggleFavorite',
+            'keyup input[name="tag-search"]': 'onKeyUp'
         },
         initialize: function() {
             this.listenTo(this.model, 'change', this.render);
@@ -27,6 +28,8 @@ define([
             if (!app.loggedIn) return;
             this.model.toggleFavorite();
         },
+        onKeyUp: function(e) {
+        }
     });
 
     return TagView;

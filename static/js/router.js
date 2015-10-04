@@ -23,6 +23,7 @@ define([
             'account/':                        'account',
             'about/':                          'about',
             'contact/':                        'contact',
+            'thanks/':                         'thanks',
             'tags/':                           'tags',
             'pods/tags/:tagName/':             'tagByName',
             'account/tags/favs/':              'tagsByFav',
@@ -142,6 +143,9 @@ define([
                 app.contactForm = new ContactForm();
             }
             app.contactForm.show();
+        },
+        thanks: function() {
+            $('#thanks-view').show();
         },
         tags: function() {
             $('#tags-view').show();

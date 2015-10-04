@@ -62,9 +62,26 @@ class ContactView(View):
     def post(self, request):
         idata = json.loads(request.body)
         odata = {}
-        text = idata.get('name')
-        email = idata.get('email')
-        creator = idata.get('creator')
-        message = idata.get('message')
-        u = getuser(request)
-        return Json(idata)
+        try:
+            name = idata.get('name')
+            email = idata.get('email')
+            if not type(email) in (str, unicode) or email.strip() == '':
+                raise Exception('Invalid email.')
+            subject = idata.get('subject')
+            if not type(subject) in (str, unicode) or subject.strip() == '':
+                raise Exception('Please select a subject.')
+            message = idata.get('message')
+            if not type(message) in (str, unicode) or message.strip() == '':
+                raise Exception('Please write a message.')
+            podsyMsg = PodsyMessage(name=name, email=email, subject=subject, message=message)
+            u = getuser(request)
+            if u:
+                podsyMsg.user = u
+
+            podsyMsg.save()
+            odata['success'] = True
+        except Exception as e:
+            odata['success'] = False
+            odata['message'] = e.message
+
+        return Json(odata)

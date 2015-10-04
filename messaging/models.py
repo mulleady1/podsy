@@ -49,3 +49,11 @@ class Message(models.Model):
 
     def __str__(self):
         return self.text
+
+
+class PodsyMessage(models.Model):
+    user = models.ForeignKey('podsy.PodsyUser', null=True)
+    name = models.CharField(max_length=150, blank=True)
+    email = models.EmailField()
+    subject = models.CharField(max_length=10)
+    message = models.CharField(max_length=10000)
