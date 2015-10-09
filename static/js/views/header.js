@@ -8,7 +8,7 @@ define([
 
     var HeaderView = Backbone.View.extend({
         template: _.template($('#view-header-template').html()),
-        className: 'container view',
+        className: 'container view header-view',
         render: function() {
             this.$el.html(this.template(this.model.attributes || this.model));
             this.$el.show();

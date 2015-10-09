@@ -40,6 +40,9 @@ textarea {
     position: relative;
     top: 60px;
 }
+.view:not(.header-view) {
+    padding-bottom: 30px;
+}
 .category > div {
     display: inline-block;
 }
@@ -175,15 +178,12 @@ div.tag-search {
     font-size: 50%;
 }
 .conversation {
-  padding: 10px 5px;
+  padding: 15px 5px;
   cursor: pointer;
-  height: 60px;
-}
-.conversation:nth-child(even) {
-  background: #f5f5f5;
+  border-bottom: 1px solid #eee;
 }
 .conversation:hover {
-  background: #f0f0f0;
+  background: #f5f5f5;
 }
 .conversation:active {
   background: #eee;
@@ -307,8 +307,6 @@ ul.ui-autocomplete li {
     .conversations-container.not-empty {
         max-height: 650px;
         overflow-y: auto;
-        border: 1px solid #e9e9e9;
-        border-radius: 3px;
     }
     .pagination {
         padding-top: 10px;
