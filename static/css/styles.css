@@ -40,17 +40,6 @@ textarea {
     position: relative;
     top: 60px;
 }
-.votebuttons {
-    margin: 0 5px;
-}
-.votebuttons, .podtitle {
-    display: inline-block;
-    vertical-align: top;
-}
-.votebuttons > div {
-    text-align: center;
-    font-size: 80%;
-}
 .category > div {
     display: inline-block;
 }
@@ -60,6 +49,22 @@ textarea {
 #pods-list > li {
     padding: 20px 0;
     border-bottom: 1px solid #eee;
+    display: flex;
+    flex-wrap: nowrap;
+}
+.votebuttons, .podtitle {
+    display: table-cell;
+    vertical-align: top;
+}
+.votebuttons {
+    margin: 0 9px;
+}
+.votebuttons > div {
+    text-align: center;
+    font-size: 80%;
+}
+.podtitle {
+    flex-grow: 1;
 }
 .podtitle > a {
     font-weight: bold;
@@ -74,7 +79,11 @@ textarea {
 .glyphicon-arrow-up, .glyphicon-arrow-down {
     font-size: 17px;
 }
-.pod .tag {
+.glyphicon-star, .glyphicon-star-empty {
+    float: right;
+    margin-right: 10px;
+}
+.pod-tag {
     background: #f0f0f0;
     padding: 3px;
     margin-bottom: 1px;
@@ -137,11 +146,12 @@ h4.subtitle {
 }
 #tags-list {
   list-style: none;
-  margin: 0;
+  margin: 0 -15px;
   padding: 0;
 }
 #tags-list > li {
-  margin: 5px 0;
+  padding: 20px;
+  border-bottom: 1px solid #eee;
 }
 div.tag-search {
   margin-bottom: 5px;

@@ -332,7 +332,7 @@
     </div>
     <div class="row tag-search">
       <div class="col-md-6 col-md-6 col-md-offset-3">
-        <input type="text" class="form-control" name="tag-search" placeholder="Search for tags">
+        <input type="text" class="form-control input-lg" name="tag-search" placeholder="Search for tags">
       </div>
     </div>
     <div class="row">
@@ -363,23 +363,21 @@
 
   <!-- Templates -->
   <script type="text/template" id="pod-template">
-    <div class="pod">
-      <div class="votebuttons">
-        <a class="upvote"><span class="glyphicon glyphicon-arrow-up <% if (upToggled) print('up-toggled') %>"></span></a><br>
-        <a class="downvote"><span class="glyphicon glyphicon-arrow-down <% if (downToggled) print('down-toggled') %>"></span></a>
-      </div>
-      <div class="podtitle">
-        <a href="#/pods/<%= id %>/"><%= name %></a>
-        <span class="glyphicon glyphicon-star<% if (!fav) print('-empty') %>"></span>
-        <div class="category">
-          <%= points %>
-          / <a href="#/pods/categories/<%= category.toLowerCase() %>/"><%= category %></a>
-          / <%= createdLabel %>
-          / <a href="#/users/<%= user %>/"><%= user %></a>
-          <% if (tags.length) { %>
-            / <% for (var i = 0; i < tags.length; i++) print('<a class="tag" href="#/pods/tags/{tag.name}/">{tag.name}</a> '.replace(/{tag.name}/g, tags[i].name)) %>
-          <% } %>
-        </div>
+    <div class="votebuttons">
+      <a class="upvote"><span class="glyphicon glyphicon-arrow-up <% if (upToggled) print('up-toggled') %>"></span></a><br>
+      <a class="downvote"><span class="glyphicon glyphicon-arrow-down <% if (downToggled) print('down-toggled') %>"></span></a>
+    </div>
+    <div class="podtitle">
+      <a href="#/pods/<%= id %>/"><%= name %></a>
+      <span class="glyphicon glyphicon-star<% if (!fav) print('-empty') %>"></span>
+      <div class="category">
+        <%= points %>
+        / <a href="#/pods/categories/<%= category.toLowerCase() %>/"><%= category %></a>
+        / <%= createdLabel %>
+        / <a href="#/users/<%= user %>/"><%= user %></a>
+        <% if (tags.length) { %>
+          / <% for (var i = 0; i < tags.length; i++) print('<a class="pod-tag" href="#/pods/tags/{tag.name}/">{tag.name}</a> '.replace(/{tag.name}/g, tags[i].name)) %>
+        <% } %>
       </div>
     </div>
   </script>
