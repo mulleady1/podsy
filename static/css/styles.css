@@ -241,6 +241,7 @@ ul.ui-autocomplete li {
   #pods-view {
     margin: 0;
     padding: 0;
+    overflow-x: hidden;
   }
   #pods-list .pod {
     padding-left: 5px;
