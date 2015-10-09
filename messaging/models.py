@@ -57,3 +57,6 @@ class PodsyMessage(models.Model):
     email = models.EmailField()
     subject = models.CharField(max_length=10)
     message = models.CharField(max_length=10000)
+    
+    def __str__(self):
+        return 'Message from %s about "%s"' % (self.email, self.subject)
