@@ -5,10 +5,11 @@ define([
     'views/account',
     'views/conversation-list',
     'views/messages',
+    'views/tag-container',
     'models/user',
     'models/pod',
     'forms/contact',
-], function(Backbone, CategoryView, UserView, AccountView, ConversationListView, MessagesView, User, Pod, ContactForm) {
+], function(Backbone, CategoryView, UserView, AccountView, ConversationListView, MessagesView, TagContainer, User, Pod, ContactForm) {
     var Router = Backbone.Router.extend({
         routes: {
             '':                                'index',
@@ -148,9 +149,11 @@ define([
             $('#thanks-view').show();
         },
         tags: function() {
-            $('#tags-view').show();
+            if (!app.tagContainer) {
+                app.tagContainer = new TagContainer();
+            }
             $('#tags-view h3.title').html('Tags');
-            app.tags.fetch({ reset: true });
+            app.tagContainer.show();
         },
         tagByName: function(tagName) {
             $('#pods-view').show();

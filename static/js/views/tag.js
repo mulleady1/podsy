@@ -7,8 +7,7 @@ define([
         tagName: 'li',
         template: _.template($('#tag-template').html()),
         events: {
-            'click .glyphicon.fav': 'toggleFavorite',
-            'keyup input[name="tag-search"]': 'onKeyUp'
+            'click .glyphicon.fav': 'toggleFavorite'
         },
         initialize: function() {
             this.listenTo(this.model, 'change', this.render);
@@ -16,7 +15,10 @@ define([
                 source: app.tagsData,
                 select: function(event, ui) {
                     var tag = ui.item.value;
-                    location.hash = '#/tags/{tag}/'.replace('{tag}', tag);
+                    location.hash = '#/pods/tags/{tag}/'.replace('{tag}', tag);
+                },
+                response: function(event, ui) {
+
                 }
              });
         },
@@ -27,8 +29,6 @@ define([
         toggleFavorite: function() {
             if (!app.loggedIn) return;
             this.model.toggleFavorite();
-        },
-        onKeyUp: function(e) {
         }
     });
 

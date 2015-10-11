@@ -4,6 +4,7 @@ define([
     'use strict';
 
     var Tag = Backbone.Model.extend({
+        url: '/tags/',
         defaults: function() {
             return {
                 name: '',

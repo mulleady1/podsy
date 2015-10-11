@@ -16,10 +16,9 @@ define([
     'forms/pod',
     'views/category',
     'views/header',
-    'views/tag',
     'forms/category',
     'jquery-ui'
-], function($, _, Backbone, Bootstrap, Router, PodView, PodDetailView, Pod, Pods, Tags, Categories, Subcategories, SigninView, SignupView, PodFormView, CategoryView, HeaderView, TagView, CategoryForm) {
+], function($, _, Backbone, Bootstrap, Router, PodView, PodDetailView, Pod, Pods, Tags, Categories, Subcategories, SigninView, SignupView, PodFormView, CategoryView, HeaderView, CategoryForm) {
     'use strict';
 
     var AppView = Backbone.View.extend({
@@ -96,7 +95,6 @@ define([
             // Listeners.
             this.listenTo(app.pods, 'reset', this.addPods);
             this.listenTo(app.pods, 'add', this.addPodToFront);
-            this.listenTo(app.tags, 'reset', this.addTags);
             this.listenTo(app.categories, 'reset', this.addCategories);
             app.on('pageChange', this.showNavButtons);
 
@@ -119,14 +117,6 @@ define([
         addPods: function() {
             this.$('#pods-list').html('');
             app.pods.each(this.addPod, this);
-        },
-        addTag: function(tag) {
-            var tagView = new TagView({ model: tag });
-            this.$('#tags-list').append(tagView.render().el);
-        },
-        addTags: function() {
-            this.$('#tags-list').html('');
-            app.tags.each(this.addTag, this);
         },
         addCategory: function(category) {
             var categoryView = new CategoryView({ model: category });
