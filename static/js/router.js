@@ -153,7 +153,9 @@ define([
                 app.tagContainer = new TagContainer();
             }
             $('#tags-view h3.title').html('Tags');
-            app.tagContainer.show();
+            $.get('/tags/').then(function(data) {
+                app.tagContainer.show(data);
+            });
         },
         tagByName: function(tagName) {
             $('#pods-view').show();
@@ -165,10 +167,12 @@ define([
         },
         tagsByFav: function() {
             if (!app.loggedIn) return;
-            $('#tags-view').show();
+            if (!app.tagContainer) {
+                app.tagContainer = new TagContainer();
+            }
             $('#tags-view h3.title').html('My favorite tags');
             $.get('/account/tags/favs/').then(function(data) {
-                app.tags.reset(data);
+                app.tagContainer.show(data);
             });
         },
         userByUsername: function(username) {

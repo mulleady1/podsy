@@ -396,6 +396,8 @@ class TagView(View):
         if not u:
             return JsonAuthErr()
 
+        if tag_id is None:
+            tag_id = idata.get('id')
         tag = Tag.objects.get(pk=tag_id)
         tag.name = idata.get('name')
         tag.description = idata.get('description')

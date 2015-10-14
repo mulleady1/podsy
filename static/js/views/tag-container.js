@@ -13,28 +13,11 @@ define([
         initialize: function() {
             this.tags = new Tags();
             this.listenTo(this.tags, 'reset', this.addTags);
-            this.tags.reset(app.tagsData);
-            this.applyAutocomplete();
         },
-        applyAutocomplete: function() {
-            var self = this;
-            this.$el.find('input[name="tag-search"]').autocomplete({
-                source: app.tagsData,
-                select: function(event, ui) {
-                    var tag = ui.item.value;
-                    location.hash = '#/pods/tags/{tag}/'.replace('{tag}', tag);
-                },
-                response: function(event, ui) {
-                    self.tags.reset(ui.content);
-                    self.applyAutocomplete();
-                },
-                open: function(event, ui) {
-                    $('.ui-autocomplete').hide();
-                }
-            });
-        },
-        show: function() {
+        show: function(data) {
             this.$el.show();
+            this.data = data;
+            this.tags.reset(data);
         },
         addTag: function(tag) {
             var tagView = new TagView({ model: tag });
@@ -45,9 +28,14 @@ define([
             this.tags.each(this.addTag, this);
         },
         onKeyUp: function(e) {
-            if (e.target.value.trim() == '') {
-                this.tags.reset(app.tagsData);
-                this.applyAutocomplete();
+            var val = e.target.value.trim();
+            if (val == '') {
+                this.tags.reset(this.data);
+            } else {
+                var filteredTags = this.data.filter(function(tag) {
+                    return tag.name.indexOf(val) > -1;
+                });
+                this.tags.reset(filteredTags);
             }
         }
     });

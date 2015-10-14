@@ -11,16 +11,6 @@ define([
         },
         initialize: function() {
             this.listenTo(this.model, 'change', this.render);
-            $('input[name="tag-search"]').autocomplete({
-                source: app.tagsData,
-                select: function(event, ui) {
-                    var tag = ui.item.value;
-                    location.hash = '#/pods/tags/{tag}/'.replace('{tag}', tag);
-                },
-                response: function(event, ui) {
-
-                }
-             });
         },
         render: function() {
             this.$el.html(this.template(this.model.toJSON()));
