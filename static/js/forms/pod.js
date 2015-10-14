@@ -131,8 +131,7 @@ define([
             this.$el.find('.text-warning').remove();
         },
         clearForm: function() {
-            this.$el.find('form input').val('');
-            this.$el.find('form select').val('');
+            this.$el.find('form')[0].reset();
             this.$el.find('form .tags-container span').remove();
             this.$el.find('form .tags-container input').attr('Placeholder', 'Tags');
         },
