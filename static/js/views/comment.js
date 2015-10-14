@@ -39,21 +39,45 @@ define([
             $(e.target).hide();
             $(e.target).siblings('.reply-container').show();
         },
-        submit: function() {
-            var textarea = this.$el.find('textarea[name="text"]');
-            var data = {
-                text: textarea.val(),
-                parent_id: this.model.get('id'),
-                userid: app.userid,
-                username: app.username,
-                timestamp: app.getFormattedDate(),
-                children: []
-            };
-            textarea.html('');
-            var commentView = this.createChild(data);
-            this.render();
+        submit: function(e) {
+            e.preventDefault();
+
+            // Prevent parent comments from catching the event.
+            var commentId = $(e.target).data('comment-id');
+            if (commentId != this.model.get('id')) {
+                this.sendEventToTarget(e, commentId);
+                return;
+            }
+
+            var self = this,
+                btn = $(e.target),
+                textarea = this.$el.find('textarea[name="text"]'),
+                data = {
+                    text: textarea.val(),
+                    parent_id: this.model.get('id'),
+                    userid: app.userid,
+                    username: app.username,
+                    timestamp: app.getFormattedDate(),
+                    children: []
+                },
+                commentView = this.createChild(data);
+
+            btn.attr('disabled', true);
             commentView.model.url = location.hash.substring(1) + 'comments/';
-            commentView.model.save();
+            commentView.model.save().then(function(data) {
+                btn.attr('disabled', false);
+                textarea.html('');
+                self.render();
+            });
+        },
+        sendEventToTarget: function(e, commentId) {
+            _.each(this.children, function(view) {
+                if (commentId == view.model.get('id')) {
+                    view.submit(e);
+                    return;
+                }
+                view.sendEventToTarget(e, commentId);
+            });
         }
     });
 

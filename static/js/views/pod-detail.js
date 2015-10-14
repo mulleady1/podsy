@@ -42,20 +42,27 @@ define([
 
             $el.append(commentView.render().el);
         },
-        addComment: function() {
+        addComment: function(e) {
             if (!app.loggedIn) return;
-            var textarea = this.$el.find('textarea[name="text"]');
-            var data = {
-                text: textarea.val(),
-                url: this.comments.url,
-                userid: app.userid,
-                username: app.username,
-                timestamp: app.getFormattedDate()
-            };
-            var comment = new Comment(data);
+            var self = this,
+                btn = $(e.target),
+                textarea = this.$el.find('textarea[name="text"]'),
+                data = {
+                    text: textarea.val(),
+                    url: this.comments.url,
+                    userid: app.userid,
+                    username: app.username,
+                    timestamp: app.getFormattedDate()
+                },
+                comment = new Comment(data);
+
+            btn.attr('disabled', true);
             this.comments.add(comment);
-            comment.save();
-            this.showComment(null, null, null, comment);
+            comment.save().then(function(data) {
+                comment.set('id', data.id);
+                self.showComment(null, null, null, comment);
+                btn.attr('disabled', false);
+            });
             textarea.html('');
             textarea.val('');
         },
