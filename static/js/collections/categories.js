@@ -1,12 +1,11 @@
-define([
-    'models/category'
-], function(Category) {
-    'use strict';
+'use strict';
 
-    var Categories = Backbone.Collection.extend({
-        model: Category,
-        url: '/categories/'
-    });
+var Backbone = require('backbone'),
+    Category = require('../models/Category');
 
-    return Categories;
+var Categories = Backbone.Collection.extend({
+    model: Category,
+    url: '/categories/'
 });
+
+module.exports = Categories;

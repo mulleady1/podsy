@@ -1,9 +1,9 @@
-define([
-    'backbone'
-], function(Backbone) {
-    'use strict';
+'use strict';
 
-    var Subcategory = Backbone.Model.extend({});
+var Backbone = require('backbone'),
+    _ = require('underscore'),
+    $ = require('jquery');
 
-    return Subcategory;
-});
+var Subcategory = Backbone.Model.extend({});
+
+module.exports = Subcategory;

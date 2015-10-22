@@ -1,15 +1,15 @@
-define([
-    'backbone'
-], function(Backbone) {
-    'use strict';
+'use strict';
 
-    var Comment = Backbone.Model.extend({
-        defaults: function() {
-            return {
-                children: []
-            }
+var Backbone = require('backbone'),
+    _ = require('underscore'),
+    $ = require('jquery');
+
+var Comment = Backbone.Model.extend({
+    defaults: function() {
+        return {
+            children: []
         }
-    });
-
-    return Comment;
+    }
 });
+
+module.exports = Comment;

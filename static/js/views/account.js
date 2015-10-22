@@ -1,16 +1,16 @@
-define([
-    'jquery',
-    'underscore',
-    'backbone',
-    'models/message'
-], function($, _, Backbone, Message) {
-    var AccountView = Backbone.View.extend({
-        el: '#account-view',
-        show: function() {
-            this.$el.show();
-        }
+'use strict';
 
-    });
+var Backbone = require('backbone'),
+    _ = require('underscore'),
+    $ = require('jquery'),
+    Message = require('../models/message');
 
-    return AccountView;
+var AccountView = Backbone.View.extend({
+    el: '#account-view',
+    show: function() {
+        this.$el.show();
+    }
+
 });
+
+module.exports = AccountView;

@@ -1,13 +1,11 @@
-define([
-    'backbone',
-    'models/conversation'
-], function(Backbone, Conversation) {
-    'use strict';
+'use strict';
 
-    var Conversations = Backbone.Collection.extend({
-        model: Conversation,
-        url: '/conversations/'
-    });
+var Backbone = require('backbone'),
+    Conversation = require('../models/Conversation');
 
-    return Conversations;
+var Conversations = Backbone.Collection.extend({
+    model: Conversation,
+    url: '/conversations/'
 });
+
+module.exports = Conversations;

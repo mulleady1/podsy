@@ -1,12 +1,11 @@
-define([
-    'models/tag'
-], function(Tag) {
-    'use strict';
+'use strict';
 
-    var Tags = Backbone.Collection.extend({
-        model: Tag,
-        url: '/tags/'
-    });
+var Backbone = require('backbone'),
+    Tag = require('../models/Tag');
 
-    return Tags;
+var Tags = Backbone.Collection.extend({
+    model: Tag,
+    url: '/tags/'
 });
+
+module.exports = Tags;

@@ -1,12 +1,11 @@
-define([
-    'models/pod'
-], function(Pod) {
-    'use strict';
+'use strict';
 
-    var Pods = Backbone.Collection.extend({
-        model: Pod,
-        url: '/pods/'
-    });
+var Backbone = require('backbone'),
+    Pod = require('../models/Pod');
 
-    return Pods;
+var Pods = Backbone.Collection.extend({
+    model: Pod,
+    url: '/pods/'
 });
+
+module.exports = Pods;

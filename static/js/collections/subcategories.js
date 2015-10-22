@@ -1,12 +1,11 @@
-define([
-    'models/subcategory'
-], function(Subcategory) {
-    'use strict';
+'use strict';
 
-    var Subcategories = Backbone.Collection.extend({
-        model: Subcategory,
-        url: '/subcategories/'
-    });
+var Backbone = require('backbone'),
+    Subcategory = require('../models/Subcategory');
 
-    return Subcategories;
+var Subcategories = Backbone.Collection.extend({
+    model: Subcategory,
+    url: '/subcategories/'
 });
+
+module.exports = Subcategories;

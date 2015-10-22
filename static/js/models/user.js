@@ -1,23 +1,23 @@
-define([
-    'backbone'
-], function(Backbone) {
-    'use strict';
+'use strict';
 
-    var User = Backbone.Model.extend({
-        defaults: function() {
-            return {
-                username: '',
-                pods: [],
-                comments: [],
-                favoritePods: [],
-                favoriteTags: [],
-                upvotedPods: [],
-                downvotedPods: [],
-                created: '',
-                isAdmin: false
-            }
+var Backbone = require('backbone'),
+    _ = require('underscore'),
+    $ = require('jquery');
+
+var User = Backbone.Model.extend({
+    defaults: function() {
+        return {
+            username: '',
+            pods: [],
+            comments: [],
+            favoritePods: [],
+            favoriteTags: [],
+            upvotedPods: [],
+            downvotedPods: [],
+            created: '',
+            isAdmin: false
         }
-    });
-
-    return User;
+    }
 });
+
+module.exports = User;

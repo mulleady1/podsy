@@ -1,35 +1,32 @@
-define([
-    'jquery',
-    'underscore',
-    'backbone',
-    'bootstrap'
-], function($, _, Backbone, Bootstrap) {
-    'use strict';
+'use strict';
 
-    var SignupView = Backbone.View.extend({
-        el: '#signup-view',
-        events: {
-            'click button.submit': 'submit',
-            'focus input': 'removeErrorMessage'
-        },
-        submit: function(e) {
-            e.preventDefault();
-            var self = this,
-                formData = app.toJson(this.$el.find('form').serialize());
+var Backbone = require('backbone'),
+    _ = require('underscore'),
+    $ = require('jquery');
 
-            $.post('/signup/', formData).then(function(data) {
-                if (data.success) {
-                    location.hash = '';
-                    location.reload();
-                } else {
-                    self.$el.find('form').prepend('<p class="text-warning">{msg}</p>'.replace('{msg}', data.message));
-                }
-            });
-        },
-        removeErrorMessage: function() {
-            this.$el.find('.text-warning').remove();
-        }
-    });
+var SignupView = Backbone.View.extend({
+    el: '#signup-view',
+    events: {
+        'click button.submit': 'submit',
+        'focus input': 'removeErrorMessage'
+    },
+    submit: function(e) {
+        e.preventDefault();
+        var self = this,
+            formData = app.toJson(this.$el.find('form').serialize());
 
-    return SignupView;
+        $.post('/signup/', formData).then(function(data) {
+            if (data.success) {
+                location.hash = '';
+                location.reload();
+            } else {
+                self.$el.find('form').prepend('<p class="text-warning">{msg}</p>'.replace('{msg}', data.message));
+            }
+        });
+    },
+    removeErrorMessage: function() {
+        this.$el.find('.text-warning').remove();
+    }
 });
+
+module.exports = SignupView;
