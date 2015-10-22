@@ -1,7 +1,7 @@
 'use strict';
 
 var Backbone = require('backbone'),
-    Comment = require('../models/Comment');
+    Comment = require('../models/comment');
 
 var Comments = Backbone.Collection.extend({
     model: Comment,

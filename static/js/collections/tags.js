@@ -1,7 +1,7 @@
 'use strict';
 
 var Backbone = require('backbone'),
-    Tag = require('../models/Tag');
+    Tag = require('../models/tag');
 
 var Tags = Backbone.Collection.extend({
     model: Tag,
