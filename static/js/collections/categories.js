@@ -1,7 +1,7 @@
 'use strict';
 
 var Backbone = require('backbone'),
-    Category = require('../models/Category');
+    Category = require('../models/category');
 
 var Categories = Backbone.Collection.extend({
     model: Category,
