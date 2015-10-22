@@ -1,3 +1,11 @@
+alias node=nodejs && \
+echo 'Pulling latest code...'
 git pull && \
-buildjs && \
+echo 'Done.'
+echo 'Building js...'
+./buildjs && \
+echo 'Done.'
+echo 'Restarting gunicorn...'
 service gunicorn restart
+echo 'Done.'
+echo 'Built successfully.'
