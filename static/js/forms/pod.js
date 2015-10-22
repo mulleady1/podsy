@@ -3,7 +3,7 @@
 var Backbone = require('backbone'),
     _ = require('underscore'),
     $ = require('jquery'),
-    Pod = require('../models/Pod');
+    Pod = require('../models/pod');
 
 var PodForm = Backbone.View.extend({
     el: '#pod-form-view',
