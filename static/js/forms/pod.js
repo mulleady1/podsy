@@ -3,6 +3,8 @@
 var Backbone = require('backbone'),
     Pod = require('../models/pod');
 
+require('jquery-ui');
+
 var PodForm = Backbone.View.extend({
     el: '#pod-form-view',
     events: {
