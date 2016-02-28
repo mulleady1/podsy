@@ -1,8 +1,6 @@
 'use strict';
 
 var Backbone = require('backbone'),
-    _ = require('underscore'),
-    $ = require('jquery'),
     Messages = require('../collections/messages');
 
 var Conversation = Backbone.Model.extend({

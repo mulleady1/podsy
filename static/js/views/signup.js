@@ -1,8 +1,6 @@
 'use strict';
 
-var Backbone = require('backbone'),
-    _ = require('underscore'),
-    $ = require('jquery');
+var Backbone = require('backbone');
 
 var SignupView = Backbone.View.extend({
     el: '#signup-view',

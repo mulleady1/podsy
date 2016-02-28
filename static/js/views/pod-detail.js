@@ -1,8 +1,6 @@
 'use strict';
 
 var Backbone = require('backbone'),
-    _ = require('underscore'),
-    $ = require('jquery'),
     Comment = require('../models/comment'),
     Comments = require('../collections/comments'),
     CommentView = require('./comment');

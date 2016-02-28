@@ -1,8 +1,6 @@
 'use strict';
 
 var Backbone = require('backbone'),
-    _ = require('underscore'),
-    $ = require('jquery'),
     Pod = require('../models/pod');
 
 var PodForm = Backbone.View.extend({

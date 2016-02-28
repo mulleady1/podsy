@@ -1,8 +1,6 @@
 'use strict';
 
 var Backbone = require('backbone'),
-    _ = require('underscore'),
-    $ = require('jquery'),
     Router = require('../router'),
     Categories = require('../collections/categories'),
     Pods = require('../collections/pods'),
@@ -110,8 +108,12 @@ var AppView = Backbone.View.extend({
         $('#pods-list').prepend(podView.render().el);
     },
     addPods: function() {
-        this.$('#pods-list').html('');
-        app.pods.each(this.addPod, this);
+        if (app.pods.length) {
+            this.$('#pods-list').html('');
+            app.pods.each(this.addPod, this);
+        } else {
+            this.$('#pods-list').html('No results.');
+        }
     },
     addCategory: function(category) {
         var categoryView = new CategoryView({ model: category });

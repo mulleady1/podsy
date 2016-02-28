@@ -1,8 +1,6 @@
 'use strict';
 
-var Backbone = require('backbone'),
-    _ = require('underscore'),
-    $ = require('jquery');
+var Backbone = require('backbone');
 
 var HeaderView = Backbone.View.extend({
     template: _.template($('#view-header-template').html()),

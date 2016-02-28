@@ -1,8 +1,6 @@
 'use strict';
 
 var Backbone = require('backbone'),
-    _ = require('underscore'),
-    $ = require('jquery'),
     Conversation = require('../models/conversation'),
     Message = require('../models/message'),
     User = require('../models/user'),

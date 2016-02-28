@@ -44,6 +44,7 @@ var Router = Backbone.Router.extend({
         this.collapseMobileNav();
         $('.view').hide();
         callback.apply(this, args);
+        return true;
     },
     afterExecute: function() {
         if (app.isMobile()) return;

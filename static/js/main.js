@@ -1,6 +1,3 @@
-var AppView = require('./views/app'),
-	jQuery = require('jquery'),
-	jQueryUi = require('jquery-ui'),
-	Bootstrap = require('bootstrap');
+var AppView = require('./views/app');
 
 app.appView = new AppView();

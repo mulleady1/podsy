@@ -1,8 +1,6 @@
 'use strict';
 
 var Backbone = require('backbone'),
-    _ = require('underscore'),
-    $ = require('jquery'),
     Comment = require('../models/comment');
 
 var CommentView = Backbone.View.extend({
