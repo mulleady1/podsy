@@ -17,6 +17,7 @@ var TagContainer = Backbone.View.extend({
     show: function(data) {
         this.focusedTagIndex = -1;
         this.$el.show();
+        this.$el.find('input').focus();
         this.data = data;
         this.tags.reset(data);
         var onKeyDown = this.onKeyDown.bind(this);
@@ -34,13 +35,17 @@ var TagContainer = Backbone.View.extend({
         this.tags.each(this.addTag, this);
     },
     onKeyDown: function(e) {
-        e.preventDefault();
         e.stopPropagation();
         if (e.which === 38) {
             this.focusTag(false);
         } else if (e.which === 40) {
             this.focusTag(true);
-        } else if (e.which === 13 && this.focusedTagIndex > -1) {
+        } else if (e.which === 13) {
+            if (this.focusedTagIndex === -1) {
+                e.preventDefault();
+                return;
+            }
+            this.$el.find('input').val('');
             var tag = this.tags.at(this.focusedTagIndex);
             var url = '#/pods/tags/{tagName}/'.replace('{tagName}', tag.get('name'));
             app.router.navigate(url, { trigger: true });
@@ -61,21 +66,25 @@ var TagContainer = Backbone.View.extend({
     focusTag: function(isNext) {
         var index,
             tagsList = this.$('#tags-list > li'),
-            len = tagsList.length;
+            len = tagsList.length,
+            input = this.$el.find('input');
 
-        if (this.focusedTagIndex === -1) {
+        tagsList.removeClass('focused');
+        if (isNext && this.focusedTagIndex === -1) {
             index = 0;
         } else {
             index = this.focusedTagIndex + (isNext ? 1 : -1);
             if (index < 0) {
-                index = 0;
+                this.focusedTagIndex = -1;
+                input.focus();
+                return;
             } else if (index >= len) {
                 index = len - 1;
             }
         }
 
+        input.blur();
         this.focusedTagIndex = index;
-        tagsList.removeClass('focused');
         var focusedTagView = tagsList.get(index);
         $(focusedTagView).addClass('focused');
         if (!util.isElementInViewport(focusedTagView)) {
